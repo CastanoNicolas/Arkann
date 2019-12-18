@@ -1,35 +1,15 @@
 <root>
-    <id>bb3ddb3e-71b7-4a04-86c2-acf29482a6e2</id>
+    <id>1553cb4b-f103-4634-8d38-a415e2013e6e</id>
     <displayName>Weapon</displayName>
+    <image>9aec1b2c-f708-4f4f-97e9-50e4ac70a94e</image>
     <type>branch</type>
     <root>true</root>
     <!-- A physical object used to defend or attack oneself -->
     <parent></parent>
-    <description>QSBwaHlzaWNhbCBvYmplY3QgdXNlZCB0byBkZWZlbmQgb3IgYXR0YWNrIG9uZXNlbGY</description>
+    <description>A physical object used to defend or attack oneself</description>
     <fields>
-        <field>
-            <fieldName>Name</fieldName>
-            <fieldType>text</fieldType>
-            <fieldReference></fieldReference>
-            <fieldReferenceName></fieldReferenceName>
-        </field>
-        <field>
-            <fieldName>Rarity</fieldName>
-            <fieldType>text</fieldType>
-            <fieldReference></fieldReference>
-            <fieldReferenceName></fieldReferenceName>
-        </field>
-        <field>
-            <fieldName>Origin</fieldName>
-            <fieldType>text</fieldType>
-            <fieldReference></fieldReference>
-            <fieldReferenceName></fieldReferenceName>
-        </field>
-        <field>
-            <fieldName>Creator</fieldName>
-            <fieldType>text</fieldType>
-            <fieldReference>35d8e226-6742-4240-bb1d-af619902554a</fieldReference>
-            <fieldReferenceName>Juko-chan</fieldReferenceName>
-        </field>
+        <field>Rarity</field>
+        <field>Origin</field>
+        <field>Creator</field>
     </fields>
 </root>

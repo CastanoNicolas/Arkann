@@ -1,0 +1,13 @@
+<root>
+    <id>bb3ddb3e-71b7-4a04-86c2-acf29482a6e2</id>
+    <displayName>FireArm</displayName>
+    <type>branch</type>
+    <root>false</root>
+    <parent>1553cb4b-f103-4634-8d38-a415e2013e6e</parent>
+    <description>A weapon which use gunpowder.</description>
+    <fields>
+        <field>Rarity</field>
+        <field>Origin</field>
+        <field>Creator</field>
+    </fields>
+</root>

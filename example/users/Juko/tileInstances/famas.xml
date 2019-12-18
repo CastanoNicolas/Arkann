@@ -1,0 +1,33 @@
+<root>
+    <id>b22befc3-8f0d-49ff-a776-6299764886ce</id>
+    <displayName>Famas</displayName>
+    <image>73f4c34f-d904-482f-ab20-06a5ca571d58</image>
+    <type>leaf</type>
+    <parent>bb3ddb3e-71b7-4a04-86c2-acf29482a6e2</parent>
+
+    <!-- Weapon used by french military -->
+    <description>Weapon used by french military</description>
+    <fields>
+        <field>
+            <fieldName>Rarity</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>Uncommon</fieldValue>
+            <fieldReference></fieldReference>
+            <fieldReferenceName></fieldReferenceName>
+        </field>
+        <field>
+            <fieldName>Origin</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>St Etienne</fieldValue>
+            <fieldReference></fieldReference>
+            <fieldReferenceName></fieldReferenceName>
+        </field>
+        <field>
+            <fieldName>Creator</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>Famas</fieldValue>
+            <fieldReference>35d8e226-6742-4240-bb1d-af619902554a</fieldReference>
+            <fieldReferenceName>Juko-chan</fieldReferenceName>
+        </field>
+    </fields>
+</root>
