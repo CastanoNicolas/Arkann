@@ -4,7 +4,6 @@
     <image>9aec1b2c-f708-4f4f-97e9-50e4ac70a94e</image>
     <type>branch</type>
     <root>true</root>
-    <!-- A physical object used to defend or attack oneself -->
     <parent></parent>
     <description>A physical object used to defend or attack oneself</description>
     <fields>
@@ -12,4 +11,7 @@
         <field>Origin</field>
         <field>Creator</field>
     </fields>
+    <tags>
+        <tag>Objet</tag>
+    </tags>
 </root>
