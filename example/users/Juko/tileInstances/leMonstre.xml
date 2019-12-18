@@ -1,0 +1,32 @@
+<root>
+    <id>cc798c84-5d35-4f75-98ff-285167aa068b</id>
+    <displayName>Le Monstre</displayName>
+    <image>89f119d9-bf29-47bc-8512-7c11e002404b</image>
+    <type>leaf</type>
+    <parent>1553cb4b-f103-4634-8d38-a415e2013e6e</parent>
+
+    <description>This weapon is kept secret by Juko. Nobody knows it's terrifying power.</description>
+    <fields>
+        <field>
+            <fieldName>Rarity</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>Unique</fieldValue>
+            <fieldReference></fieldReference>
+            <fieldReferenceName></fieldReferenceName>
+        </field>
+        <field>
+            <fieldName>Origin</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>Juko won't tell</fieldValue>
+            <fieldReference></fieldReference>
+            <fieldReferenceName></fieldReferenceName>
+        </field>
+        <field>
+            <fieldName>Creator</fieldName>
+            <fieldType>text</fieldType>
+            <fieldValue>Unknown, but only Juko can summon it</fieldValue>
+            <fieldReference>35d8e226-6742-4240-bb1d-af619902554a</fieldReference>
+            <fieldReferenceName>Juko-chan</fieldReferenceName>
+        </field>
+    </fields>
+</root>
