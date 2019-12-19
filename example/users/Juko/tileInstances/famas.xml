@@ -11,9 +11,9 @@
         <field>
             <fieldName>Rarity</fieldName>
             <fieldType>text</fieldType>
-            <fieldValue>Uncommon</fieldValue>
-            <fieldReference></fieldReference>
-            <fieldReferenceName></fieldReferenceName>
+            <fieldValue>UYn Tatouage</fieldValue>
+            <fieldReference>23</fieldReference>
+            <fieldReferenceName>#452</fieldReferenceName>
         </field>
         <field>
             <fieldName>Origin</fieldName>
