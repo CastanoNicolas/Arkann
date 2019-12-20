@@ -1,7 +1,35 @@
 <template>
-  <q-page class="flex flex-center">
-    <button @click="getTilesToDisplay('1553cb4b-f103-4634-8d38-a415e2013e6e')"> Click and Pray ! </button>
-    <p>{{tilesToDisplay}}</p>
+  <q-page>
+    <q-toolbar class="bg-grey-4 text-grey-7 ">
+      <q-btn-toggle
+        v-model="activeCategory"
+        flat stretch
+        toggle-color="primary"
+        :options="[
+          {label: 'One', value: 'one'},
+          {label: 'Two', value: 'two'},
+          {label: 'Three', value: 'three'}
+        ]"
+      />
+      <q-space />
+      <q-btn flat stretch dense icon="add"/>
+    </q-toolbar>
+
+      <div class="cards row q-pa-md q-gutter-md items-start">
+          <q-card
+            class="my-card"
+            v-for="card in cards"
+            :key="card.id">
+              <q-card-section class="bg-primary text-white">
+                <div class="text-h6">{{card.displayName}}</div>
+                <div class="text-subtitle2">{{card.category}}</div>
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn flat>Action 3</q-btn>
+                <q-btn flat>Action 2</q-btn>
+              </q-card-actions>
+          </q-card>
+      </div>
   </q-page>
 </template>
 
@@ -12,9 +40,9 @@ export default {
   name: 'name',
   data () {
     return {
-      json: 'lala',
+      activeCategory: 'one',
       lookupTable: {},
-      tilesToDisplay: [],
+      cards: [],
       currentWorldPath: './userData/Juko/World1/'
     }
   },
@@ -27,6 +55,7 @@ export default {
     this.getFile(this.lookupTablePath)
       .then(data => {
         this.lookupTable = JSON.parse(data)
+        this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
       },
       err => {
         console.log(err)
@@ -60,7 +89,7 @@ export default {
       console.log('Looking for' + ID + 'and CRP : lt[ID]' + this.currentWorldPath + ' : ' + this.lookupTable[ID])
       return this.currentWorldPath + this.lookupTable[ID]
     },
-    getTilesToDisplay (ID, root = false) {
+    getCards (ID, root = false) {
       // %TODO% check if there insn't a safer way to check ID
       var path
       if (ID !== null) {
@@ -79,10 +108,11 @@ export default {
             this.getFile(this.getFilePathFromID(childID))
               .then(data => {
                 var childTile = JSON.parse(data)
-                this.tilesToDisplay.push({
+                this.cards.push({
                   id: childTile.id,
                   displayName: childTile.displayName,
-                  description: childTile.description
+                  description: childTile.description,
+                  category: childTile.category
                 })
               },
               error => {
@@ -99,3 +129,23 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@media (max-width: 470px) {
+  .my-card{
+    width: 90vw;
+    min-width: 200px;
+    max-width: 450px;
+  }
+}
+@media (min-width: 471px) and (max-width: 1500px) {
+  .my-card{
+    width: 200px;
+  }
+}
+@media (min-width: 1501px){
+  .my-card{
+    width: 300px;
+  }
+}
+</style>
