@@ -4,5 +4,6 @@
 export default {
   home: 'Home',
   settings: 'Settings',
-  selectLanguage: 'Select language'
+  selectLanguage: 'Select language',
+  error: 'An error occured.'
 }

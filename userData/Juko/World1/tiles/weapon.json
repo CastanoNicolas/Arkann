@@ -1,0 +1,18 @@
+{
+   "id": "1553cb4b-f103-4634-8d38-a415e2013e6e",
+   "displayName": "Weapon",
+   "image": "9aec1b2c-f708-4f4f-97e9-50e4ac70a94e",
+   "type": "branch",
+   "parent": "",
+   "description": "A physical object used to defend or attack oneself",
+   "fields": [
+      "Rarity",
+      "Origin",
+      "Creator"
+   ],
+   "childs": [
+       "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2",
+       "cc798c84-5d35-4f75-98ff-285167aa068b"
+   ]
+}
+

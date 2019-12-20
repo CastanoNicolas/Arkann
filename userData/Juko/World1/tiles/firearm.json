@@ -1,0 +1,15 @@
+{
+    "id": "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2",
+    "displayName": "Firearm",
+    "type": "branch",
+    "root": "false",
+    "parent": "1553cb4b-f103-4634-8d38-a415e2013e6e",
+    "description": "A weapon which use gunpowder.",
+    "fields": [
+       "Rarity",
+       "Origin",
+       "Creator"
+    ]
+ }
+ 
+ 
