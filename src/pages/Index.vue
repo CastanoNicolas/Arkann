@@ -23,13 +23,10 @@ export default {
       return this.currentWorldPath + 'lookupTable.json'
     }
   },
-  mounted () {
-    console.log('lookup table path:' + this.lookupTablePath)
+  created () {
     this.getFile(this.lookupTablePath)
       .then(data => {
         this.lookupTable = JSON.parse(data)
-        console.log(this.lookupTable)
-        console.log(this.lookupTable['9aec1b2c-f708-4f4f-97e9-50e4ac70a94e'])
       },
       err => {
         console.log(err)
@@ -78,9 +75,8 @@ export default {
           var currentTile = JSON.parse(data)
           console.log(currentTile)
           var childsIDs = currentTile.childs
-          var promises = []
           for (const childID of childsIDs) {
-            promises.push(this.getFile(this.getFilePathFromID(childID))
+            this.getFile(this.getFilePathFromID(childID))
               .then(data => {
                 var childTile = JSON.parse(data)
                 this.tilesToDisplay.push({
@@ -92,7 +88,7 @@ export default {
               error => {
                 console.log(error)
                 alert(this.$t('error'))
-              }))
+              })
           }
         },
         error => {
