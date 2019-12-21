@@ -5,5 +5,8 @@ export default {
   home: 'Home',
   settings: 'Settings',
   selectLanguage: 'Select language',
-  error: 'An error occured.'
+  error: 'An error occured.',
+  newDaughterCard: 'Sub-category',
+  newInstanceDescr: 'Create a new ',
+  newDaughterCardDescr: 'Create a new sub-category'
 }

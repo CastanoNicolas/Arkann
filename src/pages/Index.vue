@@ -16,19 +16,85 @@
     </q-toolbar>
 
       <div class="cards row q-pa-md q-gutter-md items-start">
-          <q-card
-            class="my-card"
+          <div
             v-for="card in cards"
             :key="card.id">
-              <q-card-section class="bg-primary text-white">
-                <div class="text-h6">{{card.displayName}}</div>
-                <div class="text-subtitle2">{{card.category}}</div>
+
+            <q-card
+              class="my-card"
+              v-if="card.type === 'branch'">
+              <q-card-section class="my-card-body bg-primary text-white items-end flex">
+                <div>
+                  <div class="text-h6">{{card.displayName}}</div>
+                  <div class="text-subtitle2 ">{{card.category}}</div>
+                  </div>
               </q-card-section>
-              <q-card-actions align="right">
-                <q-btn flat>Action 3</q-btn>
-                <q-btn flat>Action 2</q-btn>
+
+              <q-card-actions class="my-card-button" align="right">
+                <q-btn-dropdown
+                  unelevated
+                  split
+                  icon="add"
+                  color="grey-4"
+                  text-color="dark"
+                  @click="onMainClick"
+                  >
+                  <q-list>
+                    <q-item clickable v-close-popup @click="onItemClick">
+                      <q-item-section avatar>
+                        <q-avatar icon="description" color="primary" text-color="white" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{card.displayName}}</q-item-label>
+                        <q-item-label caption>{{ $t('newInstanceDescr') + card.displayName}}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item clickable v-close-popup @click="onItemClick">
+                      <q-item-section avatar>
+                        <q-avatar icon="account_tree" color="secondary" text-color="white" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{ $t('newDaughterCard') }}</q-item-label>
+                        <q-item-label caption>{{ $t('newDaughterCardDescr') }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+                <q-btn
+                  unelevated
+                  color="grey-4"
+                  icon="edit"
+                  text-color="dark">
+                </q-btn>
               </q-card-actions>
-          </q-card>
+            </q-card>
+            <q-card
+              class="my-card"
+              v-if="card.type === 'leaf'">
+              <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
+                <div class="absolute-bottom">
+                  <div class="text-h6">{{card.displayName}}</div>
+                  <div class="text-subtitle2">{{card.category}}</div>
+                </div>
+              </q-img>
+
+              <q-card-actions class="my-card-button" align="right">
+                <q-btn
+                  unelevated
+                  color="grey-4"
+                  icon="visibility"
+                  text-color="dark">
+                </q-btn>
+                <q-btn
+                  unelevated
+                  color="grey-4"
+                  icon="edit"
+                  text-color="dark">
+                </q-btn>
+              </q-card-actions>
+            </q-card>
+          </div>
       </div>
   </q-page>
 </template>
@@ -111,7 +177,7 @@ export default {
                 this.cards.push({
                   id: childTile.id,
                   displayName: childTile.displayName,
-                  description: childTile.description,
+                  type: childTile.type,
                   category: childTile.category
                 })
               },
@@ -125,6 +191,12 @@ export default {
           console.log(error)
           alert(this.$t('error'))
         })
+    },
+    onMainClick () {
+      // console.log('Clicked on main button')
+    },
+    onItemClick () {
+      // console.log('Clicked on an Item')
     }
   }
 }
@@ -147,5 +219,11 @@ export default {
   .my-card{
     width: 300px;
   }
+}
+.my-card-button{
+  height: 50px;
+}
+.my-card-body{
+  height: 140px;
 }
 </style>
