@@ -116,20 +116,15 @@ export default {
     }
   },
   computed: {
-    lookupTablePath () {
-      return this.currentWorldPath + 'lookupTable.json'
-    },
-    test () {
-      console.log('TEST')
-      console.log(this.cards)
-      return ''
+    errorCode () {
+      return this.$store.state.fileModule.errorCode
     },
     cards () {
       return this.$store.state.fileModule.cards
+    },
+    canRequestCards () {
+      return this.$store.state.fileModule.initialized
     }
-  },
-  created () {
-    this.$store.dispatch('init')
   },
   watch: {
     activeCategory (activeCategory) {
@@ -140,6 +135,19 @@ export default {
         } else {
           card.isDisplayable = false
         }
+      }
+    },
+    canRequestCards (canRequestCards) {
+      if (canRequestCards) {
+        this.$store.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      }
+    },
+    error (errorCode) {
+      if (errorCode === 0) {
+        // nothing's wrong
+      } else {
+        alert(this.$t('error'))
+        // code unhandled
       }
     }
   },
