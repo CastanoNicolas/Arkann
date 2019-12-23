@@ -5,11 +5,7 @@
         v-model="activeCategory"
         flat stretch
         toggle-color="primary"
-        :options="[
-          {label: 'One', value: 'one'},
-          {label: 'Two', value: 'two'},
-          {label: 'Three', value: 'three'}
-        ]"
+        :options="categories"
       />
       <q-space />
       <q-btn flat stretch dense icon="add"/>
@@ -18,16 +14,25 @@
       <div class="cards row q-pa-md q-gutter-md items-start">
           <div
             v-for="card in cards"
-            :key="card.id">
+            :key="card.id"
+            v-show="card.isDisplayable">
 
             <q-card
               class="my-card"
               v-if="card.type === 'branch'">
-              <q-card-section class="my-card-body bg-primary text-white items-end flex">
-                <div>
+              <q-card-section class="my-card-body bg-teal text-white justify-between flex">
+                <div class="self-end">
                   <div class="text-h6">{{card.displayName}}</div>
-                  <div class="text-subtitle2 ">{{card.category}}</div>
-                  </div>
+                  <div class="text-subtitle2">{{PrettyPrintCat(card.category)}}</div>
+                </div>
+                <div class="self-start" align="right">
+                  <!-- nombre d'instance -->
+                  <div v-if="card.nbInstance > 1">{{card.nbInstance + " " + card.displayName.toLowerCase() + "s"}}</div>
+                  <div v-if="card.nbInstance <= 1">{{card.nbInstance + " " + card.displayName.toLowerCase()}}</div>
+                   <!-- nombre de sous categorie -->
+                  <div v-if="card.nbSubCategory > 1">{{card.nbSubCategory + " " + $t('DaughterCardPl').toLowerCase()}}</div>
+                  <div v-if="card.nbSubCategory <= 1">{{card.nbSubCategory + " " + $t('DaughterCard').toLowerCase()}}</div>
+                </div>
               </q-card-section>
 
               <q-card-actions class="my-card-button" align="right">
@@ -55,7 +60,7 @@
                         <q-avatar icon="account_tree" color="secondary" text-color="white" />
                       </q-item-section>
                       <q-item-section>
-                        <q-item-label>{{ $t('newDaughterCard') }}</q-item-label>
+                        <q-item-label>{{ $t('DaughterCard') }}</q-item-label>
                         <q-item-label caption>{{ $t('newDaughterCardDescr') }}</q-item-label>
                       </q-item-section>
                     </q-item>
@@ -69,13 +74,14 @@
                 </q-btn>
               </q-card-actions>
             </q-card>
+
             <q-card
               class="my-card"
               v-if="card.type === 'leaf'">
               <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
                 <div class="absolute-bottom">
                   <div class="text-h6">{{card.displayName}}</div>
-                  <div class="text-subtitle2">{{card.category}}</div>
+                  <div class="text-subtitle2">{{PrettyPrintCat(card.category)}}</div>
                 </div>
               </q-img>
 
@@ -106,9 +112,12 @@ export default {
   name: 'name',
   data () {
     return {
-      activeCategory: 'one',
+      activeCategory: 'All',
       lookupTable: {},
       cards: [],
+      categories: [
+        { label: 'All', value: 'All' }
+      ],
       currentWorldPath: './userData/Juko/World1/'
     }
   },
@@ -126,6 +135,18 @@ export default {
       err => {
         console.log(err)
       })
+  },
+  watch: {
+    activeCategory (activeCategory) {
+      for (var i = 0; i < this.cards.length; i++) {
+        var card = this.cards[i]
+        if ((card.category).some(cat => cat === activeCategory) || activeCategory === 'All') {
+          card.isDisplayable = true
+        } else {
+          card.isDisplayable = false
+        }
+      }
+    }
   },
   methods: {
     getFile (path) {
@@ -174,12 +195,34 @@ export default {
             this.getFile(this.getFilePathFromID(childID))
               .then(data => {
                 var childTile = JSON.parse(data)
-                this.cards.push({
-                  id: childTile.id,
-                  displayName: childTile.displayName,
-                  type: childTile.type,
-                  category: childTile.category
-                })
+                if (childTile.type === 'leaf') {
+                  this.cards.push({
+                    id: childTile.id,
+                    displayName: childTile.displayName,
+                    type: childTile.type,
+                    category: childTile.category,
+                    isDisplayable: true
+                  })
+                } else if (childTile.type === 'branch') {
+                  this.cards.push({
+                    id: childTile.id,
+                    displayName: childTile.displayName,
+                    type: childTile.type,
+                    category: childTile.category,
+                    nbInstance: childTile.nbInstance,
+                    nbSubCategory: childTile.nbSubCategory,
+                    isDisplayable: true
+                  })
+                }
+                for (const cat of childTile.category) {
+                  var toBeInserted = {
+                    label: cat,
+                    value: cat
+                  }
+                  if (!(this.categories.some(category => (category.label === toBeInserted.label)))) {
+                    this.categories.push(toBeInserted)
+                  }
+                }
               },
               error => {
                 console.log(error)
@@ -197,6 +240,13 @@ export default {
     },
     onItemClick () {
       // console.log('Clicked on an Item')
+    },
+    PrettyPrintCat (categories) {
+      var s = ''
+      for (const cat of categories) {
+        s += ' ' + cat
+      }
+      return s
     }
   }
 }
@@ -212,7 +262,7 @@ export default {
 }
 @media (min-width: 471px) and (max-width: 1500px) {
   .my-card{
-    width: 200px;
+    width: 250px;
   }
 }
 @media (min-width: 1501px){

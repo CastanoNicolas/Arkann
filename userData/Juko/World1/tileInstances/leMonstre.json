@@ -28,6 +28,8 @@
          "fieldReferenceName": "Juko-chan"
       }
    ],
-   "category": "Object"
+   "category": [
+      "Object"
+   ]
 }
 

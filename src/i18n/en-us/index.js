@@ -6,7 +6,8 @@ export default {
   settings: 'Settings',
   selectLanguage: 'Select language',
   error: 'An error occured.',
-  newDaughterCard: 'Sub-category',
+  DaughterCard: 'Sub-category',
+  DaughterCardPl: 'Sub-categories',
   newInstanceDescr: 'Create a new ',
   newDaughterCardDescr: 'Create a new sub-category'
 }
