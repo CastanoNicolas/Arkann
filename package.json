@@ -29,7 +29,8 @@
     "electron-packager": "^14.1.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0"
+    "eslint-plugin-vue": "^5.0.0",
+    "vue-devtools": "^5.1.3"
   },
   "engines": {
     "node": ">= 8.9.0",

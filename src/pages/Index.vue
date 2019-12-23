@@ -10,7 +10,6 @@
       <q-space />
       <q-btn flat stretch dense icon="add"/>
     </q-toolbar>
-
       <div class="cards row q-pa-md q-gutter-md items-start">
           <div
             v-for="card in cards"
@@ -106,35 +105,31 @@
 </template>
 
 <script>
-import { Platform } from 'quasar'
-
 export default {
   name: 'name',
   data () {
     return {
       activeCategory: 'All',
-      lookupTable: {},
-      cards: [],
       categories: [
         { label: 'All', value: 'All' }
       ],
-      currentWorldPath: './userData/Juko/World1/'
     }
   },
   computed: {
-    lookupTablePath: function () {
+    lookupTablePath () {
       return this.currentWorldPath + 'lookupTable.json'
+    },
+    test () {
+      console.log('TEST')
+      console.log(this.cards)
+      return ''
+    },
+    cards () {
+      return this.$store.state.fileModule.cards
     }
   },
   created () {
-    this.getFile(this.lookupTablePath)
-      .then(data => {
-        this.lookupTable = JSON.parse(data)
-        this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
-      },
-      err => {
-        console.log(err)
-      })
+    this.$store.dispatch('init')
   },
   watch: {
     activeCategory (activeCategory) {
@@ -149,92 +144,6 @@ export default {
     }
   },
   methods: {
-    getFile (path) {
-      return new Promise((resolve, reject) => {
-        if (Platform.is.electron) {
-          try {
-            const fs = require('fs')
-
-            fs.readFile(path, 'utf-8', (error, data) => {
-              if (error) {
-                reject(error)
-              } else {
-                resolve(data)
-              }
-            })
-          } catch (error) {
-            console.log('Failed to load module "fs"', error)
-            throw error
-          }
-        } else {
-          throw new Error('Not yet implemented')
-          // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
-        }
-      })
-    },
-    getFilePathFromID (ID) {
-      console.log('Looking for' + ID + 'and CRP : lt[ID]' + this.currentWorldPath + ' : ' + this.lookupTable[ID])
-      return this.currentWorldPath + this.lookupTable[ID]
-    },
-    getCards (ID, root = false) {
-      // %TODO% check if there insn't a safer way to check ID
-      var path
-      if (ID !== null) {
-        path = this.getFilePathFromID(ID)
-      } else {
-        path = this.getFilePathFromID('rootID')
-      }
-      // %TODO% audit this code quality, it smells ...
-      this.getFile(path)
-        .then(data => {
-          console.log(data)
-          var currentTile = JSON.parse(data)
-          console.log(currentTile)
-          var childsIDs = currentTile.childs
-          for (const childID of childsIDs) {
-            this.getFile(this.getFilePathFromID(childID))
-              .then(data => {
-                var childTile = JSON.parse(data)
-                if (childTile.type === 'leaf') {
-                  this.cards.push({
-                    id: childTile.id,
-                    displayName: childTile.displayName,
-                    type: childTile.type,
-                    category: childTile.category,
-                    isDisplayable: true
-                  })
-                } else if (childTile.type === 'branch') {
-                  this.cards.push({
-                    id: childTile.id,
-                    displayName: childTile.displayName,
-                    type: childTile.type,
-                    category: childTile.category,
-                    nbInstance: childTile.nbInstance,
-                    nbSubCategory: childTile.nbSubCategory,
-                    isDisplayable: true
-                  })
-                }
-                for (const cat of childTile.category) {
-                  var toBeInserted = {
-                    label: cat,
-                    value: cat
-                  }
-                  if (!(this.categories.some(category => (category.label === toBeInserted.label)))) {
-                    this.categories.push(toBeInserted)
-                  }
-                }
-              },
-              error => {
-                console.log(error)
-                alert(this.$t('error'))
-              })
-          }
-        },
-        error => {
-          console.log(error)
-          alert(this.$t('error'))
-        })
-    },
     onMainClick () {
       // console.log('Clicked on main button')
     },
