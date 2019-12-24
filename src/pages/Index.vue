@@ -109,7 +109,8 @@ export default {
   name: 'name',
   data () {
     return {
-      activeCategory: 'All'
+      activeCategory: 'All',
+      isDisplayable: []
     }
   },
   computed: {
@@ -117,8 +118,8 @@ export default {
       return this.$store.state.fileModule.errorCode
     },
     cards () {
-      console.log(this.$store.state.fileModule.cards)
-      return this.$store.state.fileModule.cards
+      // %TODO% see if we can avoid deep copying it and if not use lodash
+      return JSON.parse(JSON.stringify(this.$store.state.fileModule.cards))
     },
     canRequestCards () {
       return this.$store.state.fileModule.initialized
@@ -130,14 +131,12 @@ export default {
   watch: {
     activeCategory (activeCategory) {
       // %TODO%  improve
-      console.log(this.cards)
       for (var i = 0; i < this.cards.length; i++) {
-        console.log(i)
         var card = this.cards[i]
         if (card.categories.some(cat => cat === activeCategory) || activeCategory === 'All') {
           card.isDisplayable = true
         } else {
-          card.isDisplayable = true
+          card.isDisplayable = false
         }
       }
     },
