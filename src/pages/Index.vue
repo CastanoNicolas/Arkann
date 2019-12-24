@@ -22,7 +22,7 @@
               <q-card-section class="my-card-body bg-teal text-white justify-between flex">
                 <div class="self-end">
                   <div class="text-h6">{{card.displayName}}</div>
-                  <div class="text-subtitle2">{{PrettyPrintCat(card.category)}}</div>
+                  <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
                 </div>
                 <div class="self-start" align="right">
                   <!-- nombre d'instance -->
@@ -80,7 +80,7 @@
               <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
                 <div class="absolute-bottom">
                   <div class="text-h6">{{card.displayName}}</div>
-                  <div class="text-subtitle2">{{PrettyPrintCat(card.category)}}</div>
+                  <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
                 </div>
               </q-img>
 
@@ -109,10 +109,7 @@ export default {
   name: 'name',
   data () {
     return {
-      activeCategory: 'All',
-      categories: [
-        { label: 'All', value: 'All' }
-      ],
+      activeCategory: 'All'
     }
   },
   computed: {
@@ -120,20 +117,27 @@ export default {
       return this.$store.state.fileModule.errorCode
     },
     cards () {
+      console.log(this.$store.state.fileModule.cards)
       return this.$store.state.fileModule.cards
     },
     canRequestCards () {
       return this.$store.state.fileModule.initialized
+    },
+    categories () {
+      return this.$store.state.fileModule.cardsCategories
     }
   },
   watch: {
     activeCategory (activeCategory) {
+      // %TODO%  improve
+      console.log(this.cards)
       for (var i = 0; i < this.cards.length; i++) {
+        console.log(i)
         var card = this.cards[i]
-        if ((card.category).some(cat => cat === activeCategory) || activeCategory === 'All') {
+        if (card.categories.some(cat => cat === activeCategory) || activeCategory === 'All') {
           card.isDisplayable = true
         } else {
-          card.isDisplayable = false
+          card.isDisplayable = true
         }
       }
     },

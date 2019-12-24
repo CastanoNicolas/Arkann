@@ -10,7 +10,10 @@ export default {
     lookupTable: {},
     cardsTable: {},
     errorCode: 0,
-    initialized: false
+    initialized: false,
+    cardsCategories: [
+      { label: 'All', value: 'All' }
+    ]
 
   },
   mutations: {
@@ -27,7 +30,16 @@ export default {
     },
     setErrorCode (state, errorCode) {
       state.errorCode = errorCode
+    },
+    resetCategories (state) {
+      state.cardsCategories = [
+        { label: 'All', value: 'All' }
+      ]
+    },
+    addCategories (state, category) {
+      state.cardsCategories.push(category)
     }
+
   },
   actions: {
     init (context) {
@@ -45,6 +57,8 @@ export default {
       var path
       var state = context.state
       context.commit('resetCards')
+      context.commit('resetCategories')
+
       if (ID !== null) {
         path = helpers.getFilePathFromID(state, ID)
       } else {
@@ -63,8 +77,23 @@ export default {
                 var card = {
                   id: childTile.id,
                   displayName: childTile.displayName,
-                  description: childTile.description,
-                  category: childTile.category
+                  type: childTile.type,
+                  categories: childTile.categories,
+                  isDisplayable: true
+                }
+                if (childTile.type === 'branch') {
+                  card.nbInstance = childTile.nbInstance
+                  card.nbSubCategories = childTile.nbSubCategories
+                }
+                for (const cat of childTile.categories) {
+                  var toBeInserted = {
+                    label: cat,
+                    value: cat
+                  }
+                  // %TODO%  use helpers to improve readability
+                  if (!(state.cardsCategories.some(category => category.label === toBeInserted.label))) {
+                    context.commit('addCategories', toBeInserted)
+                  }
                 }
                 context.commit('addCard', card)
               },
@@ -82,13 +111,16 @@ export default {
   },
   getters: {
     cards (state) {
-      return state.objectToDisplay
+      return state.cards
     },
     err (state) {
       return state.err
     },
     initialized (state) {
       return state.initialized
+    },
+    cardsCategories (state) {
+      return state.cardsCategories
     }
   }
 }
