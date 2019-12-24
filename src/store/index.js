@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import fileModule from './fileModule'
+import navigationModule from './navigationModule'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      fileModule
+      fileModule,
+      navigationModule
     },
 
     // enable strict mode (adds overhead!)

@@ -29,8 +29,8 @@
                   <div v-if="card.nbInstance > 1">{{card.nbInstance + " " + card.displayName.toLowerCase() + "s"}}</div>
                   <div v-if="card.nbInstance <= 1">{{card.nbInstance + " " + card.displayName.toLowerCase()}}</div>
                    <!-- nombre de sous categorie -->
-                  <div v-if="card.nbSubCategory > 1">{{card.nbSubCategory + " " + $t('DaughterCardPl').toLowerCase()}}</div>
-                  <div v-if="card.nbSubCategory <= 1">{{card.nbSubCategory + " " + $t('DaughterCard').toLowerCase()}}</div>
+                  <div v-if="card.nbSubCategories > 1">{{card.nbSubCategories + " " + $t('DaughterCardPl').toLowerCase()}}</div>
+                  <div v-if="card.nbSubCategories <= 1">{{card.nbSubCategories + " " + $t('DaughterCard').toLowerCase()}}</div>
                 </div>
               </q-card-section>
 
@@ -95,7 +95,8 @@
                   unelevated
                   color="grey-4"
                   icon="edit"
-                  text-color="dark">
+                  text-color="dark"
+                  to="/leafEdit">
                 </q-btn>
               </q-card-actions>
             </q-card>
@@ -119,7 +120,9 @@ export default {
     },
     cards () {
       // %TODO% see if we can avoid deep copying it and if not use lodash
-      return JSON.parse(JSON.stringify(this.$store.state.fileModule.cards))
+      var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.cards))
+      console.log(a)
+      return a
     },
     canRequestCards () {
       return this.$store.state.fileModule.initialized

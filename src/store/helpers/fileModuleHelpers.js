@@ -23,11 +23,42 @@ const helpers = {
       }
     })
   },
+  getFileFromID (state, ID) {
+    var path = helpers.getFilePathFromID(state, ID)
+    return helpers.getFile(path)
+  },
   getFilePathFromID (state, ID) {
     return state.currentWorldPath + state.lookupTable[ID]
   },
   getLookupTablePath (state) {
     return state.currentWorldPath + 'lookupTable.json'
+  },
+  buildCard (context, data) {
+    var childTile = JSON.parse(data)
+    // build the card object
+    var card = {
+      id: childTile.id,
+      displayName: childTile.displayName,
+      type: childTile.type,
+      categories: childTile.categories,
+      isDisplayable: true
+    }
+    // add fields if it is a 'branch'
+    if (childTile.type === 'branch') {
+      card.nbInstance = childTile.nbInstance
+      card.nbSubCategories = childTile.nbSubCategories
+    }
+    // build an array of the categories encountered to sort tiles afterwards
+    for (const cat of childTile.categories) {
+      var toBeInserted = {
+        label: cat,
+        value: cat
+      }
+      if (!(context.state.cardsCategories.some(category => category.label === toBeInserted.label))) {
+        context.commit('addCategories', toBeInserted)
+      }
+    }
+    return card
   }
 }
 

@@ -2,13 +2,9 @@ import helpers from './helpers/fileModuleHelpers'
 
 export default {
   state: {
-    currentTileID: 'lala',
-    editing: false,
-    filesRead: {},
     cards: [],
     currentWorldPath: './userData/Juko/World1/',
     lookupTable: {},
-    cardsTable: {},
     errorCode: 0,
     initialized: false,
     cardsCategories: [
@@ -52,49 +48,26 @@ export default {
           console.log(err)
         })
     },
+    getFields (context, ID) {
+
+    },
     getCards (context, ID) {
       // %TODO% check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
-      var path
       var state = context.state
       context.commit('resetCards')
       context.commit('resetCategories')
 
-      if (ID !== null) {
-        path = helpers.getFilePathFromID(state, ID)
-      } else {
-        path = helpers.getFilePathFromID(state, 'rootID')
-      }
       console.log(state.lookupTable)
       // %TODO% audit this code quality, it smells ...
-      helpers.getFile(path)
+      helpers.getFileFromID(state, ID)
         .then(data => {
+          // %TODO% accept storing files read
           var currentTile = JSON.parse(data)
           var childsIDs = currentTile.childs
           for (const childID of childsIDs) {
-            helpers.getFile(helpers.getFilePathFromID(state, childID))
+            helpers.getFileFromID(state, childID)
               .then(data => {
-                var childTile = JSON.parse(data)
-                var card = {
-                  id: childTile.id,
-                  displayName: childTile.displayName,
-                  type: childTile.type,
-                  categories: childTile.categories,
-                  isDisplayable: true
-                }
-                if (childTile.type === 'branch') {
-                  card.nbInstance = childTile.nbInstance
-                  card.nbSubCategories = childTile.nbSubCategories
-                }
-                for (const cat of childTile.categories) {
-                  var toBeInserted = {
-                    label: cat,
-                    value: cat
-                  }
-                  // %TODO%  use helpers to improve readability
-                  if (!(state.cardsCategories.some(category => category.label === toBeInserted.label))) {
-                    context.commit('addCategories', toBeInserted)
-                  }
-                }
+                var card = helpers.buildCard(context, data)
                 context.commit('addCard', card)
               },
               error => {
