@@ -10,15 +10,15 @@
          "fieldName": "Rarity",
          "fieldType": "text",
          "fieldValue": "Unique",
-         "fieldReference": [],
-         "fieldReferenceName": []
+         "fieldReference": "",
+         "fieldReferenceName": ""
       },
       {
          "fieldName": "Origin",
          "fieldType": "text",
          "fieldValue": "Juko won't tell",
-         "fieldReference": [],
-         "fieldReferenceName": []
+         "fieldReference": "",
+         "fieldReferenceName": ""
       },
       {
          "fieldName": "Creator",

@@ -1,5 +1,5 @@
 {
-    "rootID" : "rootTile.json",
+    "root" : "rootTile.json",
     "1553cb4b-f103-4634-8d38-a415e2013e6e": "tiles/weapon.json",
     "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2": "tiles/firearm.json",
     "b22befc3-8f0d-49ff-a776-6299764886ce": "tileInstances/famas.json",

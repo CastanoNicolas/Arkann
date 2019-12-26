@@ -1,17 +1,20 @@
 export default {
   state: {
     currentTile: 'root',
+    parentTile: '',
     previousTile: '',
     editing: false,
     viewing: false,
     browsing: true
   },
   mutations: {
-    setCurrentTIle (state, tile) {
-      state.curentTile = tile
+    setCurrentTile (state, ID) {
+      console.log('Rentre dans set current TIle')
+      state.currentTile = ID
+      console.log(state.currentTile)
     },
-    setParentTIle (state, parent) {
-      state.curentTile = parent
+    setParentTile (state, parent) {
+      state.parentTile = parent
     },
     setEditing (state) {
       state.editing = true
@@ -39,10 +42,10 @@ export default {
     }
   },
   getters: {
-    currentTIle (state, tile) {
+    currentTile (state) {
       return state.curentTile
     },
-    parentTIle (state, parent) {
+    parentTile (state) {
       return state.curentTile
     },
     editing (state) {

@@ -96,7 +96,7 @@
                   color="grey-4"
                   icon="edit"
                   text-color="dark"
-                  to="/leafEdit">
+                  @click="changeActiveTiles(card.id)">
                 </q-btn>
               </q-card-actions>
             </q-card>
@@ -121,7 +121,6 @@ export default {
     cards () {
       // %TODO% see if we can avoid deep copying it and if not use lodash
       var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.cards))
-      console.log(a)
       return a
     },
     canRequestCards () {
@@ -170,6 +169,14 @@ export default {
         s += ' ' + cat
       }
       return s
+    },
+    changeActiveTiles (id) {
+      console.log('On change les tiles')
+      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
+      this.$store.commit('setCurrentTile', id)
+      console.log('current Tile')
+      console.log(this.$store.state.navigationModule.currentTile)
+      this.$router.push('/leafEdit')
     }
   }
 }

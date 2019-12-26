@@ -24,6 +24,7 @@ const helpers = {
     })
   },
   getFileFromID (state, ID) {
+    // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
     var path = helpers.getFilePathFromID(state, ID)
     return helpers.getFile(path)
   },

@@ -3,6 +3,7 @@ import helpers from './helpers/fileModuleHelpers'
 export default {
   state: {
     cards: [],
+    fields: [],
     currentWorldPath: './userData/Juko/World1/',
     lookupTable: {},
     errorCode: 0,
@@ -14,7 +15,6 @@ export default {
   },
   mutations: {
     resetCards (state) {
-      console.log('reset cards')
       state.cards = []
     },
     addCard (state, card) {
@@ -34,8 +34,15 @@ export default {
     },
     addCategories (state, category) {
       state.cardsCategories.push(category)
+    },
+    resetFields (state) {
+      state.fields = []
+    },
+    addFields (state, tileFields) {
+      state.fields = tileFields
+      console.log('fields')
+      console.log(state.fields)
     }
-
   },
   actions: {
     init (context) {
@@ -49,7 +56,20 @@ export default {
         })
     },
     getFields (context, ID) {
+      var state = context.state
+      context.commit('resetFields')
 
+      // %TODO% audit this code quality, it smells ...
+      helpers.getFileFromID(state, ID)
+        .then(data => {
+          // %TODO% accept storing files read
+          var Tile = JSON.parse(data)
+          context.commit('addFields', Tile.fields)
+        },
+        error => {
+          console.log(error)
+          context.commit('setErrorCode', -1)
+        })
     },
     getCards (context, ID) {
       // %TODO% check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
@@ -57,7 +77,6 @@ export default {
       context.commit('resetCards')
       context.commit('resetCategories')
 
-      console.log(state.lookupTable)
       // %TODO% audit this code quality, it smells ...
       helpers.getFileFromID(state, ID)
         .then(data => {
@@ -85,6 +104,9 @@ export default {
   getters: {
     cards (state) {
       return state.cards
+    },
+    fields (state) {
+      return state.fields
     },
     err (state) {
       return state.err

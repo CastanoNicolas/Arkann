@@ -10,28 +10,26 @@ export default {
   name: 'name',
   data () {
     return {
-      fields: {
-        displayName: 'Le Monstre'
-      }
     }
   },
   computed: {
     errorCode () {
       return this.$store.state.fileModule.errorCode
+    },
+    fields () {
+      var a = this.$store.state.fileModule.fields
+      console.log('Fields:')
+      console.log(a)
+      return a
+    },
+    currentTile () {
+      var a = this.$store.state.navigationModule.currentTile
+      console.log('Current TIle :')
+      console.log(a)
+      return a
     }
   },
   watch: {
-    activeCategory (activeCategory) {
-      // %TODO%  improve
-      for (var i = 0; i < this.cards.length; i++) {
-        var card = this.cards[i]
-        if (card.categories.some(cat => cat === activeCategory) || activeCategory === 'All') {
-          card.isDisplayable = true
-        } else {
-          card.isDisplayable = false
-        }
-      }
-    },
     error (errorCode) {
       if (errorCode === 0) {
         // nothing's wrong
@@ -39,10 +37,18 @@ export default {
         alert(this.$t('error'))
         // code unhandled
       }
+    },
+    currentTil (currentTile) {
+      this.$store.dispatch('getFields', this.currentTile)
     }
   },
   methods: {
 
+  },
+  created () {
+    console.log('On est dans created')
+    console.log(this.currentTile)
+    this.$store.dispatch('getFields', this.currentTile)
   }
 }
 </script>
