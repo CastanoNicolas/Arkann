@@ -17,7 +17,7 @@ export default {
       return this.$store.state.fileModule.errorCode
     },
     fields () {
-      var a = this.$store.state.fileModule.fields
+      var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.fields))
       console.log('Fields:')
       console.log(a)
       return a
@@ -43,7 +43,9 @@ export default {
     }
   },
   methods: {
-
+    save () {
+      this.$store.dispatch('saveFields', this.currentTile, this.fields)
+    }
   },
   created () {
     console.log('On est dans created')

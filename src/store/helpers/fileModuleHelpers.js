@@ -23,10 +23,37 @@ const helpers = {
       }
     })
   },
+  saveFile (path, stringFile) {
+    return new Promise((resolve, reject) => {
+      if (Platform.is.electron) {
+        try {
+          const fs = require('fs')
+          fs.writeFile(path, stringFile, 'utf-8', (error, data) => {
+            if (error) {
+              reject(error)
+            } else {
+              resolve(data)
+            }
+          })
+        } catch (error) {
+          console.log('Failed to load module "fs"', error)
+          throw error
+        }
+      } else {
+        throw new Error('Not yet implemented')
+        // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
+      }
+    })
+  },
   getFileFromID (state, ID) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
     var path = helpers.getFilePathFromID(state, ID)
     return helpers.getFile(path)
+  },
+  saveFileByID (state, ID, fileString) {
+    // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
+    var path = helpers.getFilePathFromID(state, ID)
+    return helpers.saveFile(path, fileString)
   },
   getFilePathFromID (state, ID) {
     return state.currentWorldPath + state.lookupTable[ID]

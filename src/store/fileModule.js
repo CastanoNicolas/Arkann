@@ -38,18 +38,18 @@ export default {
     resetFields (state) {
       state.fields = []
     },
-    addFields (state, tileFields) {
+    setFields (state, tileFields) {
       state.fields = tileFields
       console.log('fields')
       console.log(state.fields)
     }
   },
   actions: {
+    // %TODO call Init dans get cards etc
     init (context) {
       helpers.getFile(helpers.getLookupTablePath(context.state))
         .then(data => {
           context.commit('setLookupTable', JSON.parse(data))
-          // context.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e')
         },
         err => {
           console.log(err)
@@ -64,7 +64,7 @@ export default {
         .then(data => {
           // %TODO% accept storing files read
           var Tile = JSON.parse(data)
-          context.commit('addFields', Tile.fields)
+          context.commit('setFields', Tile.fields)
         },
         error => {
           console.log(error)
@@ -94,6 +94,20 @@ export default {
                 context.commit('setErrorCode', -1)
               })
           }
+        },
+        error => {
+          console.log(error)
+          context.commit('setErrorCode', -1)
+        })
+    },
+    saveFields (context, ID, newFields) {
+      context.commit('setFields', newFields)
+      helpers.getFileFromID(context.state, ID)
+        .then(data => {
+          // %TODO% accept storing files read
+          var Tile = JSON.parse(data)
+          Tile.fields = newFields
+          helpers.saveFileByID(context.state, ID, JSON.stringify(Tile))
         },
         error => {
           console.log(error)
