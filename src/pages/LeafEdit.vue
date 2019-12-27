@@ -90,7 +90,10 @@ export default {
   methods: {
     save () {
       console.log('On sauvegarde')
-      this.$store.dispatch('saveFields', this.currentTile, 'lala')
+      this.$store.dispatch('saveFields', {
+        'ID': this.currentTile,
+        'obj': this.fields
+      })
     }
   },
   created () {

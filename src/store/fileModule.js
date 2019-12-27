@@ -97,13 +97,13 @@ export default {
           context.commit('setErrorCode', -1)
         })
     },
-    saveFields (context, ID, newFields) {
+    saveFields (context, payload) {
       // context.commit('setFields', newFields)
-      helpers.getFileFromID(context.state, ID)
+      helpers.getFileFromID(context.state, payload.ID)
         .then(tile => {
-          tile.fields = newFields.fields
-          tile.displayName = newFields.displayName
-          helpers.saveFileByID(context.state, ID, tile)
+          tile.fields = payload.obj.fields
+          tile.displayName = payload.obj.displayName
+          helpers.saveFileByID(context.state, payload.ID, tile)
         },
         error => {
           console.log(error)
