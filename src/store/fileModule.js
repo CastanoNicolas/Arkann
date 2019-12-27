@@ -98,13 +98,12 @@ export default {
         })
     },
     saveFields (context, ID, newFields) {
-      context.commit('setFields', newFields)
+      // context.commit('setFields', newFields)
       helpers.getFileFromID(context.state, ID)
-        .then(data => {
-          // %TODO% accept storing files read
-          var Tile = JSON.parse(data)
-          Tile.fields = newFields
-          helpers.saveFileByID(context.state, ID, Tile)
+        .then(tile => {
+          tile.fields = newFields.fields
+          tile.displayName = newFields.displayName
+          helpers.saveFileByID(context.state, ID, tile)
         },
         error => {
           console.log(error)

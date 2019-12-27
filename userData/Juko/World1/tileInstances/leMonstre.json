@@ -22,7 +22,7 @@
       },
       {
          "fieldName": "Creator",
-         "fieldType": "text",
+         "fieldType": "editor",
          "fieldValue": "Unknown, but only Juko can summon it",
          "fieldReference": "35d8e226-6742-4240-bb1d-af619902554a",
          "fieldReferenceName": "Juko-chan"
