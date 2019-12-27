@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      {{test}}
     </div>
   </div>
 </template>
@@ -28,11 +27,6 @@ export default {
       console.log('Current TIle :')
       console.log(a)
       return a
-    },
-    test () {
-      var o = {}
-      console.log(o['nope'])
-      return 'lala'
     }
   },
   watch: {

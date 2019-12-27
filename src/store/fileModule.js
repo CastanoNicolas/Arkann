@@ -60,10 +60,8 @@ export default {
       context.commit('resetFields')
 
       helpers.getFileFromID(state, ID)
-        .then(data => {
-          // %TODO% accept storing files read
-          var Tile = JSON.parse(data)
-          context.commit('setFields', Tile.fields)
+        .then(tile => {
+          context.commit('setFields', tile.fields)
         },
         error => {
           console.log(error)
@@ -78,7 +76,6 @@ export default {
 
       helpers.getFileFromID(state, ID)
         .then(currentTile => {
-          // %TODO% accept storing files read
           var childsIDs = currentTile.childs
           for (const childID of childsIDs) {
             helpers.getFileFromID(state, childID)
