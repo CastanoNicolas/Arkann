@@ -8,9 +8,9 @@
     "nbInstance": "1",
     "nbSubCategories": "0",
     "fields": [
-       "Rarity",
-       "Origin",
-       "Creator"
+      {"Rarity": "text"},
+      {"Origin": "text"},
+      {"Creator": "editor"}
     ],
     "categories": [
        "Gun",
