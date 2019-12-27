@@ -47,13 +47,28 @@ const helpers = {
   },
   getFileFromID (state, ID) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
-    var path = helpers.getFilePathFromID(state, ID)
-    return helpers.getFile(path)
+    return new Promise((resolve, reject) => {
+      if (typeof state.filesRead[ID] === 'undefined') {
+        var path = helpers.getFilePathFromID(state, ID)
+        helpers.getFile(path)
+          .then(data => {
+            // %TODO% check https://medium.com/intrinsic/javascript-prototype-poisoning-vulnerabilities-in-the-wild-7bc15347c96
+            state.filesRead[ID] = JSON.parse(data)
+            resolve(state.filesRead[ID])
+          },
+          error => {
+            reject(error)
+          })
+      } else {
+        resolve(state.filesRead[ID])
+      }
+    })
   },
-  saveFileByID (state, ID, fileString) {
+  saveFileByID (state, ID, object) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
     var path = helpers.getFilePathFromID(state, ID)
-    return helpers.saveFile(path, fileString)
+    state.filesRead[ID] = object
+    return helpers.saveFile(path, JSON.stringify(object))
   },
   getFilePathFromID (state, ID) {
     return state.currentWorldPath + state.lookupTable[ID]
@@ -61,8 +76,7 @@ const helpers = {
   getLookupTablePath (state) {
     return state.currentWorldPath + 'lookupTable.json'
   },
-  buildCard (context, data) {
-    var childTile = JSON.parse(data)
+  buildCard (context, childTile) {
     // build the card object
     var card = {
       id: childTile.id,

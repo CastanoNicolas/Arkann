@@ -8,6 +8,7 @@ export default {
     lookupTable: {},
     errorCode: 0,
     initialized: false,
+    filesRead: {},
     cardsCategories: [
       { label: 'All', value: 'All' }
     ]
@@ -45,7 +46,6 @@ export default {
     }
   },
   actions: {
-    // %TODO call Init dans get cards etc
     init (context) {
       helpers.getFile(helpers.getLookupTablePath(context.state))
         .then(data => {
@@ -59,7 +59,6 @@ export default {
       var state = context.state
       context.commit('resetFields')
 
-      // %TODO% audit this code quality, it smells ...
       helpers.getFileFromID(state, ID)
         .then(data => {
           // %TODO% accept storing files read
@@ -77,16 +76,14 @@ export default {
       context.commit('resetCards')
       context.commit('resetCategories')
 
-      // %TODO% audit this code quality, it smells ...
       helpers.getFileFromID(state, ID)
-        .then(data => {
+        .then(currentTile => {
           // %TODO% accept storing files read
-          var currentTile = JSON.parse(data)
           var childsIDs = currentTile.childs
           for (const childID of childsIDs) {
             helpers.getFileFromID(state, childID)
-              .then(data => {
-                var card = helpers.buildCard(context, data)
+              .then(childTile => {
+                var card = helpers.buildCard(context, childTile)
                 context.commit('addCard', card)
               },
               error => {
@@ -107,7 +104,7 @@ export default {
           // %TODO% accept storing files read
           var Tile = JSON.parse(data)
           Tile.fields = newFields
-          helpers.saveFileByID(context.state, ID, JSON.stringify(Tile))
+          helpers.saveFileByID(context.state, ID, Tile)
         },
         error => {
           console.log(error)
