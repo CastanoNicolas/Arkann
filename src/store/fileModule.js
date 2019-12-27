@@ -61,7 +61,10 @@ export default {
 
       helpers.getFileFromID(state, ID)
         .then(tile => {
-          context.commit('setFields', tile.fields)
+          var obj = {}
+          obj.fields = tile.fields
+          obj.displayName = tile.displayName
+          context.commit('setFields', obj)
         },
         error => {
           console.log(error)
