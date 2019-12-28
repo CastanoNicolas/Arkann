@@ -69,14 +69,10 @@ export default {
     leafFields () {
       // %TODO% use lodash
       var a = this.$store.state.fileModule.fields
-      console.log('Fields:')
-      console.log(a)
       return a
     },
     currentTile () {
       var a = this.$store.state.navigationModule.currentTile
-      console.log('(computed) : Current Tile :')
-      console.log(a)
       return a
     },
     tileExists () {
@@ -93,12 +89,10 @@ export default {
       }
     },
     currentTile (currentTile) {
-      console.log('currentTIle watcher: currentileChanged')
       this.$store.dispatch('getFields', this.currentTile)
     },
     leafFields (leafFields) {
       this.fields = JSON.parse(JSON.stringify(leafFields))
-      console.log('leafFields')
     },
     tileExists (tileExists) {
       if (this.tileExists) {
@@ -115,8 +109,6 @@ export default {
     }
   },
   created () {
-    console.log('created de leafEdit :')
-    console.log(this.tileExists)
     if (this.tileExists) {
       this.$store.dispatch('getFields', this.currentTile)
     }

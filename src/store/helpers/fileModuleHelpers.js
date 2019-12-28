@@ -78,15 +78,24 @@ const helpers = {
       relativePath += 'tiles/'
     }
     relativePath += ID + '.json'
-    // do we need to update the lookupTable ? (if the displayName changed)
-    // if (context.state.lookupTable[ID] !== relativePath) {
-    //   context.commit('updateLookupTable', {
-    //     'ID': ID,
-    //     'path': relativePath
-    //   })
-    //   // update the lookupTableFile
-    //   helpers.saveFile(helpers.getLookupTablePath(context.state), JSON.stringify(context.state.lookupTable))
-    // }
+    // do we need to update the lookupTable ? (if this is a new leaf changed)
+    if (typeof context.state.lookupTable[ID] === 'undefined') {
+      console.log('on rentre dans le if')
+      context.commit('updateLookupTable', {
+        'ID': ID,
+        'path': relativePath
+      })
+      // update the lookupTableFile
+      helpers.saveFile(helpers.getLookupTablePath(context.state), JSON.stringify(context.state.lookupTable))
+
+      // the parent needs to get a referencve to this child too
+      helpers.getFileFromID(context.state, tileObject.parent)
+        .then(parentTile => {
+          parentTile.childs.push(ID)
+          console.log(parentTile)
+          helpers.saveFileByID(context, parentTile.id, parentTile, parentTile.type)
+        })
+    }
     return helpers.saveFile(context.state.currentWorldPath + relativePath, JSON.stringify(tileObject))
   },
   getFilePathFromID (state, ID) {

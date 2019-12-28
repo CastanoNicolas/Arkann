@@ -144,11 +144,16 @@ export default {
             }
             leafObject.fields.push(childField)
           }
-
+          console.log('parent category')
+          console.log(parentTile)
           // categories are inherited from their parent
-          for (const parentCategories of parentTile.categories) {
-            leafObject.categories.push(parentCategories)
+          for (const parentCategory of parentTile.categories) {
+            leafObject.categories.push(parentCategory)
           }
+
+          // information needed when the leaf is saved to know if the parent needs to be updated too
+          // leafObject.neverSaved = true
+
           // update the file cache to be able te load this tile until it is saved
           context.commit('updateFileCache', {
             'ID': payload.ID,
