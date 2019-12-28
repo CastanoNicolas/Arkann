@@ -26,28 +26,25 @@
       </q-toolbar>
 
  <!-- Categories -->
-      <!-- %TODO% : choose our categories between ones already existing + traduction-->
+      <!-- %TODO% : liste de toutes les categories existante + ajout d'une nouvelle categorie si création-->
       <div
         class="q-gutter-md q-pa-sm flex items-baseline"  min-width="0">
         <div class="text">{{$t('categories')}}</div>
-        <div
-          v-for="(category, index) in fields.categories"
-          :key="index">
-          <q-input dense outlined autogrow class="category-input"
-            v-model="fields.categories[index]"
-            :rules="[val => (!!val && index === 0) || $t('requiredField'),
-                      val => !(val.includes(' ')) || $t('noSpaceAllowed')]"
-            >
-            <!-- if last q-input display button -->
-            <template v-slot:after v-if="index === Object.keys(fields.categories).length - 1">
-              <q-btn dense flat icon="add">
-                <q-tooltip>
-                  {{$t('addCategory')}}
-                </q-tooltip>
-              </q-btn>
-            </template>
-          </q-input>
-        </div>
+        <q-select
+          dense
+          filled
+          v-model="fields.categories"
+          use-input
+          use-chips
+          multiple
+          input-debounce="0"
+          @new-value="createValue"
+          :options="filterOptions"
+          @filter="filterFn"
+          style="width: 400px"
+          :rules="[val => !!val || $t('requiredField'),
+                    val => vaal.includes(' ') || $t('noSpaceAllowed')]"
+        />
       </div>
 
       <div
@@ -90,11 +87,15 @@
 </template>
 
 <script>
+const stringOptions = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+]
 export default {
   name: 'name',
   data () {
     return {
-      fields: []
+      fields: [],
+      filterOptions: stringOptions
     }
   },
   computed: {
@@ -147,6 +148,26 @@ export default {
         'ID': this.currentTile,
         'obj': this.fields
       })
+    },
+    createValue (val, done) {
+      if (val.length > 0) {
+        // if (!stringOptions.includes(val)) {
+        //   stringOptions.push(val)
+        // }
+        done(val, 'add-unique')
+      }
+    },
+    filterFn (val, update) {
+      update(() => {
+        if (val === '') {
+          this.filterOptions = stringOptions
+        } else {
+          const needle = val.toLowerCase()
+          this.filterOptions = stringOptions.filter(
+            v => v.toLowerCase().indexOf(needle) > -1
+          )
+        }
+      })
     }
   },
   created () {
@@ -166,6 +187,6 @@ export default {
 //   }
 // }
 .category-input {
-  width: 150px;
+  width: 100px;
 }
 </style>
