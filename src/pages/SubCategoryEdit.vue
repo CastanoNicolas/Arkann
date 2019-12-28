@@ -12,78 +12,33 @@
             :rules="[val => !!val || $t('requiredField')]"/>
         </div>
         <q-space />
+        <!-- Buton -->
         <!-- %TODO% Ajuster le temps d'affichage + delais des tooltips (dans un fichier css global pour affecter tous les TT) -->
-        <q-btn flat dense icon="edit">
-          <q-tooltip> {{$t('editForm')}} </q-tooltip>
-        </q-btn>
         <q-btn flat dense icon="save" @click="save">
           <q-tooltip> {{$t('save')}} </q-tooltip>
         </q-btn>
         <!-- %TODO% Message de confirmation -->
+        <!-- Si suppression alors remonté les cartes filles ? -->
         <q-btn flat dense icon="delete">
           <q-tooltip> {{$t('delete')}} </q-tooltip>
         </q-btn>
       </q-toolbar>
-
- <!-- Categories -->
-      <!-- %TODO% : choose our categories between ones already existing + traduction-->
-      <div
-        class="q-gutter-md q-pa-sm flex items-baseline"  min-width="0">
-        <div class="text">{{$t('categories')}}</div>
-        <div
-          v-for="(category, index) in fields.categories"
-          :key="index">
-          <q-input dense outlined autogrow class="category-input"
-            v-model="fields.categories[index]"
-            :rules="[val => (!!val && index === 0) || $t('requiredField'),
-                      val => !(val.includes(' ')) || $t('noSpaceAllowed')]"
-            >
-            <!-- if last q-input display button -->
-            <template v-slot:after v-if="index === Object.keys(fields.categories).length - 1">
-              <q-btn dense flat icon="add">
-                <q-tooltip>
-                  {{$t('addCategory')}}
-                </q-tooltip>
-              </q-btn>
-            </template>
-          </q-input>
-        </div>
-      </div>
 
       <div
         class="q-gutter-md"
         v-for="field in fields.fields"
         :key="field.fieldName">
 
-        <!-- short text -->
-        <div
-          class="q-pa-sm"
-          v-if="field.fieldType === 'text'">
-          <div class="text">{{field.fieldName}}</div>
-          <!-- %TODO% Ajouter une autre vue si il y a deja une reference :
-          afficher la reference en dessous du q-input + le boutton d'ajout à la suite -->
-          <q-input  dense outlined autogrow v-model="field.fieldValue">
-            <template v-slot:after v-if="field.fieldReference === ''">
-              <q-btn dense flat icon="add">
-                <q-tooltip>
-                  {{$t('addReference')}}
-                </q-tooltip>
-              </q-btn>
-            </template>
-          </q-input>
+        <!-- edit of a question -->
+        <div class="q-pa-sm">
+          <q-input  dense outlined autogrow v-model="field.fieldName"/>
+          <!-- TODO : add traduction  -->
+          <q-select dense outlined v-model="field.fieldType"
+            :options="['short', 'long']"
+            label="Nature du texte" />
         </div>
 
-        <!-- long text : editor -->
-        <div
-          class="q-pa-sm"
-          v-if="field.fieldType === 'editor'">
-          <div class="text">{{field.fieldName}}</div>
-          <!-- %TODO% :-->
-          <!-- Add more options, like list ? -->
-          <!-- Add a way to add references + display them -->
-          <q-editor dense v-model="field.fieldValue" min-height="5rem">
-          </q-editor>
-        </div>
+        <!-- %TODO% : pouvoir modifier les categories de la tuile -->
 
       </div>
   </q-page>
@@ -101,7 +56,7 @@ export default {
     errorCode () {
       return this.$store.state.fileModule.errorCode
     },
-    leafFields () {
+    subCategoryFields () {
       // %TODO% use lodash
       var a = this.$store.state.fileModule.fields
       console.log('Fields:')
@@ -131,9 +86,9 @@ export default {
       console.log('currentTIle watcher: currentileChanged')
       this.$store.dispatch('getFields', this.currentTile)
     },
-    leafFields (leafFields) {
-      this.fields = JSON.parse(JSON.stringify(leafFields))
-      console.log('leafFields')
+    subCategoryFields (subCategoryFields) {
+      this.fields = JSON.parse(JSON.stringify(subCategoryFields))
+      console.log('subCategoryFields')
     },
     tileExists (tileExists) {
       if (this.tileExists) {
@@ -150,7 +105,7 @@ export default {
     }
   },
   created () {
-    console.log('created de leafEdit :')
+    console.log('creation de subCategoryEdit :')
     console.log(this.tileExists)
     if (this.tileExists) {
       this.$store.dispatch('getFields', this.currentTile)
@@ -165,7 +120,4 @@ export default {
 //   width: 70vw;
 //   }
 // }
-.category-input {
-  width: 150px;
-}
 </style>
