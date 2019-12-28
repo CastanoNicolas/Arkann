@@ -67,8 +67,15 @@ const helpers = {
   saveFileByID (state, ID, object) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
     var path = helpers.getFilePathFromID(state, ID)
-    state.filesRead[ID] = object
+    helpers.updateFileCache(state, ID, object)
     return helpers.saveFile(path, JSON.stringify(object))
+  },
+  updateFileCache (state, ID, object) {
+    state.filesRead[ID] = object
+  },
+  updateLookupTable (state, ID, filepath) {
+    state.lookupTable[ID] = filepath
+    helpers.saveFile(helpers.getLookupTablePath(state), state.lookupTable)
   },
   getFilePathFromID (state, ID) {
     return state.currentWorldPath + state.lookupTable[ID]

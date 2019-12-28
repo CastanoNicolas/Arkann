@@ -16,6 +16,7 @@
             :key="card.id"
             v-show="card.isDisplayable">
 
+            <!-- Branch card -->
             <q-card
               class="my-card"
               v-if="card.type === 'branch'">
@@ -34,6 +35,7 @@
                 </div>
               </q-card-section>
 
+              <!-- Dropdown Button -->
               <q-card-actions class="my-card-button" align="right">
                 <q-btn-dropdown
                   unelevated
@@ -41,7 +43,7 @@
                   icon="add"
                   color="grey-4"
                   text-color="dark"
-                  @click="onMainClick"
+                  @click="createNewLeaf(card.id)"
                   >
                   <q-list>
                     <q-item clickable v-close-popup @click="onItemClick">
@@ -72,8 +74,11 @@
                   text-color="dark">
                 </q-btn>
               </q-card-actions>
+              <!-- END Dropdown -->
             </q-card>
+            <!-- END Branch card -->
 
+            <!-- Leaf card -->
             <q-card
               class="my-card"
               v-if="card.type === 'leaf'">
@@ -96,10 +101,11 @@
                   color="grey-4"
                   icon="edit"
                   text-color="dark"
-                  @click="changeActiveTiles(card.id)">
+                  @click="changeActiveTile(card.id)">
                 </q-btn>
               </q-card-actions>
             </q-card>
+            <!-- END Leaf card -->
           </div>
       </div>
   </q-page>
@@ -170,13 +176,26 @@ export default {
       }
       return s
     },
-    changeActiveTiles (id) {
-      console.log('On change les tiles')
+    changeActiveTile (id) {
       this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
       this.$store.commit('setCurrentTile', id)
-      console.log('current Tile')
-      console.log(this.$store.state.navigationModule.currentTile)
       this.$router.push('/leafEdit')
+    },
+    createNewLeaf (parentID) {
+      const newLeafID = require('uuid/v1')()
+
+      this.$store.dispatch('createLeaf', {
+        'parentID': parentID,
+        'ID': newLeafID
+      })
+      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
+      this.$store.commit('setCurrentTile', newLeafID)
+      this.$router.push('/leafEdit')
+    }
+  },
+  created () {
+    if (this.canRequestCards) {
+      this.$store.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e')
     }
   }
 }

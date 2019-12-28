@@ -63,15 +63,18 @@ export default {
     fields () {
       // %TODO% use lodash
       var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.fields))
-      console.log('Fields:')
+      console.log('(computed) Fields:')
       console.log(a)
       return a
     },
     currentTile () {
       var a = this.$store.state.navigationModule.currentTile
-      console.log('Current TIle :')
+      console.log('(computed) : Current Tile :')
       console.log(a)
       return a
+    },
+    tileExists () {
+      return this.$store.state.fileModule.tileExists
     }
   },
   watch: {
@@ -83,13 +86,18 @@ export default {
         // code unhandled
       }
     },
-    currentTil (currentTile) {
+    currentTile (currentTile) {
+      console.log('currentTIle watcher: currentileChanged')
       this.$store.dispatch('getFields', this.currentTile)
+    },
+    tileExists (tileExists) {
+      if (this.tileExists) {
+        this.$store.dispatch('getFields', this.currentTile)
+      }
     }
   },
   methods: {
     save () {
-      console.log('On sauvegarde')
       this.$store.dispatch('saveFields', {
         'ID': this.currentTile,
         'obj': this.fields
@@ -97,9 +105,11 @@ export default {
     }
   },
   created () {
-    console.log('On est dans created')
-    console.log(this.currentTile)
-    this.$store.dispatch('getFields', this.currentTile)
+    console.log('created de leafEdit :')
+    console.log(this.tileExists)
+    if (this.tileExists) {
+      this.$store.dispatch('getFields', this.currentTile)
+    }
   }
 }
 </script>

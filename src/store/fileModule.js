@@ -8,6 +8,7 @@ export default {
     lookupTable: {},
     errorCode: 0,
     initialized: false,
+    tileExists: true,
     filesRead: {},
     cardsCategories: [
       { label: 'All', value: 'All' }
@@ -41,8 +42,9 @@ export default {
     },
     setFields (state, tileFields) {
       state.fields = tileFields
-      console.log('fields')
-      console.log(state.fields)
+    },
+    setTileExists (state, bool) {
+      state.tileExists = bool
     }
   },
   actions: {
@@ -103,11 +105,45 @@ export default {
         .then(tile => {
           tile.fields = payload.obj.fields
           tile.displayName = payload.obj.displayName
-          helpers.saveFileByID(context.state, payload.ID, tile)
+          helpers.saveFileByDisplayName(context.state, payload.ID, tile, tile.displayName)
         },
         error => {
           console.log(error)
           context.commit('setErrorCode', -1)
+        })
+    },
+    createLeaf (context, payload) {
+      context.commit('setTileExists', false)
+      var leafObject = {
+        'id': payload.ID,
+        'displayName': '',
+        'parent': payload.parentID,
+        'type': 'leaf',
+        'image': '',
+        'fields': [],
+        'categories': []
+      }
+      helpers.getFileFromID(context.state, payload.parentID)
+        .then(parentTile => {
+          // get the fields declared in the parent tile
+          for (const parentField of parentTile.fields) {
+            var childField = {
+              'fieldName': parentField.fieldName,
+              'fieldType': parentField.fieldType,
+              'fieldValue': '',
+              'fieldReference': '',
+              'fieldReferenceName': ''
+            }
+            leafObject.fields.push(childField)
+          }
+
+          // categories are inherited from their parent
+          for (const parentCategories of parentTile.categories) {
+            leafObject.categories.push(parentCategories)
+          }
+          // update the file cache to be able te load this tile until it is saved
+          helpers.updateFileCache(context.state, payload.ID, leafObject)
+          context.commit('setTileExists', true)
         })
     }
   },
