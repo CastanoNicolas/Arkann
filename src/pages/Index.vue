@@ -8,7 +8,7 @@
         :options="categories"
       />
       <q-space />
-      <q-btn flat stretch dense icon="add"/>
+      <q-btn flat stretch dense icon="add" @click="createNewLeaf(currentTile)"/>
     </q-toolbar>
       <div class="cards row q-pa-md q-gutter-md items-start">
           <div
@@ -19,7 +19,8 @@
             <!-- Branch card -->
             <q-card
               class="my-card"
-              v-if="card.type === 'branch'">
+              v-if="card.type === 'branch'"
+              @click="changeActiveTile(card.id)">
               <q-card-section class="my-card-body bg-teal text-white justify-between flex">
                 <div class="self-end">
                   <div class="text-h6">{{card.displayName}}</div>
@@ -101,7 +102,7 @@
                   color="grey-4"
                   icon="edit"
                   text-color="dark"
-                  @click="changeActiveTile(card.id)">
+                  @click="editLeaf(card.id)">
                 </q-btn>
               </q-card-actions>
             </q-card>
@@ -134,6 +135,9 @@ export default {
     },
     categories () {
       return this.$store.state.fileModule.cardsCategories
+    },
+    currentTile () {
+      return this.$store.state.navigationModule.currentTile
     }
   },
   watch: {
@@ -149,8 +153,8 @@ export default {
       }
     },
     canRequestCards (canRequestCards) {
-      if (canRequestCards) {
-        this.$store.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      if (this.canRequestCards) {
+        this.$store.dispatch('getCards', this.currentTile)
       }
     },
     error (errorCode) {
@@ -177,7 +181,12 @@ export default {
       return s
     },
     changeActiveTile (id) {
-      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
+      this.$store.commit('setParentTile', this.currentTile)
+      this.$store.commit('setCurrentTile', id)
+      this.$store.dispatch('getCards', this.currentTile)
+    },
+    editLeaf (id) {
+      this.$store.commit('setParentTile', this.currentTile)
       this.$store.commit('setCurrentTile', id)
       this.$router.push('/leafEdit')
     },
@@ -194,8 +203,9 @@ export default {
     }
   },
   created () {
+    this.$store.commit('setCurrentTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
     if (this.canRequestCards) {
-      this.$store.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      this.$store.dispatch('getCards', this.currentTile)
     }
   }
 }

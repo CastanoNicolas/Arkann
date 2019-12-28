@@ -148,7 +148,10 @@ export default {
             leafObject.categories.push(parentCategories)
           }
           // update the file cache to be able te load this tile until it is saved
-          helpers.updateFileCache(context.state, payload.ID, leafObject)
+          context.commit('updateFileCache', {
+            'ID': payload.ID,
+            'object': leafObject
+          })
           context.commit('setTileExists', true)
         })
     }

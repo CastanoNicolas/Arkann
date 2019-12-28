@@ -5,10 +5,21 @@
    "type": "branch",
    "parent": "",
    "description": "A physical object used to defend or attack oneself",
+   "nbInstance": "1",
+   "nbSubCategories": "0",
    "fields": [
-      "Rarity",
-      "Origin",
-      "Creator"
+     {
+        "fieldName": "Rarity",
+        "fieldType": "text"
+     },
+     {
+        "fieldName": "Origin",
+        "fieldType": "text"
+     },
+     {
+        "fieldName": "Creator",
+        "fieldType": "editor"
+     }
    ],
    "childs": [
        "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2",

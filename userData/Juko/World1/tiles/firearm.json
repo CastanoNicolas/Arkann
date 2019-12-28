@@ -21,10 +21,13 @@
          "fieldType": "editor"
       }
     ],
+    "childs": [
+      "f47ccd90-2925-11ea-a17d-9938ad6d70e7"
+    ],
     "categories": [
        "Gun",
        "Object"
     ]
- }
+}
  
  
