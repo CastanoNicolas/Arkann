@@ -111,7 +111,9 @@ export default {
         .then(tile => {
           tile.fields = payload.obj.fields
           tile.displayName = payload.obj.displayName
-          helpers.saveFileByDisplayName(context, payload.ID, tile, tile.displayName, tile.type)
+          console.log(tile)
+          console.log(tile.type)
+          helpers.saveFileByID(context, payload.ID, tile, tile.type)
         },
         error => {
           console.log(error)
