@@ -1,14 +1,19 @@
 <template>
   <q-page class="q-pa-md">
       <q-toolbar class="bg-grey-4 text-grey-7">
-        <q-input
-          autogrow
-          dense
-          :label="$t('Name')"
-          v-model="fields.displayName"
-          :rules="[val => !!val || $t('RequiredField')]"/>
+        <div>
+          <!-- %TODO% ajuster la taille du q-input avec son contenant -->
+          <q-input
+            autogrow
+            dense
+            class="title-input"
+            :label="$t('Name')"
+            v-model="fields.displayName"
+            :rules="[val => !!val || $t('RequiredField')]"/>
+        </div>
         <q-space />
-        <q-btn flat dense icon="save" color="primary" @click="save"/>
+        <q-btn flat dense icon="edit"/>
+        <q-btn flat dense icon="save" @click="save"/>
       </q-toolbar>
 
       <div
@@ -54,16 +59,17 @@ export default {
   name: 'name',
   data () {
     return {
+      fields: []
     }
   },
   computed: {
     errorCode () {
       return this.$store.state.fileModule.errorCode
     },
-    fields () {
+    leafFields () {
       // %TODO% use lodash
-      var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.fields))
-      console.log('(computed) Fields:')
+      var a = this.$store.state.fileModule.fields
+      console.log('Fields:')
       console.log(a)
       return a
     },
@@ -90,6 +96,10 @@ export default {
       console.log('currentTIle watcher: currentileChanged')
       this.$store.dispatch('getFields', this.currentTile)
     },
+    leafFields (leafFields) {
+      this.fields = JSON.parse(JSON.stringify(leafFields))
+      console.log('leafFields')
+    },
     tileExists (tileExists) {
       if (this.tileExists) {
         this.$store.dispatch('getFields', this.currentTile)
@@ -115,5 +125,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+// %TODO% faire grandir le trait avec la taille du texte rempli via JS
+// @media (min-width: 451px) {
+//   .title-input{
+//   width: 70vw;
+//   }
+// }
 </style>
