@@ -1,9 +1,1 @@
-{
-    "root" : "rootTile.json",
-    "1553cb4b-f103-4634-8d38-a415e2013e6e": "tiles/weapon.json",
-    "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2": "tiles/firearm.json",
-    "b22befc3-8f0d-49ff-a776-6299764886ce": "tileInstances/famas.json",
-    "cc798c84-5d35-4f75-98ff-285167aa068b": "tileInstances/leMonstre.json",
-    "9aec1b2c-f708-4f4f-97e9-50e4ac70a94e": "images/9aec1b2c-f708-4f4f-97e9-50e4ac70a94e.png",
-    "89f119d9-bf29-47bc-8512-7c11e002404b": "images/89f119d9-bf29-47bc-8512-7c11e002404b.png"
-} 
+{"root":"rootTile.json","1553cb4b-f103-4634-8d38-a415e2013e6e":"tiles/weapon.json","bb3ddb3e-71b7-4a04-86c2-acf29482a6e2":"tiles/firearm.json","b22befc3-8f0d-49ff-a776-6299764886ce":"tileInstances/famas.json","cc798c84-5d35-4f75-98ff-285167aa068b":"tileInstances/leMonstre2.json","9aec1b2c-f708-4f4f-97e9-50e4ac70a94e":"images/9aec1b2c-f708-4f4f-97e9-50e4ac70a94e.png","89f119d9-bf29-47bc-8512-7c11e002404b":"images/89f119d9-bf29-47bc-8512-7c11e002404b.png"}

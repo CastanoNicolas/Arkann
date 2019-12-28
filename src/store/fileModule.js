@@ -45,6 +45,12 @@ export default {
     },
     setTileExists (state, bool) {
       state.tileExists = bool
+    },
+    updateFileCache (state, payload) {
+      state.filesRead[payload.ID] = payload.object
+    },
+    updateLookupTable (state, payload) {
+      state.lookupTable[payload.ID] = payload.path
     }
   },
   actions: {
@@ -105,7 +111,7 @@ export default {
         .then(tile => {
           tile.fields = payload.obj.fields
           tile.displayName = payload.obj.displayName
-          helpers.saveFileByDisplayName(context.state, payload.ID, tile, tile.displayName)
+          helpers.saveFileByDisplayName(context, payload.ID, tile, tile.displayName, tile.type)
         },
         error => {
           console.log(error)

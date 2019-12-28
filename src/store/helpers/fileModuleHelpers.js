@@ -64,18 +64,33 @@ const helpers = {
       }
     })
   },
-  saveFileByID (state, ID, object) {
+
+  saveFileByDisplayName (context, ID, tileObject, displayName, tileType) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
-    var path = helpers.getFilePathFromID(state, ID)
-    helpers.updateFileCache(state, ID, object)
-    return helpers.saveFile(path, JSON.stringify(object))
-  },
-  updateFileCache (state, ID, object) {
-    state.filesRead[ID] = object
-  },
-  updateLookupTable (state, ID, filepath) {
-    state.lookupTable[ID] = filepath
-    helpers.saveFile(helpers.getLookupTablePath(state), state.lookupTable)
+    context.commit('updateFileCache', {
+      'ID': ID,
+      'object': tileObject
+    })
+    var relativePath = ''
+    if (tileType === 'leaf') {
+      relativePath += 'tileInstances/'
+    } else {
+      relativePath += 'tiles/'
+    }
+    relativePath += displayName + '.json'
+    if (context.state.lookupTable[ID] !== relativePath) {
+      console.log('changement de path')
+      console.log(context.state.lookupTable[ID])
+      console.log(relativePath)
+
+      context.commit('updateLookupTable', {
+        'ID': ID,
+        'path': relativePath
+      })
+      // update the lookupTableFile
+      helpers.saveFile(helpers.getLookupTablePath(context.state), JSON.stringify(context.state.lookupTable))
+    }
+    return helpers.saveFile(context.state.currentWorldPath + relativePath, JSON.stringify(tileObject))
   },
   getFilePathFromID (state, ID) {
     return state.currentWorldPath + state.lookupTable[ID]
