@@ -27,6 +27,7 @@
 
  <!-- Categories -->
       <!-- %TODO% : liste de toutes les categories existante + ajout d'une nouvelle categorie si création-->
+      <!-- %TODO% : sanitize it -->
       <div
         class="q-gutter-md q-pa-sm flex items-baseline"  min-width="0">
         <div class="text">{{$t('categories')}}</div>
@@ -42,8 +43,6 @@
           :options="filterOptions"
           @filter="filterFn"
           style="width: 400px"
-          :rules="[val => !!val || $t('requiredField'),
-                    val => vaal.includes(' ') || $t('noSpaceAllowed')]"
         />
       </div>
 
