@@ -54,7 +54,7 @@
         <!-- short text -->
         <div
           class="q-pa-sm"
-          v-if="field.fieldType === 'text'">
+          v-if="field.fieldType === false">
           <div class="text">{{field.fieldName}}</div>
           <!-- %TODO% Ajouter une autre vue si il y a deja une reference :
           afficher la reference en dessous du q-input + le boutton d'ajout à la suite -->
@@ -72,7 +72,7 @@
         <!-- long text : editor -->
         <div
           class="q-pa-sm"
-          v-if="field.fieldType === 'editor'">
+          v-if="field.fieldType === true">
           <div class="text">{{field.fieldName}}</div>
           <!-- %TODO% :-->
           <!-- Add more options, like list ? -->
@@ -177,7 +177,4 @@ export default {
 //   width: 70vw;
 //   }
 // }
-.category-input {
-  width: 100px;
-}
 </style>

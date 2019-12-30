@@ -24,32 +24,61 @@
         </q-btn>
       </q-toolbar>
 
+      <!-- Categories -->
+      <!-- %TODO% : liste de toutes les categories existante + ajout d'une nouvelle categorie si création-->
+      <!-- %TODO% : sanitize it -->
+      <div
+        class="q-gutter-md q-pa-sm flex items-baseline"  min-width="0">
+        <div class="text">{{$t('categories')}}</div>
+        <q-select
+          dense
+          filled
+          v-model="fields.categories"
+          use-input
+          use-chips
+          multiple
+          input-debounce="0"
+          @new-value="createValue"
+          :options="filterOptions"
+          @filter="filterFn"
+          style="width: 400px"
+        />
+      </div>
+
       <div
         class="q-gutter-md"
         v-for="field in fields.fields"
         :key="field.fieldName">
-
         <!-- edit of a question -->
-        <div class="q-pa-sm">
-          <q-input  dense outlined autogrow v-model="field.fieldName"/>
+        <div class="q-gutter-sm q-pa-sm">
+          <q-input  dense outlined autogrow v-model="field.fieldName">
+            <template v-slot:after>
+              <q-btn flat dense color="grey-7" icon="close">
+                <q-tooltip> {{$t('delete')}} </q-tooltip>
+              </q-btn>
+            </template>
+          </q-input>
           <!-- TODO : add traduction  -->
-          <q-select dense outlined v-model="field.fieldType"
-            :options="['short', 'long']"
-            label="Nature du texte" />
+          <q-toggle
+            dense
+            v-model="field.fieldType"
+            :label="$t('complexFormatting')"
+            left-label/>
         </div>
-
-        <!-- %TODO% : pouvoir modifier les categories de la tuile -->
-
       </div>
   </q-page>
 </template>
 
 <script>
+const stringOptions = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+]
 export default {
   name: 'name',
   data () {
     return {
-      fields: []
+      fields: [],
+      filterOptions: stringOptions
     }
   },
   computed: {
@@ -101,6 +130,26 @@ export default {
       this.$store.dispatch('saveFields', {
         'ID': this.currentTile,
         'obj': this.fields
+      })
+    },
+    createValue (val, done) {
+      if (val.length > 0) {
+        // if (!stringOptions.includes(val)) {
+        //   stringOptions.push(val)
+        // }
+        done(val, 'add-unique')
+      }
+    },
+    filterFn (val, update) {
+      update(() => {
+        if (val === '') {
+          this.filterOptions = stringOptions
+        } else {
+          const needle = val.toLowerCase()
+          this.filterOptions = stringOptions.filter(
+            v => v.toLowerCase().indexOf(needle) > -1
+          )
+        }
       })
     }
   },
