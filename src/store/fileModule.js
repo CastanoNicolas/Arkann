@@ -161,6 +161,46 @@ export default {
           })
           context.commit('setTileExists', true)
         })
+    },
+    createBranch (context, payload) {
+      context.commit('setTileExists', false)
+      var branchObject = {
+        'id': payload.ID,
+        'displayName': '',
+        'parent': payload.parentID,
+        'type': 'branch',
+        'fields': [],
+        'categories': [],
+        'childs': [],
+        'nbInstance': '0',
+        'nbSubCategories': '0'
+      }
+      helpers.getFileFromID(context.state, payload.parentID)
+        .then(parentTile => {
+          // get the fields declared in the parent tile
+          const uuidv1 = require('uuid/v1')
+          for (const parentField of parentTile.fields) {
+            var childField = {
+              'fieldName': parentField.fieldName,
+              'fieldType': parentField.fieldType,
+              'fieldID': uuidv1()
+            }
+            branchObject.fields.push(childField)
+          }
+          console.log('parent category')
+          console.log(parentTile)
+          // categories are inherited from their parent
+          for (const parentCategory of parentTile.categories) {
+            branchObject.categories.push(parentCategory)
+          }
+
+          // update the file cache to be able te load this tile until it is saved
+          context.commit('updateFileCache', {
+            'ID': payload.ID,
+            'object': branchObject
+          })
+          context.commit('setTileExists', true)
+        })
     }
   },
   getters: {

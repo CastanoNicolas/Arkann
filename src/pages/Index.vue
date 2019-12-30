@@ -202,7 +202,15 @@ export default {
       this.$router.push('/leafEdit')
     },
     createNewCategory (parentID) {
-      // %TODO%
+      const newBranchID = require('uuid/v1')()
+
+      this.$store.dispatch('createBranch', {
+        'parentID': parentID,
+        'ID': newBranchID
+      })
+      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
+      this.$store.commit('setCurrentTile', newBranchID)
+      this.$router.push('/branchEdit')
     }
   },
   created () {
