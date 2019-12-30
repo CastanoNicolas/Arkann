@@ -7,14 +7,44 @@
             autogrow
             dense
             class="title-input"
-            :label="$t('Name')"
+            :label="$t('name')"
             v-model="fields.displayName"
-            :rules="[val => !!val || $t('RequiredField')]"/>
+            :rules="[val => !!val || $t('requiredField')]"/>
         </div>
         <q-space />
-        <q-btn flat dense icon="edit"/>
-        <q-btn flat dense icon="save" @click="save"/>
+        <!-- %TODO% Ajuster le temps d'affichage + delais des tooltips (dans un fichier css global pour affecter tous les TT) -->
+        <q-btn flat dense icon="edit">
+          <q-tooltip> {{$t('editForm')}} </q-tooltip>
+        </q-btn>
+        <q-btn flat dense icon="save" @click="save">
+          <q-tooltip> {{$t('save')}} </q-tooltip>
+        </q-btn>
+        <!-- %TODO% Message de confirmation -->
+        <q-btn flat dense icon="delete">
+          <q-tooltip> {{$t('delete')}} </q-tooltip>
+        </q-btn>
       </q-toolbar>
+
+ <!-- Categories -->
+      <!-- %TODO% : liste de toutes les categories existante + ajout d'une nouvelle categorie si création-->
+      <!-- %TODO% : sanitize it -->
+      <div
+        class="q-gutter-md q-pa-sm flex items-baseline"  min-width="0">
+        <div class="text">{{$t('categories')}}</div>
+        <q-select
+          dense
+          filled
+          v-model="fields.categories"
+          use-input
+          use-chips
+          multiple
+          input-debounce="0"
+          @new-value="createValue"
+          :options="filterOptions"
+          @filter="filterFn"
+          style="width: 400px"
+        />
+      </div>
 
       <div
         class="q-gutter-md"
@@ -44,8 +74,9 @@
           class="q-pa-sm"
           v-if="field.fieldType === 'editor'">
           <div class="text">{{field.fieldName}}</div>
-          <!-- %TODO% : attention à l'affichage : sanitized it -->
+          <!-- %TODO% :-->
           <!-- Add more options, like list ? -->
+          <!-- Add a way to add references + display them -->
           <q-editor dense v-model="field.fieldValue" min-height="5rem">
           </q-editor>
         </div>
@@ -55,11 +86,15 @@
 </template>
 
 <script>
+const stringOptions = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+]
 export default {
   name: 'name',
   data () {
     return {
-      fields: []
+      fields: [],
+      filterOptions: stringOptions
     }
   },
   computed: {
@@ -106,6 +141,26 @@ export default {
         'ID': this.currentTile,
         'obj': this.fields
       })
+    },
+    createValue (val, done) {
+      if (val.length > 0) {
+        // if (!stringOptions.includes(val)) {
+        //   stringOptions.push(val)
+        // }
+        done(val, 'add-unique')
+      }
+    },
+    filterFn (val, update) {
+      update(() => {
+        if (val === '') {
+          this.filterOptions = stringOptions
+        } else {
+          const needle = val.toLowerCase()
+          this.filterOptions = stringOptions.filter(
+            v => v.toLowerCase().indexOf(needle) > -1
+          )
+        }
+      })
     }
   },
   created () {
@@ -117,10 +172,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// %TODO% faire grandir le trait avec la taille du texte rempli via JS
 // @media (min-width: 451px) {
 //   .title-input{
 //   width: 70vw;
 //   }
 // }
+.category-input {
+  width: 100px;
+}
 </style>

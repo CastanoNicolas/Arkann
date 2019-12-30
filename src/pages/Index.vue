@@ -8,7 +8,12 @@
         :options="categories"
       />
       <q-space />
-      <q-btn flat stretch dense icon="add" @click="createNewLeaf(currentTile)"/>
+      <q-btn flat dense icon="add" @click="createNewLeaf(currentTile)">
+        <q-tooltip>
+          <!-- %TODO% get the name of the parent tile : create a new [parentTile] -->
+          {{$t('newInstanceDescr')}}
+        </q-tooltip>
+      </q-btn>
     </q-toolbar>
       <div class="cards row q-pa-md q-gutter-md items-start">
           <div
@@ -19,9 +24,9 @@
             <!-- Branch card -->
             <q-card
               class="my-card"
-              v-if="card.type === 'branch'"
+              v-if="card.type === 'branch'">
+              <q-card-section class="my-card-body bg-teal text-white justify-between flex"
               @click="changeActiveTile(card.id)">
-              <q-card-section class="my-card-body bg-teal text-white justify-between flex">
                 <div class="self-end">
                   <div class="text-h6">{{card.displayName}}</div>
                   <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
@@ -47,7 +52,7 @@
                   @click="createNewLeaf(card.id)"
                   >
                   <q-list>
-                    <q-item clickable v-close-popup @click="onItemClick">
+                    <q-item clickable v-close-popup @click="createNewLeaf(card.id)">
                       <q-item-section avatar>
                         <q-avatar icon="description" color="primary" text-color="white" />
                       </q-item-section>
@@ -57,7 +62,7 @@
                       </q-item-section>
                     </q-item>
 
-                    <q-item clickable v-close-popup @click="onItemClick">
+                    <q-item clickable v-close-popup @click="createNewCategory(card.id)">
                       <q-item-section avatar>
                         <q-avatar icon="account_tree" color="secondary" text-color="white" />
                       </q-item-section>
@@ -83,6 +88,7 @@
             <q-card
               class="my-card"
               v-if="card.type === 'leaf'">
+              <!-- %TODO% : afficher une image par defaut ou alors une image upload par l'utilisateur -->
               <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
                 <div class="absolute-bottom">
                   <div class="text-h6">{{card.displayName}}</div>
@@ -167,12 +173,6 @@ export default {
     }
   },
   methods: {
-    onMainClick () {
-      // console.log('Clicked on main button')
-    },
-    onItemClick () {
-      // console.log('Clicked on an Item')
-    },
     PrettyPrintCat (categories) {
       var s = ''
       for (const cat of categories) {
@@ -200,6 +200,9 @@ export default {
       this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
       this.$store.commit('setCurrentTile', newLeafID)
       this.$router.push('/leafEdit')
+    },
+    createNewCategory (parentID) {
+      // %TODO%
     }
   },
   created () {

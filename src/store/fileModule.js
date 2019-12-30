@@ -72,6 +72,7 @@ export default {
           var obj = {}
           obj.fields = tile.fields
           obj.displayName = tile.displayName
+          obj.categories = tile.categories
           context.commit('setFields', obj)
         },
         error => {
@@ -111,8 +112,7 @@ export default {
         .then(tile => {
           tile.fields = payload.obj.fields
           tile.displayName = payload.obj.displayName
-          console.log(tile)
-          console.log(tile.type)
+          tile.categories = payload.obj.categories
           helpers.saveFileByID(context, payload.ID, tile, tile.type)
         },
         error => {

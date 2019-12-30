@@ -8,6 +8,12 @@ export default {
   newInstanceDescr: 'Créer un nouvel objet de type ',
   newDaughterCardDescr: 'Créer une nouvelle sous-catégorie',
   addReference: 'Ajouter une référence vers une autre carte',
-  RequiredField: 'Champ obligatoire',
-  Name: 'Nom'
+  requiredField: 'Champ obligatoire',
+  name: 'Nom',
+  editForm: 'Editer le formulaire',
+  save: 'Sauvegarder',
+  categories: 'Categories',
+  addCategory: 'Ajouter une categorie',
+  noSpaceAllowed: 'Espace non autorisé',
+  delete: 'Supprimer'
 }

@@ -11,6 +11,12 @@ export default {
   newInstanceDescr: 'Create a new ',
   newDaughterCardDescr: 'Create a new sub-category',
   addReference: 'Add a reference to another card',
-  RequiredField: 'Field is required',
-  Name: 'Name'
+  requiredField: 'Field is required',
+  name: 'Name',
+  editForm: 'Edit the form',
+  save: 'Save',
+  categories: 'Categories',
+  addCategory: 'Add a category',
+  noSpaceAllowed: 'No space allowed',
+  delete: 'Delete'
 }
