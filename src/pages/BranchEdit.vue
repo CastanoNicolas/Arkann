@@ -48,7 +48,7 @@
       <div
         class="q-gutter-md"
         v-for="field in fields.fields"
-        :key="field.fieldName">
+        :key="field.fieldID">
         <!-- edit of a question -->
         <div class="q-gutter-sm q-pa-sm">
           <q-input  dense outlined autogrow v-model="field.fieldName">
@@ -67,8 +67,9 @@
         </div>
       </div>
 
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" color="primary" />
+      <q-page-sticky position="bottom-right" :offset="[20, 20]">
+        <q-btn fab-mini icon="add" color="primary"
+        @click="addField"/>
       </q-page-sticky>
   </q-page>
 </template>
@@ -155,6 +156,15 @@ export default {
           )
         }
       })
+    },
+    addField () {
+      const fieldID = require('uuid/v1')()
+      var newField = {
+        'fieldID': fieldID,
+        'fieldName': '',
+        'fieldType': false
+      }
+      this.fields.fields.push(newField)
     }
   },
   created () {

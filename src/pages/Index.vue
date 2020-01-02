@@ -191,6 +191,7 @@ export default {
       this.$router.push('/leafEdit')
     },
     createNewLeaf (parentID) {
+      // %TODO% faire un import pour as require plusieurs fois
       const newLeafID = require('uuid/v1')()
 
       this.$store.dispatch('createLeaf', {
