@@ -62,7 +62,7 @@
                       </q-item-section>
                     </q-item>
 
-                    <q-item clickable v-close-popup @click="createNewCategory(card.id)">
+                    <q-item clickable v-close-popup @click="createNewBranch(card.id)">
                       <q-item-section avatar>
                         <q-avatar icon="account_tree" color="secondary" text-color="white" />
                       </q-item-section>
@@ -77,7 +77,8 @@
                   unelevated
                   color="grey-4"
                   icon="edit"
-                  text-color="dark">
+                  text-color="dark"
+                  @click="editBranch(card.id)">
                 </q-btn>
               </q-card-actions>
               <!-- END Dropdown -->
@@ -202,7 +203,12 @@ export default {
       this.$store.commit('setCurrentTile', newLeafID)
       this.$router.push('/leafEdit')
     },
-    createNewCategory (parentID) {
+    editBranch (id) {
+      this.$store.commit('setParentTile', this.currentTile)
+      this.$store.commit('setCurrentTile', id)
+      this.$router.push('/branchEdit')
+    },
+    createNewBranch (parentID) {
       const newBranchID = require('uuid/v1')()
 
       this.$store.dispatch('createBranch', {

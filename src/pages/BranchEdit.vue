@@ -47,13 +47,13 @@
 
       <div
         class="q-gutter-md"
-        v-for="field in fields.fields"
+        v-for="(field, index) in fields.fields"
         :key="field.fieldID">
         <!-- edit of a question -->
         <div class="q-gutter-sm q-pa-sm">
           <q-input  dense outlined autogrow v-model="field.fieldName">
             <template v-slot:after>
-              <q-btn flat dense color="grey-7" icon="close">
+              <q-btn flat dense color="grey-7" icon="close" @click="deleteField(index)">
                 <q-tooltip> {{$t('delete')}} </q-tooltip>
               </q-btn>
             </template>
@@ -165,6 +165,9 @@ export default {
         'fieldType': false
       }
       this.fields.fields.push(newField)
+    },
+    deleteField (index) {
+      this.fields.fields.splice(index, 1)
     }
   },
   created () {
