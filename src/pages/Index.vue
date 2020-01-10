@@ -23,21 +23,21 @@
 
             <!-- Branch card -->
             <q-card
-              class="my-card"
+              class="my-card-length"
               v-if="card.type === 'branch'">
               <q-card-section class="my-card-body bg-teal text-white justify-between flex"
               @click="changeActiveTile(card.id)">
-                <div class="self-end">
-                  <div class="text-h6">{{card.displayName}}</div>
-                  <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
-                </div>
-                <div class="self-start" align="right">
+                <div class="my-card-length" align="right">
                   <!-- nombre d'instance -->
-                  <div v-if="card.nbInstance > 1">{{card.nbInstance + " " + card.displayName.toLowerCase() + "s"}}</div>
-                  <div v-if="card.nbInstance <= 1">{{card.nbInstance + " " + card.displayName.toLowerCase()}}</div>
+                  <div class="no-overflow" v-if="card.nbInstance > 1">{{card.nbInstance + " " + card.displayName.toLowerCase() + "s"}}</div>
+                  <div class="no-overflow" v-if="card.nbInstance <= 1">{{card.nbInstance + " " + card.displayName.toLowerCase()}}</div>
                    <!-- nombre de sous categorie -->
-                  <div v-if="card.nbSubCategories > 1">{{card.nbSubCategories + " " + $t('DaughterCardPl').toLowerCase()}}</div>
-                  <div v-if="card.nbSubCategories <= 1">{{card.nbSubCategories + " " + $t('DaughterCard').toLowerCase()}}</div>
+                  <div class="no-overflow" v-if="card.nbSubCategories > 1">{{card.nbSubCategories + " " + $t('DaughterCardPl').toLowerCase()}}</div>
+                  <div class="no-overflow" v-if="card.nbSubCategories <= 1">{{card.nbSubCategories + " " + $t('DaughterCard').toLowerCase()}}</div>
+                </div>
+                <div class="my-card-length">
+                  <div class="text-h6 no-overflow">{{card.displayName}}</div>
+                  <div class="text-subtitle2 no-overflow">{{PrettyPrintCat(card.categories)}}</div>
                 </div>
               </q-card-section>
 
@@ -87,7 +87,7 @@
 
             <!-- Leaf card -->
             <q-card
-              class="my-card"
+              class="my-card-length"
               v-if="card.type === 'leaf'">
               <!-- %TODO% : afficher une image par defaut ou alors une image upload par l'utilisateur -->
               <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
@@ -230,22 +230,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// width of no-overflow must match the card length
 @media (max-width: 470px) {
-  .my-card{
+  .my-card-length{
     width: 90vw;
     min-width: 200px;
     max-width: 450px;
   }
+  .no-overflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 }
 @media (min-width: 471px) and (max-width: 1500px) {
-  .my-card{
+  .my-card-length{
     width: 250px;
   }
+  .no-overflow{
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 }
 @media (min-width: 1501px){
-  .my-card{
+  .my-card-length{
     width: 300px;
   }
+  .no-overflow{
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 }
 .my-card-button{
   height: 50px;
