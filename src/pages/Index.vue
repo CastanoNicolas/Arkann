@@ -17,7 +17,7 @@
       <q-space />
       <q-btn flat dense icon="add" @click="createNewLeaf(currentTile)">
         <q-tooltip>
-          <!-- %TODO% get the name of the parent tile : create a new [parentTile] -->
+          <!-- %TODO% get the name of the parent tile : create a new [parent Tile] -->
           {{$t('newInstanceDescr')}}
         </q-tooltip>
       </q-btn>
@@ -184,12 +184,10 @@ export default {
       return s
     },
     changeActiveTile (id) {
-      this.$store.commit('setParentTile', this.currentTile)
       this.$store.commit('setCurrentTile', id)
       this.$store.dispatch('getCards', this.currentTile)
     },
     editLeaf (id) {
-      this.$store.commit('setParentTile', this.currentTile)
       this.$store.commit('setCurrentTile', id)
       this.$router.push('/leafEdit')
     },
@@ -201,12 +199,10 @@ export default {
         'parentID': parentID,
         'ID': newLeafID
       })
-      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
       this.$store.commit('setCurrentTile', newLeafID)
       this.$router.push('/leafEdit')
     },
     editBranch (id) {
-      this.$store.commit('setParentTile', this.currentTile)
       this.$store.commit('setCurrentTile', id)
       this.$router.push('/branchEdit')
     },
@@ -217,7 +213,6 @@ export default {
         'parentID': parentID,
         'ID': newBranchID
       })
-      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
       this.$store.commit('setCurrentTile', newBranchID)
       this.$router.push('/branchEdit')
     },

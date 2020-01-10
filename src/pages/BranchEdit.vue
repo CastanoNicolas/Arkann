@@ -93,31 +93,22 @@ export default {
     branchFields () {
       // %TODO% use lodash
       var a = this.$store.state.fileModule.fields
-      console.log('Fields:')
-      console.log(a)
       return a
     },
     currentTile () {
       var a = this.$store.state.navigationModule.currentTile
-      console.log('(computed) : Current Tile :')
-      console.log(a)
       return a
     },
     tileExists () {
       return this.$store.state.fileModule.tileExists
-    },
-    parentTile () {
-      return this.$store.state.navigationModule.parentTile
     }
   },
   watch: {
     currentTile (currentTile) {
-      console.log('currentTIle watcher: currentileChanged')
       this.$store.dispatch('getFields', this.currentTile)
     },
     branchFields (branchFields) {
       this.fields = JSON.parse(JSON.stringify(branchFields))
-      console.log('branchFields')
     },
     tileExists (tileExists) {
       if (this.tileExists) {
@@ -133,12 +124,8 @@ export default {
       })
     },
     deleteInstance () {
-      // %TODO% gérer l'arbre de tile pour faire des retours successifs
-      this.$store.commit('setCurrentTile', this.parentTile)
-      this.$store.dispatch('deleteTile', {
-        'ID': this.currentTile,
-        'parentID': this.parentTile
-      })
+      this.$store.dispatch('deleteTile', this.currentTile)
+      this.$store.commit('setPreviousTile')
       this.$router.push('')
     },
     createValue (val, done) {
@@ -175,8 +162,6 @@ export default {
     }
   },
   created () {
-    console.log('creation de branchEdit :')
-    console.log(this.tileExists)
     if (this.tileExists) {
       this.$store.dispatch('getFields', this.currentTile)
     }

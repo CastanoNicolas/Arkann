@@ -1,7 +1,7 @@
 export default {
   state: {
     currentTile: 'root',
-    parentTile: [],
+    previousTiles: [],
     rootTile: 'root',
     previousTile: '',
     editing: false,
@@ -10,12 +10,15 @@ export default {
   },
   mutations: {
     setCurrentTile (state, ID) {
-      console.log('Rentre dans set current TIle')
-      state.currentTile = ID
-      console.log(state.currentTile)
+      if (ID !== state.currentTile) {
+        state.previousTiles.push(state.currentTile)
+        state.currentTile = ID
+      }
     },
-    setParentTile (state, parent) {
-      state.parentTile = parent
+    setPreviousTile (state) {
+      if (state.previousTiles.length > 0) {
+        state.currentTile = state.previousTiles.pop()
+      }
     },
     setEditing (state) {
       state.editing = true
@@ -49,7 +52,7 @@ export default {
     currentTile (state) {
       return state.curentTile
     },
-    parentTile (state) {
+    previousTiles (state) {
       return state.curentTile
     },
     editing (state) {
