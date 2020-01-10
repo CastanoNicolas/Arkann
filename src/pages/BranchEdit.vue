@@ -126,7 +126,7 @@ export default {
     deleteInstance () {
       this.$store.dispatch('deleteTile', this.currentTile)
       this.$store.commit('setPreviousTile')
-      this.$router.push('')
+      this.$router.push('/')
     },
     createValue (val, done) {
       if (val.length > 0) {

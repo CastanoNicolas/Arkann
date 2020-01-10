@@ -216,10 +216,10 @@ export default {
             .then(parent => {
               var payload = {
                 'ID': childID,
-                'parentID': child.parent
+                'parentID': parent.id
               }
               context.commit('removeChildFromParent', payload)
-              helpers.saveFileByID(context, parent.ID, parent, parent.type)
+              helpers.saveFileByID(context, parent.id, parent, parent.type)
               helpers.deleteFileByID(context, payload.ID)
             })
         })
