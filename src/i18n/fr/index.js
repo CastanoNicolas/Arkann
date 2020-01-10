@@ -15,5 +15,6 @@ export default {
   categories: 'Categories',
   addCategory: 'Ajouter une categorie',
   noSpaceAllowed: 'Espace non autorisé',
-  delete: 'Supprimer'
+  delete: 'Supprimer',
+  complexFormatting: 'Editeur de texte avancé'
 }

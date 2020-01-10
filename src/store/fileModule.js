@@ -49,8 +49,17 @@ export default {
     updateFileCache (state, payload) {
       state.filesRead[payload.ID] = payload.object
     },
+    removeFromFileCache (state, ID) {
+      state.filesRead.splice(ID, 1)
+    },
     updateLookupTable (state, payload) {
       state.lookupTable[payload.ID] = payload.path
+    },
+    removeChildFromParent (state, payload) {
+      var childID = payload.ID
+      var parentID = payload.parentID
+      var childs = state.filesRead[parentID].childs
+      childs.splice(childs.indexOf(childID), 1)
     }
   },
   actions: {
@@ -201,6 +210,16 @@ export default {
           })
           context.commit('setTileExists', true)
         })
+    },
+    deleteTile (context, payload) {
+      context.commit('removeFromFileCache', payload.ID)
+      helpers.getFileFromID(context.state, payload.parentID)
+        .then(parent => {
+          context.commit('removeChildFromParent', payload)
+          helpers.saveFileByID(context, parent.ID, parent, parent.type)
+          helpers.deleteFileByID(context, payload.ID)
+        })
+      // supprimer le fichier
     }
   },
   getters: {
