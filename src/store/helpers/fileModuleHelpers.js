@@ -113,6 +113,9 @@ const helpers = {
   getLookupTablePath (state) {
     return state.currentWorldPath + 'lookupTable.json'
   },
+  getWorldInfoPath (state) {
+    return state.currentWorldPath + 'worldInfo.json'
+  },
   buildCard (context, childTile) {
     // build the card object
     var card = {

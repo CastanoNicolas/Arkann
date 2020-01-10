@@ -12,8 +12,8 @@ export default {
     filesRead: {},
     cardsCategories: [
       { label: 'All', value: 'All' }
-    ]
-
+    ],
+    globalCategories: {}
   },
   mutations: {
     resetCards (state) {
@@ -36,6 +36,12 @@ export default {
     },
     addCategories (state, category) {
       state.cardsCategories.push(category)
+    },
+    resetGlobalCategories (state) {
+      state.globalCategories = {}
+    },
+    setGlobalCategories (state, globalCategories) {
+      state.globalCategories = globalCategories
     },
     resetFields (state) {
       state.fields = []
@@ -83,6 +89,26 @@ export default {
           obj.displayName = tile.displayName
           obj.categories = tile.categories
           context.commit('setFields', obj)
+        },
+        error => {
+          console.log(error)
+          context.commit('setErrorCode', -1)
+        })
+    },
+    getGlobalCategories (context, ID) {
+      // get all the categories of the current project
+      context.commit('resetGlobalCategories')
+
+      helpers.getFile(helpers.getWorldInfoPath(context.state))
+        .then(data => {
+          var tab = []
+          var obj = JSON.parse(data)
+          for (const cat of obj.categories) {
+            tab.push(cat)
+          }
+          console.log('Lobject')
+          console.log(tab)
+          context.commit('setGlobalCategories', tab)
         },
         error => {
           console.log(error)
@@ -237,6 +263,9 @@ export default {
     },
     cardsCategories (state) {
       return state.cardsCategories
+    },
+    globalCategories (state) {
+      return state.globalCategories
     }
   }
 }

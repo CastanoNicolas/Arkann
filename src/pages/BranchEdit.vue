@@ -75,15 +75,12 @@
 </template>
 
 <script>
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
 export default {
   name: 'name',
   data () {
     return {
       fields: [],
-      filterOptions: stringOptions
+      filterOptions: this.globalCategories
     }
   },
   computed: {
@@ -108,6 +105,12 @@ export default {
     },
     parentTile () {
       return this.$store.state.navigationModule.parentTile
+    },
+    globalCategories () {
+      var a = this.$store.state.fileModule.globalCategories
+      console.log('global categories:')
+      console.log(a)
+      return a
     }
   },
   watch: {
@@ -160,10 +163,10 @@ export default {
     filterFn (val, update) {
       update(() => {
         if (val === '') {
-          this.filterOptions = stringOptions
+          this.filterOptions = this.globalCategories
         } else {
           const needle = val.toLowerCase()
-          this.filterOptions = stringOptions.filter(
+          this.filterOptions = this.globalCategories.filter(
             v => v.toLowerCase().indexOf(needle) > -1
           )
         }
