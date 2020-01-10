@@ -9,6 +9,10 @@ export default {
     browsing: true
   },
   mutations: {
+    resetNavigation (state) {
+      state.previousTiles = []
+      state.currentTile = state.rootTile
+    },
     setCurrentTile (state, ID) {
       if (ID !== state.currentTile) {
         state.previousTiles.push(state.currentTile)

@@ -5,6 +5,13 @@
         flat
         stretch
         style="primary"
+        icon="arrow_back"
+        @click="previous"
+        />
+        <q-btn
+        flat
+        stretch
+        style="primary"
         icon="home"
         @click="homeMenu"
         />
@@ -217,11 +224,17 @@ export default {
       this.$router.push('/branchEdit')
     },
     homeMenu () {
-      this.changeActiveTile(this.rootTile)
+      this.$store.commit('resetNavigation')
+      this.$store.dispatch('getCards', this.currentTile)
+    },
+    previous () {
+      this.$store.commit('setPreviousTile')
+      this.$store.dispatch('getCards', this.currentTile)
     }
   },
   created () {
     this.$store.commit('setCurrentTile', this.rootTile)
+    this.$store.commit('resetNavigation')
     if (this.canRequestCards) {
       this.$store.dispatch('getCards', this.currentTile)
     }
