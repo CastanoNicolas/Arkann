@@ -115,14 +115,6 @@ export default {
     }
   },
   watch: {
-    error (errorCode) {
-      if (errorCode === 0) {
-        // nothing's wrong
-      } else {
-        alert(this.$t('error'))
-        // code unhandled
-      }
-    },
     currentTile (currentTile) {
       this.$store.dispatch('getFields', this.currentTile)
     },

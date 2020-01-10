@@ -1,6 +1,13 @@
 <template>
   <q-page>
     <q-toolbar class="bg-grey-4 text-grey-7 ">
+      <q-btn
+        flat
+        stretch
+        style="primary"
+        icon="home"
+        @click="homeMenu"
+        />
       <q-btn-toggle
         v-model="activeCategory"
         flat stretch
@@ -144,6 +151,9 @@ export default {
     },
     currentTile () {
       return this.$store.state.navigationModule.currentTile
+    },
+    rootTile () {
+      return this.$store.state.navigationModule.rootTile
     }
   },
   watch: {
@@ -161,14 +171,6 @@ export default {
     canRequestCards (canRequestCards) {
       if (this.canRequestCards) {
         this.$store.dispatch('getCards', this.currentTile)
-      }
-    },
-    error (errorCode) {
-      if (errorCode === 0) {
-        // nothing's wrong
-      } else {
-        alert(this.$t('error'))
-        // code unhandled
       }
     }
   },
@@ -211,10 +213,13 @@ export default {
       this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
       this.$store.commit('setCurrentTile', newBranchID)
       this.$router.push('/branchEdit')
+    },
+    homeMenu () {
+      this.changeActiveTile(this.rootTile)
     }
   },
   created () {
-    this.$store.commit('setCurrentTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+    this.$store.commit('setCurrentTile', this.rootTile)
     if (this.canRequestCards) {
       this.$store.dispatch('getCards', this.currentTile)
     }

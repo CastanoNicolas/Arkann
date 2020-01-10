@@ -1,7 +1,8 @@
 export default {
   state: {
     currentTile: 'root',
-    parentTile: '',
+    parentTile: [],
+    rootTile: 'root',
     previousTile: '',
     editing: false,
     viewing: false,
@@ -30,6 +31,9 @@ export default {
       state.browing = true
       state.editing = false
       state.viewing = false
+    },
+    setRootTile (state, ID) {
+      state.rootTile = ID
     }
   },
   actions: {
