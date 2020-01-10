@@ -19,7 +19,7 @@
         </q-btn>
         <!-- %TODO% Message de confirmation -->
         <!-- Si suppression alors remonté les cartes filles ? -->
-        <q-btn flat dense icon="delete">
+        <q-btn flat dense icon="delete" @click="deleteInstance">
           <q-tooltip> {{$t('delete')}} </q-tooltip>
         </q-btn>
       </q-toolbar>
@@ -105,6 +105,9 @@ export default {
     },
     tileExists () {
       return this.$store.state.fileModule.tileExists
+    },
+    parentTile () {
+      return this.$store.state.navigationModule.parentTile
     }
   },
   watch: {
@@ -136,6 +139,15 @@ export default {
         'ID': this.currentTile,
         'obj': this.fields
       })
+    },
+    deleteInstance () {
+      // %TODO% gérer l'arbre de tile pour faire des retours successifs
+      this.$store.commit('setCurrentTile', this.parentTile)
+      this.$store.dispatch('deleteTile', {
+        'ID': this.currentTile,
+        'parentID': this.parentTile
+      })
+      this.$router.push('')
     },
     createValue (val, done) {
       if (val.length > 0) {

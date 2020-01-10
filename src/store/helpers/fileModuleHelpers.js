@@ -5,6 +5,7 @@ const helpers = {
     return new Promise((resolve, reject) => {
       if (Platform.is.electron) {
         try {
+          // %TODO% make a global import
           const fs = require('fs')
           fs.readFile(path, 'utf-8', (error, data) => {
             if (error) {
@@ -44,6 +45,14 @@ const helpers = {
         // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
       }
     })
+  },
+  deleteFile (path) {
+    try {
+      const fs = require('fs')
+      fs.unlinkSync(path)
+    } catch (err) {
+      console.error(err)
+    }
   },
   getFileFromID (state, ID) {
     // %TODO% CHECK the ID  and check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
@@ -129,6 +138,12 @@ const helpers = {
       }
     }
     return card
+  },
+  deleteFileByID (context, ID) {
+    // get the file path
+    var path = helpers.getFilePathFromID(context.state, ID)
+    // call helpers.deleteFile(path)
+    helpers.deleteFile(path)
   }
 }
 
