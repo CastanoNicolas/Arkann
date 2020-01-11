@@ -76,7 +76,7 @@ export default {
         'tile': id,
         'action': 'edit'
       })
-      // context.dispatch('getFields', id)
+      context.dispatch('getFields', id)
     },
     // view a tile and save the old userState (through changeUserState)
     view (context, id) {

@@ -39,9 +39,11 @@ export default {
     },
     resetFields (state) {
       state.fields = []
+      console.log('resetFields')
     },
     setFields (state, tileFields) {
       state.fields = tileFields
+      console.log('setFields')
     },
     setTileExists (state, bool) {
       state.tileExists = bool
@@ -74,6 +76,7 @@ export default {
         })
     },
     getFields (context, ID) {
+      console.log('getFields')
       var state = context.state
       context.commit('resetFields')
 
