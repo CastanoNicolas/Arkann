@@ -132,8 +132,7 @@ export default {
     },
     deleteInstance () {
       this.$store.dispatch('deleteTile', this.currentTile)
-      this.$store.commit('setPreviousTile')
-      this.$router.push('/')
+      this.$store.dispatch('previous')
     },
     createValue (val, done) {
       if (val.length > 0) {
@@ -174,9 +173,9 @@ export default {
     }
   },
   created () {
-    if (this.tileExists) {
-      this.$store.dispatch('getFields', this.currentTile)
-    }
+    // if (this.tileExists) {
+    this.$store.dispatch('getFields', this.currentTile)
+    // }
   }
 }
 </script>

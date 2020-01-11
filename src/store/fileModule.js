@@ -67,6 +67,7 @@ export default {
       helpers.getFile(helpers.getLookupTablePath(context.state))
         .then(data => {
           context.commit('setLookupTable', JSON.parse(data))
+          context.dispatch('getFields', context.rootState.navigationModule.currentTile)
         },
         err => {
           console.log(err)

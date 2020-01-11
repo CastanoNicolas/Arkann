@@ -232,9 +232,6 @@ export default {
   },
   created () {
     this.$store.commit('resetNavigation')
-    if (this.canRequestCards) {
-      this.$store.dispatch('getCards', this.currentTile)
-    }
   }
 }
 </script>
