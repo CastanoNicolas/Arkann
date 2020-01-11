@@ -173,9 +173,9 @@ export default {
     }
   },
   created () {
-    // if (this.tileExists) {
-    this.$store.dispatch('getFields', this.currentTile)
-    // }
+    if (this.tileExists) {
+      this.$store.dispatch('getFields', this.currentTile)
+    }
   }
 }
 </script>

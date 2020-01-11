@@ -231,7 +231,6 @@ export default {
     }
   },
   created () {
-    this.$store.commit('resetNavigation')
   }
 }
 </script>

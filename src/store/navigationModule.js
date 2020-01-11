@@ -43,6 +43,7 @@ export default {
   actions: {
     initNavigationModule (context) {
       context.commit('setRootTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      context.commit('resetNavigation')
     },
     /*
       payload : {
