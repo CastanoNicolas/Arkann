@@ -1,5 +1,12 @@
 <template>
   <q-page class="q-pa-md">
+        <q-btn
+        flat
+        stretch
+        style="primary"
+        icon="arrow_back"
+        @click="previous"
+        />
       <q-toolbar class="bg-grey-4 text-grey-7">
         <div>
           <!-- %TODO% ajuster la taille du q-input avec son contenant -->
@@ -147,6 +154,11 @@ export default {
           )
         }
       })
+    },
+    previous () {
+      // this.$store.commit('setPreviousTile')
+      // this.$router.push('/')
+      this.$store.dispatch('previous', this.currentTile)
     },
     addField () {
       const fieldID = require('uuid/v1')()

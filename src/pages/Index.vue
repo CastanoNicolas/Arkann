@@ -191,11 +191,10 @@ export default {
       return s
     },
     changeActiveTile (id) {
-      this.$store.commit('setCurrentTile', id)
-      this.$store.dispatch('getCards', this.currentTile)
+      this.$store.dispatch('browse', id)
     },
     editLeaf (id) {
-      this.$store.commit('setCurrentTile', id)
+      this.$store.dispatch('edit', id)
       this.$router.push('/leafEdit')
     },
     createNewLeaf (parentID) {
@@ -206,11 +205,11 @@ export default {
         'parentID': parentID,
         'ID': newLeafID
       })
-      this.$store.commit('setCurrentTile', newLeafID)
+      this.$store.dispatch('edit', newLeafID)
       this.$router.push('/leafEdit')
     },
     editBranch (id) {
-      this.$store.commit('setCurrentTile', id)
+      this.$store.dispatch('edit', id)
       this.$router.push('/branchEdit')
     },
     createNewBranch (parentID) {
@@ -220,7 +219,7 @@ export default {
         'parentID': parentID,
         'ID': newBranchID
       })
-      this.$store.commit('setCurrentTile', newBranchID)
+      this.$store.dispatch('edit', newBranchID)
       this.$router.push('/branchEdit')
     },
     homeMenu () {
@@ -228,12 +227,10 @@ export default {
       this.$store.dispatch('getCards', this.currentTile)
     },
     previous () {
-      this.$store.commit('setPreviousTile')
-      this.$store.dispatch('getCards', this.currentTile)
+      this.$store.dispatch('previous')
     }
   },
   created () {
-    this.$store.commit('setCurrentTile', this.rootTile)
     this.$store.commit('resetNavigation')
     if (this.canRequestCards) {
       this.$store.dispatch('getCards', this.currentTile)
