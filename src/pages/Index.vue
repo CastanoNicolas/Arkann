@@ -175,11 +175,6 @@ export default {
           card.isDisplayable = false
         }
       }
-    },
-    canRequestCards (canRequestCards) {
-      if (this.canRequestCards) {
-        this.$store.dispatch('getCards', this.currentTile)
-      }
     }
   },
   methods: {
