@@ -1,5 +1,13 @@
 <template>
   <q-page class="q-pa-md">
+        <q-btn
+        flat
+        stretch
+        style="primary"
+        icon="arrow_back"
+        @click="previous"
+        />
+        <p>{{fields.length}}</p>
       <q-toolbar class="bg-grey-4 text-grey-7">
         <div>
           <!-- %TODO% ajuster la taille du q-input avec son contenant -->
@@ -79,32 +87,21 @@ export default {
   name: 'name',
   data () {
     return {
-      fields: [],
       filterOptions: this.globalCategories
     }
   },
   computed: {
-    errorCode () {
-      return this.$store.state.fileModule.errorCode
-    },
-    branchFields () {
+    fields () {
       // %TODO% use lodash
       var a = this.$store.state.fileModule.fields
-      console.log('Fields:')
-      console.log(a)
-      return a
+      return JSON.parse(JSON.stringify(a))
     },
     currentTile () {
       var a = this.$store.state.navigationModule.currentTile
-      console.log('(computed) : Current Tile :')
-      console.log(a)
       return a
     },
     tileExists () {
       return this.$store.state.fileModule.tileExists
-    },
-    parentTile () {
-      return this.$store.state.navigationModule.parentTile
     },
     globalCategories () {
       var a = this.$store.state.fileModule.globalCategories
@@ -114,14 +111,6 @@ export default {
     }
   },
   watch: {
-    currentTile (currentTile) {
-      console.log('currentTIle watcher: currentileChanged')
-      this.$store.dispatch('getFields', this.currentTile)
-    },
-    branchFields (branchFields) {
-      this.fields = JSON.parse(JSON.stringify(branchFields))
-      console.log('branchFields')
-    },
     tileExists (tileExists) {
       if (this.tileExists) {
         this.$store.dispatch('getFields', this.currentTile)
@@ -136,19 +125,11 @@ export default {
       })
     },
     deleteInstance () {
-      // %TODO% gérer l'arbre de tile pour faire des retours successifs
-      this.$store.commit('setCurrentTile', this.parentTile)
-      this.$store.dispatch('deleteTile', {
-        'ID': this.currentTile,
-        'parentID': this.parentTile
-      })
-      this.$router.push('')
+      this.$store.dispatch('deleteTile', this.currentTile)
+      this.$store.dispatch('previous')
     },
     createValue (val, done) {
       if (val.length > 0) {
-        // if (!stringOptions.includes(val)) {
-        //   stringOptions.push(val)
-        // }
         done(val, 'add-unique')
       }
     },
@@ -164,6 +145,9 @@ export default {
         }
       })
     },
+    previous () {
+      this.$store.dispatch('previous', this.currentTile)
+    },
     addField () {
       const fieldID = require('uuid/v1')()
       var newField = {
@@ -178,19 +162,6 @@ export default {
     }
   },
   created () {
-    console.log('creation de branchEdit :')
-    console.log(this.tileExists)
-    if (this.tileExists) {
-      this.$store.dispatch('getFields', this.currentTile)
-    }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-// @media (min-width: 451px) {
-//   .title-input{
-//   width: 70vw;
-//   }
-// }
-</style>

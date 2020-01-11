@@ -9,7 +9,7 @@ export default {
   name: 'App',
   created () {
     this.$store.dispatch('init')
-    // %TODO% change were we dispatch this
+    this.$store.dispatch('initNavigationModule')
     this.$store.dispatch('getGlobalCategories')
   }
 

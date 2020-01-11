@@ -1,65 +1,116 @@
 export default {
   state: {
     currentTile: 'root',
-    parentTile: [],
+    previousUserStates: [],
     rootTile: 'root',
-    previousTile: '',
-    editing: false,
-    viewing: false,
-    browsing: true
+    action: 'browse'
   },
   mutations: {
-    setCurrentTile (state, ID) {
-      console.log('Rentre dans set current TIle')
-      state.currentTile = ID
-      console.log(state.currentTile)
+    // set the currentTile to the root one and reset the previousState
+    // %TODO% mettre le get cards la dedans pour eviter de faire appele au get card systematiquement
+    resetNavigation (state) {
+      state.previousUserStates = []
+      state.currentTile = state.rootTile
     },
-    setParentTile (state, parent) {
-      state.parentTile = parent
+
+    // payload : {
+    //   'tile': newCurrentTile,
+    //   'action': 'browse' || 'view' || 'edit'
+    // }
+    // set currentTile and action
+    setUserState (state, payload) {
+      state.currentTile = payload.tile
+      state.action = payload.action
     },
-    setEditing (state) {
-      state.editing = true
-      state.viewing = false
-      state.browsing = false
+
+    // push a userState onto previousUserStates
+    userStatePush (state, userState) {
+      state.previousUserStates.push(userState)
     },
-    setViewing (state) {
-      state.viewing = true
-      state.editing = false
-      state.browsing = false
-    },
-    setBrowing (state) {
-      state.browing = true
-      state.editing = false
-      state.viewing = false
+
+    // pop a userState from previousUserStates to set the new userState
+    userStatePop (state) {
+      if (state.previousUserStates.length > 0) {
+        var newUserState = state.previousUserStates.pop()
+        state.currentTile = newUserState.tile
+        state.action = newUserState.action
+      }
     },
     setRootTile (state, ID) {
       state.rootTile = ID
     }
   },
   actions: {
+    initNavigationModule (context) {
+      context.commit('setRootTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      context.commit('resetNavigation')
+    },
+    /*
+      payload : {
+        'tile': newCurrentTile,
+        'action': 'browse' || 'view' || 'edit'
+      }
+    changes the current userState after pushing the old one onto previousUserState
+      */
+    changeUserState (context, payload) {
+      var tile = payload.tile
+      if (tile !== context.state.currentTile) {
+        context.commit('userStatePush', {
+          'tile': context.state.currentTile,
+          'action': context.state.action
+        })
+        context.commit('setUserState', payload)
+      }
+    },
+    // browse a tile and save the old userState (through changeUserState)
+    browse (context, id) {
+      context.dispatch('changeUserState', {
+        'tile': id,
+        'action': 'browse'
+      })
+      context.dispatch('getCards', id)
+    },
+    // edit a tile and save the old userState (through changeUserState)
+    edit (context, id) {
+      context.dispatch('changeUserState', {
+        'tile': id,
+        'action': 'edit'
+      })
+      context.dispatch('getFields', id)
+    },
+    // view a tile and save the old userState (through changeUserState)
+    view (context, id) {
+      context.dispatch('changeUserState', {
+        'tile': id,
+        'action': 'view'
+      })
+    },
+    // change the currentUserState to the previous one and load the right pages accordingly
     previous (context) {
-      if (context.state.editing || context.state.viewing) {
-        context.commit('setBrowsing')
-      } else if (context.state.browing) {
-        context.dispatch('getCards', '1553cb4b-f103-4634-8d38-a415e2013e6e', { root: true })
+      var oldAction = context.state.action
+      context.commit('userStatePop')
+      var newAction = context.state.action
+
+      if (newAction === 'browse') {
+        context.dispatch('getCards', context.state.currentTile)
+        if (oldAction !== newAction) {
+          this.$router.push('/')
+        }
+      } else if (newAction === 'edit') {
+        // %TODO% recuprérer le type de la branche
+        context.dispatch('getFields', context.state.currentTile)
+        if (oldAction !== newAction) {
+          this.$router.push('/branEdit')
+        }
+      } else {
+        context.dispatch('getFields', context.state.currentTile)
+        this.$router.push('/leafEdit')
       }
     }
   },
   getters: {
     currentTile (state) {
       return state.curentTile
-    },
-    parentTile (state) {
-      return state.curentTile
-    },
-    editing (state) {
-      return state.editing
-    },
-    viewing (state) {
-      return state.viewing
-    },
-    browing (state) {
-      return state.browing
     }
   }
 }

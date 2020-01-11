@@ -89,7 +89,6 @@ const helpers = {
     relativePath += ID + '.json'
     // do we need to update the lookupTable ? (if this is a new leaf changed)
     if (typeof context.state.lookupTable[ID] === 'undefined') {
-      console.log('on rentre dans le if')
       context.commit('updateLookupTable', {
         'ID': ID,
         'path': relativePath
@@ -101,7 +100,6 @@ const helpers = {
       helpers.getFileFromID(context.state, tileObject.parent)
         .then(parentTile => {
           parentTile.childs.push(ID)
-          console.log(parentTile)
           helpers.saveFileByID(context, parentTile.id, parentTile, parentTile.type)
         })
     }

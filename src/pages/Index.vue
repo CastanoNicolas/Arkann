@@ -5,6 +5,13 @@
         flat
         stretch
         style="primary"
+        icon="arrow_back"
+        @click="previous"
+        />
+        <q-btn
+        flat
+        stretch
+        style="primary"
         icon="home"
         @click="homeMenu"
         />
@@ -17,7 +24,7 @@
       <q-space />
       <q-btn flat dense icon="add" @click="createNewLeaf(currentTile)">
         <q-tooltip>
-          <!-- %TODO% get the name of the parent tile : create a new [parentTile] -->
+          <!-- %TODO% get the name of the parent tile : create a new [parent Tile] -->
           {{$t('newInstanceDescr')}}
         </q-tooltip>
       </q-btn>
@@ -168,11 +175,6 @@ export default {
           card.isDisplayable = false
         }
       }
-    },
-    canRequestCards (canRequestCards) {
-      if (this.canRequestCards) {
-        this.$store.dispatch('getCards', this.currentTile)
-      }
     }
   },
   methods: {
@@ -184,13 +186,10 @@ export default {
       return s
     },
     changeActiveTile (id) {
-      this.$store.commit('setParentTile', this.currentTile)
-      this.$store.commit('setCurrentTile', id)
-      this.$store.dispatch('getCards', this.currentTile)
+      this.$store.dispatch('browse', id)
     },
     editLeaf (id) {
-      this.$store.commit('setParentTile', this.currentTile)
-      this.$store.commit('setCurrentTile', id)
+      this.$store.dispatch('edit', id)
       this.$router.push('/leafEdit')
     },
     createNewLeaf (parentID) {
@@ -201,13 +200,11 @@ export default {
         'parentID': parentID,
         'ID': newLeafID
       })
-      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
-      this.$store.commit('setCurrentTile', newLeafID)
+      this.$store.dispatch('edit', newLeafID)
       this.$router.push('/leafEdit')
     },
     editBranch (id) {
-      this.$store.commit('setParentTile', this.currentTile)
-      this.$store.commit('setCurrentTile', id)
+      this.$store.dispatch('edit', id)
       this.$router.push('/branchEdit')
     },
     createNewBranch (parentID) {
@@ -217,19 +214,18 @@ export default {
         'parentID': parentID,
         'ID': newBranchID
       })
-      this.$store.commit('setParentTile', this.$store.state.navigationModule.currentTile)
-      this.$store.commit('setCurrentTile', newBranchID)
+      this.$store.dispatch('edit', newBranchID)
       this.$router.push('/branchEdit')
     },
     homeMenu () {
-      this.changeActiveTile(this.rootTile)
+      this.$store.commit('resetNavigation')
+      this.$store.dispatch('getCards', this.currentTile)
+    },
+    previous () {
+      this.$store.dispatch('previous')
     }
   },
   created () {
-    this.$store.commit('setCurrentTile', this.rootTile)
-    if (this.canRequestCards) {
-      this.$store.dispatch('getCards', this.currentTile)
-    }
   }
 }
 </script>

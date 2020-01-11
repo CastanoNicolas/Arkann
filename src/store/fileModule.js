@@ -45,9 +45,11 @@ export default {
     },
     resetFields (state) {
       state.fields = []
+      console.log('resetFields')
     },
     setFields (state, tileFields) {
       state.fields = tileFields
+      console.log('setFields')
     },
     setTileExists (state, bool) {
       state.tileExists = bool
@@ -56,7 +58,7 @@ export default {
       state.filesRead[payload.ID] = payload.object
     },
     removeFromFileCache (state, ID) {
-      state.filesRead.splice(ID, 1)
+      delete state.filesRead[ID]
     },
     updateLookupTable (state, payload) {
       state.lookupTable[payload.ID] = payload.path
@@ -73,12 +75,14 @@ export default {
       helpers.getFile(helpers.getLookupTablePath(context.state))
         .then(data => {
           context.commit('setLookupTable', JSON.parse(data))
+          context.dispatch('getCards', context.rootState.navigationModule.currentTile)
         },
         err => {
           console.log(err)
         })
     },
     getFields (context, ID) {
+      console.log('getFields')
       var state = context.state
       context.commit('resetFields')
 
@@ -179,8 +183,7 @@ export default {
             }
             leafObject.fields.push(childField)
           }
-          console.log('parent category')
-          console.log(parentTile)
+
           // categories are inherited from their parent
           for (const parentCategory of parentTile.categories) {
             leafObject.categories.push(parentCategory)
@@ -222,8 +225,7 @@ export default {
             }
             branchObject.fields.push(childField)
           }
-          console.log('parent category')
-          console.log(parentTile)
+
           // categories are inherited from their parent
           for (const parentCategory of parentTile.categories) {
             branchObject.categories.push(parentCategory)
@@ -237,14 +239,21 @@ export default {
           context.commit('setTileExists', true)
         })
     },
-    deleteTile (context, payload) {
-      context.commit('removeFromFileCache', payload.ID)
-      helpers.getFileFromID(context.state, payload.parentID)
-        .then(parent => {
-          context.commit('removeChildFromParent', payload)
-          helpers.saveFileByID(context, parent.ID, parent, parent.type)
-          helpers.deleteFileByID(context, payload.ID)
+    deleteTile (context, childID) {
+      helpers.getFileFromID(context.state, childID)
+        .then(child => {
+          helpers.getFileFromID(context.state, child.parent)
+            .then(parent => {
+              var payload = {
+                'ID': childID,
+                'parentID': parent.id
+              }
+              context.commit('removeChildFromParent', payload)
+              helpers.saveFileByID(context, parent.id, parent, parent.type)
+              helpers.deleteFileByID(context, payload.ID)
+            })
         })
+      context.commit('removeFromFileCache', childID)
       // supprimer le fichier
     }
   },
