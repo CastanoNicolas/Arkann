@@ -86,87 +86,8 @@
 </template>
 
 <script>
+import { editMixin } from '../mixins/editMixin'
 export default {
-  name: 'name',
-  data () {
-    return {
-      fields: [],
-      filterOptions: this.globalCategories
-    }
-  },
-  computed: {
-    errorCode () {
-      return this.$store.state.fileModule.errorCode
-    },
-    leafFields () {
-      // %TODO% use lodash
-      var a = this.$store.state.fileModule.fields
-      return a
-    },
-    currentTile () {
-      var a = this.$store.state.navigationModule.currentTile
-      return a
-    },
-    tileExists () {
-      return this.$store.state.fileModule.tileExists
-    },
-    globalCategories () {
-      return this.$store.state.fileModule.globalCategories
-    }
-  },
-  watch: {
-    currentTile (currentTile) {
-      this.$store.dispatch('getFields', this.currentTile)
-    },
-    leafFields (leafFields) {
-      this.fields = JSON.parse(JSON.stringify(leafFields))
-    },
-    tileExists (tileExists) {
-      if (this.tileExists) {
-        this.$store.dispatch('getFields', this.currentTile)
-      }
-    }
-  },
-  methods: {
-    save () {
-      this.$store.dispatch('saveFields', {
-        'ID': this.currentTile,
-        'obj': this.fields
-      })
-    },
-    createValue (val, done) {
-      if (val.length > 0) {
-        // if (!stringOptions.includes(val)) {
-        //   stringOptions.push(val)
-        // }
-        done(val, 'add-unique')
-      }
-    },
-    filterFn (val, update) {
-      update(() => {
-        if (val === '') {
-          this.filterOptions = this.globalCategories
-        } else {
-          const needle = val.toLowerCase()
-          this.filterOptions = this.globalCategories.filter(
-            v => v.toLowerCase().indexOf(needle) > -1
-          )
-        }
-      })
-    }
-  },
-  created () {
-    if (this.tileExists) {
-      this.$store.dispatch('getFields', this.currentTile)
-    }
-  }
+  mixins: [editMixin]
 }
 </script>
-
-<style lang="scss" scoped>
-// @media (min-width: 451px) {
-//   .title-input{
-//   width: 70vw;
-//   }
-// }
-</style>

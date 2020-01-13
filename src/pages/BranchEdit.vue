@@ -83,71 +83,10 @@
 </template>
 
 <script>
+import { editMixin } from '../mixins/editMixin'
 export default {
-  name: 'name',
-  data () {
-    return {
-      filterOptions: this.globalCategories
-    }
-  },
-  computed: {
-    fields () {
-      // %TODO% use lodash
-      var a = this.$store.state.fileModule.fields
-      return JSON.parse(JSON.stringify(a))
-    },
-    currentTile () {
-      var a = this.$store.state.navigationModule.currentTile
-      return a
-    },
-    tileExists () {
-      return this.$store.state.fileModule.tileExists
-    },
-    globalCategories () {
-      var a = this.$store.state.fileModule.globalCategories
-      console.log('global categories:')
-      console.log(a)
-      return a
-    }
-  },
-  watch: {
-    tileExists (tileExists) {
-      if (this.tileExists) {
-        this.$store.dispatch('getFields', this.currentTile)
-      }
-    }
-  },
+  mixins: [editMixin],
   methods: {
-    save () {
-      this.$store.dispatch('saveFields', {
-        'ID': this.currentTile,
-        'obj': this.fields
-      })
-    },
-    deleteInstance () {
-      this.$store.dispatch('deleteTile', this.currentTile)
-      this.$store.dispatch('previous')
-    },
-    createValue (val, done) {
-      if (val.length > 0) {
-        done(val, 'add-unique')
-      }
-    },
-    filterFn (val, update) {
-      update(() => {
-        if (val === '') {
-          this.filterOptions = this.globalCategories
-        } else {
-          const needle = val.toLowerCase()
-          this.filterOptions = this.globalCategories.filter(
-            v => v.toLowerCase().indexOf(needle) > -1
-          )
-        }
-      })
-    },
-    previous () {
-      this.$store.dispatch('previous', this.currentTile)
-    },
     addField () {
       const fieldID = require('uuid/v1')()
       var newField = {
@@ -160,8 +99,6 @@ export default {
     deleteField (index) {
       this.fields.fields.splice(index, 1)
     }
-  },
-  created () {
   }
 }
 </script>
