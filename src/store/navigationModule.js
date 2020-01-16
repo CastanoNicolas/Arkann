@@ -86,25 +86,7 @@ export default {
     },
     // change the currentUserState to the previous one and load the right pages accordingly
     previous (context) {
-      var oldAction = context.state.action
       context.commit('userStatePop')
-      var newAction = context.state.action
-
-      if (newAction === 'browse') {
-        context.dispatch('getCards', context.state.currentTile)
-        if (oldAction !== newAction) {
-          this.$router.push('/')
-        }
-      } else if (newAction === 'edit') {
-        // %TODO% recuprérer le type de la branche
-        context.dispatch('getFields', context.state.currentTile)
-        if (oldAction !== newAction) {
-          this.$router.push('/branEdit')
-        }
-      } else {
-        context.dispatch('getFields', context.state.currentTile)
-        this.$router.push('/leafEdit')
-      }
     }
   },
   getters: {

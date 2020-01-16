@@ -146,9 +146,6 @@ export default {
     }
   },
   computed: {
-    errorCode () {
-      return this.$store.state.fileModule.errorCode
-    },
     canRequestCards () {
       return this.$store.state.fileModule.initialized
     },
@@ -173,6 +170,14 @@ export default {
           card.isDisplayable = false
         }
       }
+    },
+    canRequestCards (canRequestCards) {
+      if (this.canRequestCards) {
+        this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
+      }
+    },
+    currentTile (currentTile) {
+      this.getCards(currentTile)
     }
   },
   methods: {
@@ -185,7 +190,6 @@ export default {
     },
     changeActiveTile (id) {
       this.$store.dispatch('browse', id)
-      // getCards(id)
     },
     editLeaf (id) {
       this.$store.dispatch('edit', id)
@@ -225,8 +229,9 @@ export default {
     }
   },
   created () {
-    console.log(this)
-    this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
+    if (this.canRequestCards) {
+      this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
+    }
   }
 }
 </script>

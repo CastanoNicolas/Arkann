@@ -7,8 +7,7 @@ export const browseMixin = {
       cards: [],
       cardsCategories: [
         { label: 'All', value: 'All' }
-      ],
-      test123: ''
+      ]
     }
   },
   methods: {
@@ -64,8 +63,5 @@ export const browseMixin = {
       }
       return card
     }
-  },
-  created () {
-    console.log('browxse created')
   }
 }
