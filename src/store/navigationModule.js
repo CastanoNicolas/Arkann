@@ -36,8 +36,8 @@ export default {
         state.action = newUserState.action
       }
     },
-    setRootTile (state, ID) {
-      state.rootTile = ID
+    setRootTile (state, id) {
+      state.rootTile = id
     }
   },
   actions: {
@@ -75,7 +75,6 @@ export default {
         'tile': id,
         'action': 'edit'
       })
-      context.dispatch('getFields', id)
     },
     // view a tile and save the old userState (through changeUserState)
     view (context, id) {

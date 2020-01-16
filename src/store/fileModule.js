@@ -1,5 +1,3 @@
-import helpers from './helpers/fileModuleHelpers'
-
 export default {
   state: {
     cards: [],
@@ -61,205 +59,21 @@ export default {
     updateFileCache (state, payload) {
       state.filesRead[payload.id] = payload.object
     },
-    removeFromFileCache (state, ID) {
-      delete state.filesRead[ID]
+    removeFromFileCache (state, id) {
+      delete state.filesRead[id]
     },
     updateLookupTable (state, payload) {
-      state.lookupTable[payload.ID] = payload.path
+      state.lookupTable[payload.id] = payload.path
     },
     removeChildFromParent (state, payload) {
-      var childID = payload.ID
-      var parentID = payload.parentID
-      var childs = state.filesRead[parentID].childs
-      childs.splice(childs.indexOf(childID), 1)
+      var childId = payload.id
+      var parentId = payload.id
+      var childs = state.filesRead[parentId].childs
+      childs.splice(childs.indexOf(childId), 1)
     }
   },
   actions: {
-    init (context) {
-      helpers.getFile(helpers.getLookupTablePath(context.state))
-        .then(data => {
-          context.commit('setLookupTable', JSON.parse(data))
-          context.dispatch('getCards', context.rootState.navigationModule.currentTile)
-        },
-        err => {
-          console.log(err)
-        })
-    },
-    getFields (context, ID) {
-      console.log('getFields')
-      var state = context.state
-      context.commit('resetFields')
 
-      helpers.getFileFromID(state, ID)
-        .then(tile => {
-          var obj = {}
-          obj.fields = tile.fields
-          obj.displayName = tile.displayName
-          obj.categories = tile.categories
-          context.commit('setFields', obj)
-        },
-        error => {
-          console.log(error)
-          context.commit('setErrorCode', -1)
-        })
-    },
-    getGlobalCategories (context, ID) {
-      // get all the categories of the current project
-      context.commit('resetGlobalCategories')
-
-      helpers.getFile(helpers.getWorldInfoPath(context.state))
-        .then(data => {
-          var tab = []
-          var obj = JSON.parse(data)
-          for (const cat of obj.categories) {
-            tab.push(cat)
-          }
-          console.log('Lobject')
-          console.log(tab)
-          context.commit('setGlobalCategories', tab)
-        },
-        error => {
-          console.log(error)
-          context.commit('setErrorCode', -1)
-        })
-    },
-    getCards (context, ID) {
-      // %TODO% check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
-      var state = context.state
-      context.commit('resetCards')
-      context.commit('resetCategories')
-
-      helpers.getFileFromID(state, ID)
-        .then(currentTile => {
-          var childsIDs = currentTile.childs
-          for (const childID of childsIDs) {
-            helpers.getFileFromID(state, childID)
-              .then(childTile => {
-                var card = helpers.buildCard(context, childTile)
-                context.commit('addCard', card)
-              },
-              error => {
-                console.log(error)
-                context.commit('setErrorCode', -1)
-              })
-          }
-        },
-        error => {
-          console.log(error)
-          context.commit('setErrorCode', -1)
-        })
-    },
-    saveFields (context, payload) {
-      // context.commit('setFields', newFields)
-      helpers.getFileFromID(context.state, payload.ID)
-        .then(tile => {
-          tile.fields = payload.obj.fields
-          tile.displayName = payload.obj.displayName
-          tile.categories = payload.obj.categories
-          helpers.saveFileByID(context, payload.ID, tile, tile.type)
-        },
-        error => {
-          console.log(error)
-          context.commit('setErrorCode', -1)
-        })
-    },
-    createLeaf (context, payload) {
-      context.commit('setTileExists', false)
-      var leafObject = {
-        'id': payload.ID,
-        'displayName': '',
-        'parent': payload.parentID,
-        'type': 'leaf',
-        'image': '',
-        'fields': [],
-        'categories': []
-      }
-      helpers.getFileFromID(context.state, payload.parentID)
-        .then(parentTile => {
-          // get the fields declared in the parent tile
-          for (const parentField of parentTile.fields) {
-            var childField = {
-              'fieldName': parentField.fieldName,
-              'fieldType': parentField.fieldType,
-              'fieldValue': '',
-              'fieldReference': '',
-              'fieldReferenceName': ''
-            }
-            leafObject.fields.push(childField)
-          }
-
-          // categories are inherited from their parent
-          for (const parentCategory of parentTile.categories) {
-            leafObject.categories.push(parentCategory)
-          }
-
-          // information needed when the leaf is saved to know if the parent needs to be updated too
-          // leafObject.neverSaved = true
-
-          // update the file cache to be able te load this tile until it is saved
-          context.commit('updateFileCache', {
-            'id': payload.ID,
-            'object': leafObject
-          })
-          context.commit('setTileExists', true)
-        })
-    },
-    createBranch (context, payload) {
-      context.commit('setTileExists', false)
-      var branchObject = {
-        'id': payload.ID,
-        'displayName': '',
-        'parent': payload.parentID,
-        'type': 'branch',
-        'fields': [],
-        'categories': [],
-        'childs': [],
-        'nbInstance': '0',
-        'nbSubCategories': '0'
-      }
-      helpers.getFileFromID(context.state, payload.parentID)
-        .then(parentTile => {
-          // get the fields declared in the parent tile
-          const uuidv1 = require('uuid/v1')
-          for (const parentField of parentTile.fields) {
-            var childField = {
-              'fieldName': parentField.fieldName,
-              'fieldType': parentField.fieldType,
-              'fieldID': uuidv1()
-            }
-            branchObject.fields.push(childField)
-          }
-
-          // categories are inherited from their parent
-          for (const parentCategory of parentTile.categories) {
-            branchObject.categories.push(parentCategory)
-          }
-
-          // update the file cache to be able te load this tile until it is saved
-          context.commit('updateFileCache', {
-            'id': payload.ID,
-            'object': branchObject
-          })
-          context.commit('setTileExists', true)
-        })
-    },
-    deleteTile (context, childID) {
-      helpers.getFileFromID(context.state, childID)
-        .then(child => {
-          helpers.getFileFromID(context.state, child.parent)
-            .then(parent => {
-              var payload = {
-                'ID': childID,
-                'parentID': parent.id
-              }
-              context.commit('removeChildFromParent', payload)
-              helpers.saveFileByID(context, parent.id, parent, parent.type)
-              helpers.deleteFileByID(context, payload.ID)
-            })
-        })
-      context.commit('removeFromFileCache', childID)
-      // supprimer le fichier
-    }
   },
   getters: {
     cards (state) {

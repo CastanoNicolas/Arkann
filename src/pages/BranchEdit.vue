@@ -56,7 +56,7 @@
       <div
         class="q-gutter-md"
         v-for="(field, index) in fields.fields"
-        :key="field.fieldID">
+        :key="field.fieldId">
         <!-- edit of a question -->
         <div class="q-gutter-sm q-pa-sm">
           <q-input  dense outlined autogrow v-model="field.fieldName">
@@ -88,9 +88,9 @@ export default {
   mixins: [editMixin],
   methods: {
     addField () {
-      const fieldID = require('uuid/v1')()
+      const fieldId = require('uuid/v1')()
       var newField = {
-        'fieldID': fieldID,
+        'fieldId': fieldId,
         'fieldName': '',
         'fieldType': false
       }

@@ -1,6 +1,6 @@
 export default function () {
   return {
-    currentTileID: '',
+    currentTileId: '',
     editing: false
   }
 }

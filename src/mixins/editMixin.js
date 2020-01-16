@@ -1,17 +1,15 @@
+import { fileHelperMixin } from './fileHelperMixin'
+import { navigationMixin } from './navigationMixin'
+
 export const editMixin = {
+  mixins: [fileHelperMixin, navigationMixin],
   data () {
     return {
+      fields: [],
       filterOptions: this.globalCategories
     }
   },
   computed: {
-    fields () {
-      // %TODO% use lodash
-      var a = this.$store.state.fileModule.fields
-      console.log('fields is visible')
-      console.log(a)
-      return JSON.parse(JSON.stringify(a))
-    },
     currentTile () {
       var a = this.$store.state.navigationModule.currentTile
       return a
@@ -32,13 +30,19 @@ export const editMixin = {
         console.log('HIIII')
         this.$store.dispatch('getFields', this.currentTile)
       }
+    },
+    // %TODO% look if the async computed module is usable
+    currentTile (currentTile) {
+      if (this.tileExists) {
+        this.getFields(this.currentTile)
+      }
     }
   },
   methods: {
     save () {
       console.log(JSON.parse(JSON.stringify(this.fields)))
       this.$store.dispatch('saveFields', {
-        'ID': this.currentTile,
+        'id': this.currentTile,
         'obj': this.fields
       })
       console.log(JSON.parse(JSON.stringify(this.fields)))
@@ -64,8 +68,44 @@ export const editMixin = {
         }
       })
     },
-    previous () {
-      this.$store.dispatch('previous', this.currentTile)
+    getFields (id) {
+      this.fields = []
+
+      this.getFileFromId(id)
+        .then(tile => {
+          var obj = {}
+          obj.fields = tile.fields
+          obj.displayName = tile.displayName
+          obj.categories = tile.categories
+          this.fields = obj
+        },
+        error => {
+          console.log(error)
+        })
+    },
+    /*
+      payload :{
+        'id': tileId,
+        'obj': fields object
+      }
+    */
+    saveFields (payload) {
+      // context.commit('setFields', newFields)
+      this.getFileFromId(payload.id)
+        .then(tile => {
+          tile.fields = payload.obj.fields
+          tile.displayName = payload.obj.displayName
+          tile.categories = payload.obj.categories
+          this.saveFileById(payload.id, tile, tile.type)
+        },
+        error => {
+          console.log(error)
+        })
+    }
+  },
+  created () {
+    if (this.tileExists) {
+      this.getFields(this.currentTile)
     }
   }
 }

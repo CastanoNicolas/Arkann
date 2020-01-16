@@ -12,17 +12,17 @@ export const browseMixin = {
   },
   methods: {
     getCards (id) {
-      // %TODO% check if there isn't a safer way to check ID => like if there is a wrong ID what are you doing ?
+      // %TODO% check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
       this.cards = []
       this.cardsCategories = [
         { label: 'All', value: 'All' }
       ]
 
-      this.getFileFromID(id)
+      this.getFileFromId(id)
         .then(currentTile => {
-          var childsIDs = currentTile.childs
-          for (const childID of childsIDs) {
-            this.getFileFromID(childID)
+          var childsIds = currentTile.childs
+          for (const childId of childsIds) {
+            this.getFileFromId(childId)
               .then(childTile => {
                 var card = this.buildCard(childTile)
                 this.cards.push(card)

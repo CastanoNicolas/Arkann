@@ -194,36 +194,36 @@ export default {
     },
     editLeaf (id) {
       this.$store.dispatch('edit', id)
-      this.$router.push('/leafEdit')
+      this.pageUpdate('browse')
+      console.log('EDIT LEAF NOT YET IMPLEMENTED')
     },
-    createNewLeaf (parentID) {
+    createNewLeaf (parentId) {
       // %TODO% faire un import pour as require plusieurs fois
-      const newLeafID = require('uuid/v1')()
+      const newLeafId = require('uuid/v1')()
 
       this.$store.dispatch('createLeaf', {
-        'parentID': parentID,
-        'ID': newLeafID
+        'parentId': parentId,
+        'id': newLeafId
       })
-      this.$store.dispatch('edit', newLeafID)
+      this.$store.dispatch('edit', newLeafId)
       this.$router.push('/leafEdit')
     },
     editBranch (id) {
       this.$store.dispatch('edit', id)
-      this.$router.push('/branchEdit')
+      this.pageUpdate('browse')
     },
-    createNewBranch (parentID) {
-      const newBranchID = require('uuid/v1')()
+    createNewBranch (parentId) {
+      const newBranchId = require('uuid/v1')()
 
       this.$store.dispatch('createBranch', {
-        'parentID': parentID,
-        'ID': newBranchID
+        'parentId': parentId,
+        'id': newBranchId
       })
-      this.$store.dispatch('edit', newBranchID)
+      this.$store.dispatch('edit', newBranchId)
       this.$router.push('/branchEdit')
     },
     homeMenu () {
       this.$store.commit('resetNavigation')
-      this.$store.dispatch('getCards', this.currentTile)
     }
   },
   created () {
