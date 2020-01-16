@@ -1,10 +1,11 @@
 export const navigationMixin = {
-  data () {
-  },
   methods: {
     previous (currentAction) {
       this.$store.dispatch('previous')
-      if (currentAction !== this.action) {
+      this.pageUpdate(currentAction)
+    },
+    pageUpdate (oldAction) {
+      if (oldAction !== this.action) {
         if (this.action === 'browse') {
           this.$router.push('/')
         } else if (this.action === 'edit') {
@@ -21,6 +22,6 @@ export const navigationMixin = {
     },
     action () {
       return this.$store.state.navigationModule.action
-    },
+    }
   }
 }

@@ -6,7 +6,7 @@
         stretch
         style="primary"
         icon="arrow_back"
-        @click="previous"
+        @click="previous('browse')"
         />
         <q-btn
         flat
@@ -135,10 +135,11 @@
 
 <script>
 import { browseMixin } from '../mixins/browseMixin'
+import { navigationMixin } from '../mixins/navigationMixin'
 
 export default {
   name: 'name',
-  mixins: [browseMixin],
+  mixins: [browseMixin, navigationMixin],
   data () {
     return {
       activeCategory: 'All',
@@ -223,9 +224,6 @@ export default {
     homeMenu () {
       this.$store.commit('resetNavigation')
       this.$store.dispatch('getCards', this.currentTile)
-    },
-    previous () {
-      this.$store.dispatch('previous')
     }
   },
   created () {
