@@ -134,8 +134,11 @@
 </template>
 
 <script>
+import { browseMixin } from '../mixins/browseMixin'
+
 export default {
   name: 'name',
+  mixins: [browseMixin],
   data () {
     return {
       activeCategory: 'All',
@@ -146,16 +149,11 @@ export default {
     errorCode () {
       return this.$store.state.fileModule.errorCode
     },
-    cards () {
-      // %TODO% see if we can avoid deep copying it and if not use lodash
-      var a = JSON.parse(JSON.stringify(this.$store.state.fileModule.cards))
-      return a
-    },
     canRequestCards () {
       return this.$store.state.fileModule.initialized
     },
     categories () {
-      return this.$store.state.fileModule.cardsCategories
+      return this.cardsCategories
     },
     currentTile () {
       return this.$store.state.navigationModule.currentTile
@@ -187,6 +185,7 @@ export default {
     },
     changeActiveTile (id) {
       this.$store.dispatch('browse', id)
+      // getCards(id)
     },
     editLeaf (id) {
       this.$store.dispatch('edit', id)
@@ -226,6 +225,8 @@ export default {
     }
   },
   created () {
+    console.log(this)
+    this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
   }
 }
 </script>

@@ -54,8 +54,12 @@ export default {
     setTileExists (state, bool) {
       state.tileExists = bool
     },
+    // payload : {
+    //  'id': tileId
+    //  'object': the tile object
+    // }
     updateFileCache (state, payload) {
-      state.filesRead[payload.ID] = payload.object
+      state.filesRead[payload.id] = payload.object
     },
     removeFromFileCache (state, ID) {
       delete state.filesRead[ID]
@@ -194,7 +198,7 @@ export default {
 
           // update the file cache to be able te load this tile until it is saved
           context.commit('updateFileCache', {
-            'ID': payload.ID,
+            'id': payload.ID,
             'object': leafObject
           })
           context.commit('setTileExists', true)
@@ -233,7 +237,7 @@ export default {
 
           // update the file cache to be able te load this tile until it is saved
           context.commit('updateFileCache', {
-            'ID': payload.ID,
+            'id': payload.ID,
             'object': branchObject
           })
           context.commit('setTileExists', true)

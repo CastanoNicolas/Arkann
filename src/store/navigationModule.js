@@ -68,7 +68,6 @@ export default {
         'tile': id,
         'action': 'browse'
       })
-      context.dispatch('getCards', id)
     },
     // edit a tile and save the old userState (through changeUserState)
     edit (context, id) {
