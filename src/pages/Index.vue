@@ -228,7 +228,7 @@ export default {
   },
   created () {
     if (this.canRequestCards) {
-      this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
+      this.getCards(this.currentTile)
     }
   }
 }

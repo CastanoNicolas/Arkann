@@ -11,6 +11,7 @@ export default {
     resetNavigation (state) {
       state.previousUserStates = []
       state.currentTile = state.rootTile
+      console.log('reset nav')
     },
 
     // payload : {
@@ -19,6 +20,8 @@ export default {
     // }
     // set currentTile and action
     setUserState (state, payload) {
+      console.log('set')
+      console.log(payload)
       state.currentTile = payload.tile
       state.action = payload.action
     },
@@ -26,15 +29,19 @@ export default {
     // push a userState onto previousUserStates
     userStatePush (state, userState) {
       state.previousUserStates.push(userState)
+      console.log('push')
     },
 
     // pop a userState from previousUserStates to set the new userState
     userStatePop (state) {
+      console.log('pop')
       if (state.previousUserStates.length > 0) {
         var newUserState = state.previousUserStates.pop()
+        console.log(newUserState)
         state.currentTile = newUserState.tile
         state.action = newUserState.action
       }
+      console.log(state.currentTile)
     },
     setRootTile (state, id) {
       state.rootTile = id
