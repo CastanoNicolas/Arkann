@@ -40,12 +40,10 @@ export const editMixin = {
   },
   methods: {
     save () {
-      console.log(JSON.parse(JSON.stringify(this.fields)))
-      this.$store.dispatch('saveFields', {
+      this.saveFields({
         'id': this.currentTile,
         'obj': this.fields
       })
-      console.log(JSON.parse(JSON.stringify(this.fields)))
     },
     deleteInstance () {
       this.$store.dispatch('deleteTile', this.currentTile)
