@@ -1,8 +1,9 @@
 import { fileHelperMixin } from './fileHelperMixin'
 import { navigationMixin } from './navigationMixin'
+import { tileOperationsMixin } from './tileOperationsMixin'
 
 export const editMixin = {
-  mixins: [fileHelperMixin, navigationMixin],
+  mixins: [fileHelperMixin, navigationMixin, tileOperationsMixin],
   data () {
     return {
       fields: [],
@@ -46,8 +47,8 @@ export const editMixin = {
       })
     },
     deleteInstance () {
-      this.$store.dispatch('deleteTile', this.currentTile)
-      this.$store.dispatch('previous')
+      this.deleteTile(this.currentTile)
+      this.previous()
     },
     createValue (val, done) {
       if (val.length > 0) {

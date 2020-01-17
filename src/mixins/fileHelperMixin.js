@@ -108,6 +108,20 @@ export const fileHelperMixin = {
     },
     getWorldInfoPath () {
       return this.currentWorldPath + 'worldInfo.json'
+    },
+    deleteFileById (id) {
+      // get the file path
+      var path = this.getFilePathFromId(id)
+      // call deleteFile(path)
+      this.deleteFile(path)
+    },
+    deleteFile (path) {
+      try {
+        const fs = require('fs')
+        fs.unlinkSync(path)
+      } catch (err) {
+        console.error(err)
+      }
     }
   },
   computed: {
