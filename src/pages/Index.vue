@@ -136,10 +136,11 @@
 <script>
 import { browseMixin } from '../mixins/browseMixin'
 import { navigationMixin } from '../mixins/navigationMixin'
+import { tileOperationsMixin } from '../mixins/tileOperationsMixin'
 
 export default {
   name: 'name',
-  mixins: [browseMixin, navigationMixin],
+  mixins: [browseMixin, navigationMixin, tileOperationsMixin],
   data () {
     return {
       activeCategory: 'All',
@@ -209,7 +210,7 @@ export default {
       // %TODO% faire un import pour as require plusieurs fois
       const newLeafId = require('uuid/v1')()
 
-      this.$store.dispatch('createLeaf', {
+      this.createLeaf({
         'parentId': parentId,
         'id': newLeafId
       })
@@ -218,7 +219,8 @@ export default {
         'id': newLeafId,
         'type': 'leaf'
       })
-      this.$router.push('/leafEdit')
+      var currentAction = 'browse'
+      this.pageUpdate(currentAction)
     },
     editBranch (id) {
       this.$store.dispatch('edit', {
@@ -231,7 +233,7 @@ export default {
     createNewBranch (parentId) {
       const newBranchId = require('uuid/v1')()
 
-      this.$store.dispatch('createBranch', {
+      this.createBranch({
         'parentId': parentId,
         'id': newBranchId
       })
@@ -239,7 +241,8 @@ export default {
         'id': newBranchId,
         'type': 'branch'
       })
-      this.$router.push('/branchEdit')
+      var currentAction = 'browse'
+      this.pageUpdate(currentAction)
     },
     homeMenu () {
       this.$store.commit('resetNavigation')
