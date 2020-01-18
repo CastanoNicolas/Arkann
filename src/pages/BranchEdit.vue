@@ -5,7 +5,7 @@
         stretch
         style="primary"
         icon="arrow_back"
-        @click="previous"
+        @click="previous('edit')"
         />
         <p>{{fields.length}}</p>
       <q-toolbar class="bg-grey-4 text-grey-7">

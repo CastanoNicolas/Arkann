@@ -3,7 +3,8 @@ export default {
     currentTile: 'root',
     previousUserStates: [],
     rootTile: 'root',
-    action: 'browse'
+    action: 'browse',
+    type: 'branch'
   },
   mutations: {
     // set the currentTile to the root one and reset the previousState
@@ -11,37 +12,34 @@ export default {
     resetNavigation (state) {
       state.previousUserStates = []
       state.currentTile = state.rootTile
-      console.log('reset nav')
+      state.type = 'branch'
     },
 
     // payload : {
     //   'tile': newCurrentTile,
     //   'action': 'browse' || 'view' || 'edit'
+    //   'type': 'leaf' || 'branch'
     // }
     // set currentTile and action
     setUserState (state, payload) {
-      console.log('set')
-      console.log(payload)
       state.currentTile = payload.tile
       state.action = payload.action
+      state.type = payload.type
     },
 
     // push a userState onto previousUserStates
     userStatePush (state, userState) {
       state.previousUserStates.push(userState)
-      console.log('push')
     },
 
     // pop a userState from previousUserStates to set the new userState
     userStatePop (state) {
-      console.log('pop')
       if (state.previousUserStates.length > 0) {
         var newUserState = state.previousUserStates.pop()
-        console.log(newUserState)
         state.currentTile = newUserState.tile
         state.action = newUserState.action
+        state.type = newUserState.type
       }
-      console.log(state.currentTile)
     },
     setRootTile (state, id) {
       state.rootTile = id
@@ -64,30 +62,46 @@ export default {
       if (tile !== context.state.currentTile) {
         context.commit('userStatePush', {
           'tile': context.state.currentTile,
-          'action': context.state.action
+          'action': context.state.action,
+          'type': context.state.type
         })
         context.commit('setUserState', payload)
       }
     },
     // browse a tile and save the old userState (through changeUserState)
+    // payload = {
+    //   'id': tileId,
+    //   'type':  'leaf' | 'branch'
+    // }
     browse (context, id) {
       context.dispatch('changeUserState', {
         'tile': id,
-        'action': 'browse'
+        'action': 'browse',
+        'type': ''
       })
     },
     // edit a tile and save the old userState (through changeUserState)
-    edit (context, id) {
+    // payload = {
+    //   'id': tileId,
+    //   'type':  'leaf' | 'branch'
+    // }
+    edit (context, payload) {
       context.dispatch('changeUserState', {
-        'tile': id,
-        'action': 'edit'
+        'tile': payload.id,
+        'action': 'edit',
+        'type': payload.type
       })
     },
     // view a tile and save the old userState (through changeUserState)
-    view (context, id) {
+    // payload = {
+    //   'id': tileId,
+    //   'type':  'leaf' | 'branch'
+    // }
+    view (context, payload) {
       context.dispatch('changeUserState', {
-        'tile': id,
-        'action': 'view'
+        'tile': payload.id,
+        'action': 'view',
+        'type': payload.type
       })
     },
     // change the currentUserState to the previous one and load the right pages accordingly

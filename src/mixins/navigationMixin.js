@@ -8,10 +8,23 @@ export const navigationMixin = {
       if (oldAction !== this.action) {
         if (this.action === 'browse') {
           this.$router.push('/')
+          console.log('1')
         } else if (this.action === 'edit') {
-          this.$router.push('/branchEdit')
+          if (this.type === 'branch') {
+            this.$router.push('/branchEdit')
+            console.log('2')
+          } else if (this.type === 'leaf') {
+            this.$router.push('/leafEdit')
+            console.log('3')
+          }
         } else if (this.action === 'view') {
-          this.$router.push('/branchView')
+          if (this.type === 'branch') {
+            this.$router.push('/branchView')
+            console.log('4')
+          } else if (this.type === 'leaf') {
+            this.$router.push('/leafView')
+            console.log('5')
+          }
         }
       }
     }
@@ -22,6 +35,9 @@ export const navigationMixin = {
     },
     action () {
       return this.$store.state.navigationModule.action
+    },
+    type () {
+      return this.$store.state.navigationModule.type
     }
   }
 }
