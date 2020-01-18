@@ -44,7 +44,7 @@ export const tileOperationsMixin = {
     createBranch (payload) {
       this.$store.commit('setTileExists', false)
       var branchObject = {
-        'id': payload.Id,
+        'id': payload.id,
         'displayName': '',
         'parent': payload.parentId,
         'type': 'branch',

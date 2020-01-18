@@ -87,6 +87,7 @@
                     </q-item>
                   </q-list>
                 </q-btn-dropdown>
+                <!-- END Dropdown -->
                 <q-btn
                   unelevated
                   color="grey-4"
@@ -95,7 +96,6 @@
                   @click="editBranch(card.id)">
                 </q-btn>
               </q-card-actions>
-              <!-- END Dropdown -->
             </q-card>
             <!-- END Branch card -->
 
@@ -134,17 +134,21 @@
 </template>
 
 <script>
-import { browseMixin } from '../mixins/browseMixin'
+import { fileHelperMixin } from '../mixins/fileHelperMixin'
 import { navigationMixin } from '../mixins/navigationMixin'
 import { tileOperationsMixin } from '../mixins/tileOperationsMixin'
 
 export default {
   name: 'name',
-  mixins: [browseMixin, navigationMixin, tileOperationsMixin],
+  mixins: [fileHelperMixin, navigationMixin, tileOperationsMixin],
   data () {
     return {
       activeCategory: 'All',
-      isDisplayable: []
+      isDisplayable: [],
+      cards: [],
+      cardsCategories: [
+        { label: 'All', value: 'All' }
+      ]
     }
   },
   computed: {
@@ -223,6 +227,7 @@ export default {
       this.pageUpdate(currentAction)
     },
     editBranch (id) {
+      console.log(this.cards)
       this.$store.dispatch('edit', {
         'id': id,
         'type': 'branch'
@@ -246,6 +251,58 @@ export default {
     },
     homeMenu () {
       this.$store.commit('resetNavigation')
+    },
+    getCards (id) {
+      // %TODO% check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
+      this.cards = []
+      this.cardsCategories = [
+        { label: 'All', value: 'All' }
+      ]
+
+      this.getFileFromId(id)
+        .then(currentTile => {
+          var childsIds = currentTile.childs
+          for (const childId of childsIds) {
+            this.getFileFromId(childId)
+              .then(childTile => {
+                var card = this.buildCard(childTile)
+                this.cards.push(card)
+              },
+              error => {
+                console.log(error)
+              })
+          }
+        },
+        error => {
+          console.log(error)
+        })
+    },
+    // childTile is the js object corresponding to the child json file
+    buildCard (childTile) {
+      // build the card object
+      var card = {
+        id: childTile.id,
+        displayName: childTile.displayName,
+        type: childTile.type,
+        categories: childTile.categories,
+        isDisplayable: true
+      }
+      // add fields if it is a 'branch'
+      if (childTile.type === 'branch') {
+        card.nbInstance = childTile.nbInstance
+        card.nbSubCategories = childTile.nbSubCategories
+      }
+      // build an array of the categories encountered to sort tiles afterwards
+      for (const cat of childTile.categories) {
+        var toBeInserted = {
+          label: cat,
+          value: cat
+        }
+        if (!(this.cardsCategories.some(category => category.label === toBeInserted.label))) {
+          this.cardsCategories.push(toBeInserted)
+        }
+      }
+      return card
     }
   },
   created () {
