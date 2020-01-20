@@ -1,1 +1,31 @@
-{"id":"bb3ddb3e-71b7-4a04-86c2-acf29482a6e2","displayName":"Firearm","type":"branch","root":"false","parent":"1553cb4b-f103-4634-8d38-a415e2013e6e","description":"A weapon which use gunpowder.","nbInstance":"1","nbSubCategories":"0","fields":[{"fieldName":"Rarity","fieldType":false},{"fieldName":"Origin","fieldType":false},{"fieldName":"Creator","fieldType":true}],"childs":["5e03e160-2b1d-11ea-bae3-952803ad84b9"],"categories":["Gun","Object"]}
+{
+	"id": "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2",
+	"displayName": "Firearm",
+	"type": "branch",
+	"root": "false",
+	"parent": "1553cb4b-f103-4634-8d38-a415e2013e6e",
+	"description": "A weapon which use gunpowder.",
+	"nbInstance": "1",
+	"nbSubCategories": "0",
+	"fields": [
+		{
+			"fieldName": "Rarity",
+			"fieldType": false
+		},
+		{
+			"fieldName": "Origin",
+			"fieldType": false
+		},
+		{
+			"fieldName": "Creator",
+			"fieldType": true
+		}
+	],
+	"childs": [
+		"5e03e160-2b1d-11ea-bae3-952803ad84b9"
+	],
+	"categories": [
+		"Gun",
+		"Object"
+	]
+}

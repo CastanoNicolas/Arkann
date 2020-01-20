@@ -86,15 +86,17 @@ export const tileOperationsMixin = {
           this.getFileFromId(child.parent)
             .then(parent => {
               var childs = this.filesRead[parent.id].childs
-              // remove the child deleted from the parent tile
+              // remove the child tile from the parent tile
               childs.splice(childs.indexOf(childId), 1)
               this.saveFileById(parent.id, parent, parent.type)
+              
+              // remove the child tiles of the deleted tile
+
               // delete the child tile
               this.deleteFileById(childId)
+              this.$store.commit('removeFromFileCache', childId)
             })
         })
-      this.$store.commit('removeFromFileCache', childId)
-      // supprimer le fichier
     }
   },
   computed: {

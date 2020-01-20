@@ -1,1 +1,34 @@
-{"id":"5e03e160-2b1d-11ea-bae3-952803ad84b9","displayName":"famas","parent":"bb3ddb3e-71b7-4a04-86c2-acf29482a6e2","type":"leaf","image":"","fields":[{"fieldName":"Rarity","fieldType":false,"fieldValue":"special","fieldReference":"","fieldReferenceName":""},{"fieldName":"Origin","fieldType":false,"fieldValue":"st etienne","fieldReference":"","fieldReferenceName":""},{"fieldName":"Creator","fieldType":true,"fieldValue":"<b><i><u>tanguy</u></i></b>","fieldReference":"","fieldReferenceName":""}],"categories":["Gun","Object"]}
+{
+	"id": "5e03e160-2b1d-11ea-bae3-952803ad84b9",
+	"displayName": "famas",
+	"parent": "bb3ddb3e-71b7-4a04-86c2-acf29482a6e2",
+	"type": "leaf",
+	"image": "",
+	"fields": [
+		{
+			"fieldName": "Rarity",
+			"fieldType": false,
+			"fieldValue": "special",
+			"fieldReference": "",
+			"fieldReferenceName": ""
+		},
+		{
+			"fieldName": "Origin",
+			"fieldType": false,
+			"fieldValue": "st etienne",
+			"fieldReference": "",
+			"fieldReferenceName": ""
+		},
+		{
+			"fieldName": "Creator",
+			"fieldType": true,
+			"fieldValue": "<b><i><u>tanguy</u></i></b>",
+			"fieldReference": "",
+			"fieldReferenceName": ""
+		}
+	],
+	"categories": [
+		"Gun",
+		"Object"
+	]
+}

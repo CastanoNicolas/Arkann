@@ -90,11 +90,12 @@ export const editMixin = {
     */
     saveFields (payload) {
       // context.commit('setFields', newFields)
+      var obj = JSON.parse(JSON.stringify(payload.obj))
       this.getFileFromId(payload.id)
         .then(tile => {
-          tile.fields = payload.obj.fields
-          tile.displayName = payload.obj.displayName
-          tile.categories = payload.obj.categories
+          tile.fields = obj.fields
+          tile.displayName = obj.displayName
+          tile.categories = obj.categories
           this.saveFileById(payload.id, tile, tile.type)
         },
         error => {

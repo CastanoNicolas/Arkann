@@ -70,7 +70,7 @@ export const fileHelperMixin = {
           'path': relativePath
         })
         // update the lookupTableFile
-        this.saveFile(this.getLookupTablePath(), JSON.stringify(this.lookupTable))
+        this.saveFile(this.getLookupTablePath(), JSON.stringify(this.lookupTable, null, '\t'))
 
         // the parent needs to get a referencve to this child too
         this.getFileFromId(tileObject.parent)
@@ -79,7 +79,7 @@ export const fileHelperMixin = {
             this.saveFileById(parentTile.id, parentTile, parentTile.type)
           })
       }
-      return this.saveFile(this.currentWorldPath + relativePath, JSON.stringify(tileObject))
+      return this.saveFile(this.currentWorldPath + relativePath, JSON.stringify(tileObject, null, '\t'))
     },
     saveFile (path, stringFile) {
       return new Promise((resolve, reject) => {
