@@ -89,7 +89,7 @@ export const tileOperationsMixin = {
               // remove the child tile from the parent tile
               childs.splice(childs.indexOf(childId), 1)
               this.saveFileById(parent.id, parent, parent.type)
-              
+
               // remove the child tiles of the deleted tile
 
               // delete the child tile
