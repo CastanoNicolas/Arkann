@@ -16,5 +16,9 @@ export default {
   addCategory: 'Ajouter une categorie',
   noSpaceAllowed: 'Espace non autorisé',
   delete: 'Supprimer',
-  complexFormatting: 'Editeur de texte avancé'
+  complexFormatting: 'Editeur de texte avancé',
+  login: 'Se connecter',
+  register: 'S\'inscrire',
+  password: 'Mot de passe',
+  confirmPassword: 'Confirmez le Mot de passe'
 }

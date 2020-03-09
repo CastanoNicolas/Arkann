@@ -19,5 +19,9 @@ export default {
   addCategory: 'Add a category',
   noSpaceAllowed: 'No space allowed',
   delete: 'Delete',
-  complexFormatting: 'Complex text editor'
+  complexFormatting: 'Complex text editor',
+  login: 'Login',
+  register: 'Register',
+  password: 'Password',
+  confirmPassword: 'Confirm password'
 }
