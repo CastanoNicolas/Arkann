@@ -17,7 +17,7 @@ export default {
   noSpaceAllowed: 'Espace non autorisé',
   delete: 'Supprimer',
   complexFormatting: 'Editeur de texte avancé',
-  login: 'Se connecter',
+  signin: 'Se connecter',
   register: 'S\'inscrire',
   password: 'Mot de passe',
   confirmPassword: 'Confirmez le Mot de passe'

@@ -46,8 +46,8 @@ export default {
     submitForm () {
       if (this.tab === 'register') {
         this.$store.dispatch('registerUser', this.formData)
-      } else if (this.tab === 'login') {
-        this.$store.dispatch('loginUser', this.formData)
+      } else if (this.tab === 'signin') {
+        this.$store.dispatch('signinUser', this.formData)
       }
     }
   }

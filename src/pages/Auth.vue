@@ -10,19 +10,19 @@
           align="justify"
           narrow-indicator
         >
-          <q-tab name="login" :label="$t('login')" />
+          <q-tab name="signin" :label="$t('signin')" />
           <q-tab name="register" :label="$t('register')" />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="login">
-            <login-register :tab="tab" />
+          <q-tab-panel name="signin">
+            <signin-register :tab="tab" />
           </q-tab-panel>
 
           <q-tab-panel name="register">
-            <login-register :tab="tab" />
+            <signin-register :tab="tab" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
@@ -33,15 +33,12 @@
 export default {
   mixins: [],
   components: {
-    'login-register': require('components/LoginRegister.vue').default
+    'signin-register': require('components/SigninRegister.vue').default
   },
   data () {
     return {
-      tab: 'login'
+      tab: 'signin'
     }
-  },
-  methods: {
-
   }
 }
 </script>

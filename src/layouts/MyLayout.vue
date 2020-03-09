@@ -15,7 +15,23 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn
+          v-if="loggedIn"
+          flat
+          dense
+          round
+          clickable
+          to="/auth"
+          exact
+          icon="person"
+        />
+        <q-btn
+          v-else
+          color="white"
+          text-color="primary"
+          :label="$t('signin')"
+          to="/auth"
+          />
       </q-toolbar>
     </q-header>
 
@@ -58,7 +74,11 @@
 <script>
 export default {
   name: 'MyLayout',
-
+  computed: {
+    loggedIn () {
+      return this.$store.state.firebaseModule.loggedIn
+    }
+  },
   data () {
     return {
       leftDrawerOpen: false

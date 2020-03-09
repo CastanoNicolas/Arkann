@@ -20,7 +20,7 @@ export default {
   noSpaceAllowed: 'No space allowed',
   delete: 'Delete',
   complexFormatting: 'Complex text editor',
-  login: 'Login',
+  signin: 'Sign in',
   register: 'Register',
   password: 'Password',
   confirmPassword: 'Confirm password'
