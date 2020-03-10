@@ -4,7 +4,7 @@ import { firebaseAuth, firebaseDb } from 'boot/firebase'
 
 export const fileHelperMixin = {
   methods: {
-    getFileFromId (id) {
+    getLocalFileFromId (id) {
       // %TODO% CHECK the id  and check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
       return new Promise((resolve, reject) => {
         if (typeof this.filesRead[id] === 'undefined') {
@@ -52,43 +52,30 @@ export const fileHelperMixin = {
         }
       })
     },
-    getServerFileFromId (id) {
-      // %TODO% CHECK the id  and check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
-      return new Promise((resolve, reject) => {
-        if (typeof this.filesRead[id] === 'undefined') {
-          var path = this.getServerFilePathFromId(id)
-          this.getServerFile(path)
-            .then(data => {
-              // %TODO% check https://medium.com/intrinsic/javascript-prototype-poisoning-vulnerabilities-in-the-wild-7bc15347c96
-              this.$store.commit('updateFileCache', {
-                'id': id,
-                'object': JSON.parse(data)
-              })
-              resolve(this.filesRead[id])
-            },
-            error => {
-              reject(error)
-            })
-        } else {
-          resolve(this.filesRead[id])
-        }
-      })
-    },
     getServerFilePathFromId (id) {
       let currentUser = 'sVsXgqoaZ6cmM3qrA7jxD2wwRA83'// firebaseAuth.currentUser.uid
       return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + id
     },
-    getServerFile (id) {
-      let path = this.getServerFilePathFromId(id)
-      var ref = firebaseDb.ref(path)
-      ref.on('value', function (snapshot) {
-        console.log(snapshot.val())
-        this.$store.commit('updateFileCache', {
-          'id': id,
-          'object': JSON.parse(snapshot.val())
-        })
-      }, function (errorObject) {
-        console.log('The read failed: ' + errorObject.code)
+    getFileFromId (id) {
+      return new Promise((resolve, reject) => {
+        if (typeof this.filesRead[id] === 'undefined') {
+          var _this = this
+          let path = this.getServerFilePathFromId(id)
+          var ref = firebaseDb.ref(path)
+          ref.on('value', function (snapshot) {
+            console.log(snapshot.val())
+            _this.$store.commit('updateFileCache', {
+              'id': id,
+              'object': snapshot.val()
+            })
+            resolve(_this.filesRead[id])
+          }, function (errorObject) {
+            console.log('The read failed: ' + errorObject.code)
+            reject(errorObject.message)
+          })
+        } else {
+          resolve(this.filesRead[id])
+        }
       })
     },
     saveFileById (id, tileObject, tileType) {
