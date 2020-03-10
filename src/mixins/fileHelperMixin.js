@@ -1,4 +1,6 @@
 import { Platform } from 'quasar'
+// eslint-disable-next-line no-unused-vars
+import { firebaseAuth, firebaseDb } from 'boot/firebase'
 
 export const fileHelperMixin = {
   methods: {
@@ -48,6 +50,45 @@ export const fileHelperMixin = {
           throw new Error('Not yet implemented')
           // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
         }
+      })
+    },
+    getServerFileFromId (id) {
+      // %TODO% CHECK the id  and check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
+      return new Promise((resolve, reject) => {
+        if (typeof this.filesRead[id] === 'undefined') {
+          var path = this.getServerFilePathFromId(id)
+          this.getServerFile(path)
+            .then(data => {
+              // %TODO% check https://medium.com/intrinsic/javascript-prototype-poisoning-vulnerabilities-in-the-wild-7bc15347c96
+              this.$store.commit('updateFileCache', {
+                'id': id,
+                'object': JSON.parse(data)
+              })
+              resolve(this.filesRead[id])
+            },
+            error => {
+              reject(error)
+            })
+        } else {
+          resolve(this.filesRead[id])
+        }
+      })
+    },
+    getServerFilePathFromId (id) {
+      let currentUser = 'sVsXgqoaZ6cmM3qrA7jxD2wwRA83'// firebaseAuth.currentUser.uid
+      return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + id
+    },
+    getServerFile (id) {
+      let path = this.getServerFilePathFromId(id)
+      var ref = firebaseDb.ref(path)
+      ref.on('value', function (snapshot) {
+        console.log(snapshot.val())
+        this.$store.commit('updateFileCache', {
+          'id': id,
+          'object': JSON.parse(snapshot.val())
+        })
+      }, function (errorObject) {
+        console.log('The read failed: ' + errorObject.code)
       })
     },
     saveFileById (id, tileObject, tileType) {
@@ -127,6 +168,9 @@ export const fileHelperMixin = {
   computed: {
     currentWorldPath () {
       return this.$store.state.fileModule.currentWorldPath
+    },
+    currentWorld () {
+      return this.$store.state.fileModule.currentWorld
     },
     lookupTable () {
       return this.$store.state.fileModule.lookupTable

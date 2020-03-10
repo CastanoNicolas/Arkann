@@ -8,7 +8,8 @@ export default {
     cardsCategories: [
       { label: 'All', value: 'All' }
     ],
-    globalCategories: {}
+    globalCategories: {},
+    currentWorld: 'world1'
   },
   mutations: {
     resetCards (state) {
