@@ -1,60 +1,15 @@
-import { Platform } from 'quasar'
 // eslint-disable-next-line no-unused-vars
 import { firebaseAuth, firebaseDb } from 'boot/firebase'
 
 export const fileHelperMixin = {
   methods: {
-    getLocalFileFromId (id) {
-      // %TODO% CHECK the id  and check if there isn't a safer way to check id => like if there is a wrong id what are you doing ?
-      return new Promise((resolve, reject) => {
-        if (typeof this.filesRead[id] === 'undefined') {
-          var path = this.getFilePathFromId(id)
-          this.getFile(path)
-            .then(data => {
-              // %TODO% check https://medium.com/intrinsic/javascript-prototype-poisoning-vulnerabilities-in-the-wild-7bc15347c96
-              this.$store.commit('updateFileCache', {
-                'id': id,
-                'object': JSON.parse(data)
-              })
-              resolve(this.filesRead[id])
-            },
-            error => {
-              reject(error)
-            })
-        } else {
-          resolve(this.filesRead[id])
-        }
-      })
+    // refactor the getFileFromId method name to getfile
+    getFile (filename) {
+      return this.getFileFromId(filename)
     },
-    getFilePathFromId (id) {
-      return this.currentWorldPath + this.lookupTable[id]
-    },
-    getFile (path) {
-      return new Promise((resolve, reject) => {
-        if (Platform.is.electron) {
-          try {
-            // %TODO% make a global import
-            const fs = require('fs')
-            fs.readFile(path, 'utf-8', (error, data) => {
-              if (error) {
-                reject(error)
-              } else {
-                resolve(data)
-              }
-            })
-          } catch (error) {
-            console.log('Failed to load module "fs"', error)
-            throw error
-          }
-        } else {
-          throw new Error('Not yet implemented')
-          // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
-        }
-      })
-    },
-    getServerFilePathFromId (id) {
+    getServerFilePathFromId (file) {
       let currentUser = 'sVsXgqoaZ6cmM3qrA7jxD2wwRA83'// firebaseAuth.currentUser.uid
-      return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + id
+      return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + file
     },
     getFileFromId (id) {
       return new Promise((resolve, reject) => {
@@ -84,72 +39,51 @@ export const fileHelperMixin = {
         'id': id,
         'object': tileObject
       })
-      var relativePath = ''
-      if (tileType === 'leaf') {
-        relativePath += 'tileInstances/'
-      } else {
-        relativePath += 'tiles/'
-      }
-      relativePath += id + '.json'
-      // do we need to update the lookupTable ? (if this is a new leaf changed)
-      if (typeof this.lookupTable[id] === 'undefined') {
-        this.$store.commit('updateLookupTable', {
-          'id': id,
-          'path': relativePath
-        })
-        // update the lookupTableFile
-        this.saveFile(this.getLookupTablePath(), JSON.stringify(this.lookupTable, null, '\t'))
 
-        // the parent needs to get a referencve to this child too
+      // is it a new tile ?
+      if (typeof this.filesRead[id] === 'undefined') {
+        // the parent needs to get a referencve to this child
         this.getFileFromId(tileObject.parent)
           .then(parentTile => {
             parentTile.childs.push(id)
             this.saveFileById(parentTile.id, parentTile, parentTile.type)
           })
       }
-      return this.saveFile(this.currentWorldPath + relativePath, JSON.stringify(tileObject, null, '\t'))
+      return this.saveFile(this.getServerFilePathFromId(id), tileObject)
     },
-    saveFile (path, stringFile) {
+    saveFile (path, object) {
       return new Promise((resolve, reject) => {
-        if (Platform.is.electron) {
-          try {
-            const fs = require('fs')
-            fs.writeFile(path, stringFile, 'utf-8', (error, data) => {
-              if (error) {
-                reject(error)
-              } else {
-                resolve(data)
-              }
-            })
-          } catch (error) {
-            console.log('Failed to load module "fs"', error)
-            throw error
-          }
-        } else {
-          throw new Error('Not yet implemented')
-          // https://forum.quasar-framework.org/topic/384/help-loading-local-json-file-in-either-web-or-electron-contexts
-        }
+        firebaseDb
+          .ref(path)
+          .set(object)
+          .then(resp => {
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            reject()
+          })
       })
-    },
-    getLookupTablePath () {
-      return this.currentWorldPath + 'lookupTable.json'
-    },
-    getWorldInfoPath () {
-      return this.currentWorldPath + 'worldInfo.json'
     },
     deleteFileById (id) {
       // get the file path
-      var path = this.getFilePathFromId(id)
+      var path = this.getServerFilePathFromId(id)
       // call deleteFile(path)
       this.deleteFile(path)
     },
     deleteFile (path) {
-      try {
-        const fs = require('fs')
-        fs.unlinkSync(path)
-      } catch (err) {
-        console.error(err)
-      }
+      return new Promise((resolve, reject) => {
+        firebaseDb
+          .ref(path)
+          .remove()
+          .then(resp => {
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            reject()
+          })
+      })
     }
   },
   computed: {

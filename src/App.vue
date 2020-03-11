@@ -20,15 +20,14 @@ export default {
           console.log(err)
         })
     },
+    // get all the categories of the current project
     getGlobalCategories () {
-      // get all the categories of the current project
       this.$store.commit('resetGlobalCategories')
 
-      this.getFile(this.getWorldInfoPath())
-        .then(data => {
+      this.getFile('worldInfo')
+        .then(file => {
           var tab = []
-          var obj = JSON.parse(data)
-          for (const cat of obj.categories) {
+          for (const cat of file.categories) {
             tab.push(cat)
           }
           this.$store.commit('setGlobalCategories', tab)
@@ -40,6 +39,7 @@ export default {
   },
   created () {
     // this.initLookupTable()
+    // i think we can use a boot file to do just that
     this.$store.dispatch('initNavigationModule')
     this.getGlobalCategories()
   }
