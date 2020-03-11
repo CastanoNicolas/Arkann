@@ -104,7 +104,8 @@
               class="my-card-length"
               v-if="card.type === 'leaf'">
               <!-- %TODO% : afficher une image par defaut ou alors une image upload par l'utilisateur -->
-              <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
+              <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body"
+                @click="viewLeaf(card.id)">
                 <div class="absolute-bottom">
                   <div class="text-h6">{{card.displayName}}</div>
                   <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
@@ -201,6 +202,14 @@ export default {
     },
     changeActiveTile (id) {
       this.$store.dispatch('browse', id)
+    },
+    viewLeaf (id) {
+      this.$store.dispatch('view', {
+        'id': id,
+        'type': 'leaf'
+      })
+      var currentAction = 'browse'
+      this.pageUpdate(currentAction)
     },
     editLeaf (id) {
       this.$store.dispatch('edit', {
