@@ -2,7 +2,7 @@ export default {
   state: {
     currentWorldPath: './userData/Juko/World1/',
     lookupTable: {},
-    initialized: false,
+    initialized: true,
     tileExists: true,
     filesRead: {},
     cardsCategories: [

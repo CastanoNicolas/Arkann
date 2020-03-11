@@ -34,11 +34,6 @@ export default {
         this.$q.lang.set(language.default)
       })
     }
-  },
-  created () {
-    console.log('created')
-    console.log('users/sVsXgqoaZ6cmM3qrA7jxD2wwRA83/worlds/world1/1553cb4b-f103-4634-8d38-a415e2013e6e')
-    // this.getServerFile('users/sVsXgqoaZ6cmM3qrA7jxD2wwRA83/worlds/world1/1553cb4b-f103-4634-8d38-a415e2013e6e')
   }
 }
 </script>

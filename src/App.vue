@@ -39,7 +39,7 @@ export default {
     }
   },
   created () {
-    this.initLookupTable()
+    // this.initLookupTable()
     this.$store.dispatch('initNavigationModule')
     this.getGlobalCategories()
   }
