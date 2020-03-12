@@ -17,13 +17,34 @@ export default {
     //   password2: ''
     // }
     registerUser (context, payload) {
+      var defaultWorld = {
+        'world1': {
+          'root': {
+            'childs': [],
+            'description': '',
+            'displayName': '',
+            'id': 'root',
+            'image': '',
+            'nbInstance': '0',
+            'nbSubCategories': '0',
+            'parent': '',
+            'type': 'branch'
+          },
+          'worldInfo': {
+            'author': '',
+            'categories': [],
+            'universeName': ''
+          }
+        }
+      }
       firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
         .then(response => {
           context.commit('setLoggiedIn', true)
           console.log('response:', response)
           let userID = firebaseAuth.currentUser.uid
           firebaseDb.ref('users/' + userID).set({
-            email: payload.email
+            email: payload.email,
+            worlds: defaultWorld
           })
         })
         .catch(err => {

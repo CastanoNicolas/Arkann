@@ -104,7 +104,8 @@
               class="my-card-length"
               v-if="card.type === 'leaf'">
               <!-- %TODO% : afficher une image par defaut ou alors une image upload par l'utilisateur -->
-              <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body">
+              <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="my-card-body"
+                @click="viewLeaf(card.id)">
                 <div class="absolute-bottom">
                   <div class="text-h6">{{card.displayName}}</div>
                   <div class="text-subtitle2">{{PrettyPrintCat(card.categories)}}</div>
@@ -180,11 +181,6 @@ export default {
         }
       }
     },
-    canRequestCards (canRequestCards) {
-      if (this.canRequestCards) {
-        this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
-      }
-    },
     currentTile (currentTile) {
       if (this.action === 'browse') {
         this.getCards(currentTile)
@@ -201,6 +197,14 @@ export default {
     },
     changeActiveTile (id) {
       this.$store.dispatch('browse', id)
+    },
+    viewLeaf (id) {
+      this.$store.dispatch('view', {
+        'id': id,
+        'type': 'leaf'
+      })
+      var currentAction = 'browse'
+      this.pageUpdate(currentAction)
     },
     editLeaf (id) {
       this.$store.dispatch('edit', {
@@ -266,7 +270,10 @@ export default {
             this.getFileFromId(childId)
               .then(childTile => {
                 var card = this.buildCard(childTile)
-                this.cards.push(card)
+                // if between the request and the promise resolution the current tile has changed, this child tile shouldn't be displayed
+                if (this.currentTile === childTile.parent) {
+                  this.cards.push(card)
+                }
               },
               error => {
                 console.log(error)

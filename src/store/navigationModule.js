@@ -8,11 +8,11 @@ export default {
   },
   mutations: {
     // set the currentTile to the root one and reset the previousState
-    // %TODO% mettre le get cards la dedans pour eviter de faire appele au get card systematiquement
     resetNavigation (state) {
       state.previousUserStates = []
       state.currentTile = state.rootTile
       state.type = 'branch'
+      state.action = 'browse'
     },
 
     // payload : {
@@ -47,7 +47,7 @@ export default {
   },
   actions: {
     initNavigationModule (context) {
-      context.commit('setRootTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
+      // context.commit('setRootTile', '1553cb4b-f103-4634-8d38-a415e2013e6e')
       context.commit('resetNavigation')
     },
     /*
@@ -111,7 +111,7 @@ export default {
   },
   getters: {
     currentTile (state) {
-      return state.curentTile
+      return state.currentTile
     }
   }
 }

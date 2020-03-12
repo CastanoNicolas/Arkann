@@ -7,6 +7,7 @@ const routes = [
       { path: '/', component: () => import('pages/Index.vue') },
       { path: '/settings', component: () => import('pages/Settings.vue') },
       { path: '/leafEdit', component: () => import('pages/LeafEdit.vue') },
+      { path: '/leafView', component: () => import('pages/LeafView.vue') },
       { path: '/branchEdit', component: () => import('pages/BranchEdit.vue') },
       { path: '/auth', component: () => import('pages/Auth.vue') }
     ]

@@ -1,5 +1,7 @@
 <template>
   <q-page class="q-pa-md">
+        <!-- <p>{{fields.length}}</p> -->
+      <q-toolbar class="bg-grey-4 text-grey-7">
         <q-btn
         flat
         stretch
@@ -7,8 +9,6 @@
         icon="arrow_back"
         @click="previous('edit')"
         />
-        <p>{{fields.length}}</p>
-      <q-toolbar class="bg-grey-4 text-grey-7">
         <div>
           <!-- %TODO% ajuster la taille du q-input avec son contenant -->
           <q-input

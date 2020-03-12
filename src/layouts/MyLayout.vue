@@ -44,7 +44,7 @@
       <q-scroll-area class="fit">
           <q-list padding>
 
-            <q-item clickable v-ripple to="/" exact>
+            <q-item clickable v-ripple to="/" @click="homeMenu" exact>
               <q-item-section avatar>
                 <q-icon name="home" />
               </q-item-section>
@@ -72,8 +72,9 @@
 </template>
 
 <script>
+import { navigationMixin } from '../mixins/navigationMixin'
 export default {
-  name: 'MyLayout',
+  mixins: [navigationMixin],
   computed: {
     loggedIn () {
       return this.$store.state.firebaseModule.loggedIn
@@ -82,6 +83,11 @@ export default {
   data () {
     return {
       leftDrawerOpen: false
+    }
+  },
+  methods: {
+    homeMenu () {
+      this.$store.commit('resetNavigation')
     }
   }
 }

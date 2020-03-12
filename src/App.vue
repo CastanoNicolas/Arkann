@@ -11,16 +11,6 @@ export default {
   name: 'App',
   mixins: [fileHelperMixin],
   methods: {
-    initLookupTable () {
-      this.getFile(this.getLookupTablePath())
-        .then(data => {
-          this.$store.commit('setLookupTable', JSON.parse(data))
-        },
-        err => {
-          console.log(err)
-        })
-    },
-    // get all the categories of the current project
     getGlobalCategories () {
       this.$store.commit('resetGlobalCategories')
 
@@ -38,8 +28,6 @@ export default {
     }
   },
   created () {
-    // this.initLookupTable()
-    // i think we can use a boot file to do just that
     this.$store.dispatch('initNavigationModule')
     this.getGlobalCategories()
   }
