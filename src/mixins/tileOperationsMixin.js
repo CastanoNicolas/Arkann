@@ -17,20 +17,23 @@ export const tileOperationsMixin = {
       this.getFileFromId(payload.parentId)
         .then(parentTile => {
           // get the fields declared in the parent tile
-          for (const parentField of parentTile.fields) {
-            var childField = {
-              'fieldName': parentField.fieldName,
-              'fieldType': parentField.fieldType,
-              'fieldValue': '',
-              'fieldReference': '',
-              'fieldReferenceName': ''
+          if (typeof parentTile.fields !== 'undefined') {
+            for (const parentField of parentTile.fields) {
+              var childField = {
+                'fieldName': parentField.fieldName,
+                'fieldType': parentField.fieldType,
+                'fieldValue': '',
+                'fieldReference': '',
+                'fieldReferenceName': ''
+              }
+              leafObject.fields.push(childField)
             }
-            leafObject.fields.push(childField)
           }
-
           // categories are inherited from their parent
-          for (const parentCategory of parentTile.categories) {
-            leafObject.categories.push(parentCategory)
+          if (typeof parentTile.categories !== 'undefined') {
+            for (const parentCategory of parentTile.categories) {
+              leafObject.categories.push(parentCategory)
+            }
           }
 
           // update the file cache to be able te load this tile until it is saved
@@ -58,18 +61,21 @@ export const tileOperationsMixin = {
         .then(parentTile => {
           // get the fields declared in the parent tile
           const uuidv1 = require('uuid/v1')
-          for (const parentField of parentTile.fields) {
-            var childField = {
-              'fieldName': parentField.fieldName,
-              'fieldType': parentField.fieldType,
-              'fieldId': uuidv1()
+          if (typeof parentTile.fields !== 'undefined') {
+            for (const parentField of parentTile.fields) {
+              var childField = {
+                'fieldName': parentField.fieldName,
+                'fieldType': parentField.fieldType,
+                'fieldId': uuidv1()
+              }
+              branchObject.fields.push(childField)
             }
-            branchObject.fields.push(childField)
           }
-
           // categories are inherited from their parent
-          for (const parentCategory of parentTile.categories) {
-            branchObject.categories.push(parentCategory)
+          if (typeof parentTile.categories !== 'undefined') {
+            for (const parentCategory of parentTile.categories) {
+              branchObject.categories.push(parentCategory)
+            }
           }
 
           // update the file cache to be able te load this tile until it is saved

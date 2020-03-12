@@ -8,7 +8,7 @@ export const fileHelperMixin = {
       return this.getFileFromId(filename)
     },
     getServerFilePathFromId (file) {
-      let currentUser = 'sVsXgqoaZ6cmM3qrA7jxD2wwRA83'// firebaseAuth.currentUser.uid
+      let currentUser = 'Qoe9secUBRbjJLCjN4J6ho9hfnL2'// firebaseAuth.currentUser.uid
       return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + file
     },
     getFileFromId (id) {
@@ -45,6 +45,9 @@ export const fileHelperMixin = {
         // the parent needs to get a referencve to this child
         this.getFileFromId(tileObject.parent)
           .then(parentTile => {
+            if (typeof parentTile.childs === 'undefined') {
+              parentTile.childs = []
+            }
             parentTile.childs.push(id)
             this.saveFileById(parentTile.id, parentTile, parentTile.type)
           })

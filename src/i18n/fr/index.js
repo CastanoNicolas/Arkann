@@ -7,6 +7,7 @@ export default {
   DaughterCardPl: 'Sous-categories',
   newInstanceDescr: 'Créer un nouvel objet de type ',
   newDaughterCardDescr: 'Créer une nouvelle sous-catégorie',
+  newCategory: 'Créer une nouvelle catégorie',
   addReference: 'Ajouter une référence vers une autre carte',
   requiredField: 'Champ obligatoire',
   name: 'Nom',

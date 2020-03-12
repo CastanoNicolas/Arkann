@@ -22,10 +22,10 @@
         :options="categories"
       />
       <q-space />
-      <q-btn flat dense icon="add" @click="createNewLeaf(currentTile)">
+      <q-btn flat dense icon="add" @click="createNewBranch(currentTile)">
         <q-tooltip>
           <!-- %TODO% get the name of the parent tile : create a new [parent Tile] -->
-          {{$t('newInstanceDescr')}}
+          {{$t('newCategory')}}
         </q-tooltip>
       </q-btn>
     </q-toolbar>
@@ -262,10 +262,14 @@ export default {
       this.cardsCategories = [
         { label: 'All', value: 'All' }
       ]
-
       this.getFileFromId(id)
         .then(currentTile => {
-          var childsIds = currentTile.childs
+          var childsIds
+          if (typeof currentTile.childs === 'undefined') {
+            childsIds = []
+          } else {
+            childsIds = currentTile.childs
+          }
           for (const childId of childsIds) {
             this.getFileFromId(childId)
               .then(childTile => {

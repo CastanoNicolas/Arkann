@@ -10,6 +10,7 @@ export default {
   DaughterCardPl: 'Sub-categories',
   newInstanceDescr: 'Create a new ',
   newDaughterCardDescr: 'Create a new sub-category',
+  newCategory: 'Create a new category',
   addReference: 'Add a reference to another card',
   requiredField: 'Field is required',
   name: 'Name',

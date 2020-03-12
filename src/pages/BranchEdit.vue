@@ -94,7 +94,12 @@ export default {
         'fieldName': '',
         'fieldType': false
       }
-      this.fields.fields.push(newField)
+      if (typeof this.fields.fields === 'object') {
+        this.fields.fields.push(newField)
+      } else if (typeof this.fields.fields === 'undefined') {
+        this.fields.fields = []
+        this.fields.fields.push(newField)
+      }
     },
     deleteField (index) {
       this.fields.fields.splice(index, 1)
