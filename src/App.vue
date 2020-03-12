@@ -11,15 +11,6 @@ export default {
   name: 'App',
   mixins: [fileHelperMixin],
   methods: {
-    initLookupTable () {
-      this.getFile(this.getLookupTablePath())
-        .then(data => {
-          this.$store.commit('setLookupTable', JSON.parse(data))
-        },
-        err => {
-          console.log(err)
-        })
-    },
     getGlobalCategories () {
       // get all the categories of the current project
       this.$store.commit('resetGlobalCategories')
@@ -39,7 +30,6 @@ export default {
     }
   },
   created () {
-    // this.initLookupTable()
     this.$store.dispatch('initNavigationModule')
     this.getGlobalCategories()
   }

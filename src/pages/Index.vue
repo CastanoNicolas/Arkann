@@ -181,11 +181,6 @@ export default {
         }
       }
     },
-    canRequestCards (canRequestCards) {
-      if (this.canRequestCards) {
-        this.getCards('1553cb4b-f103-4634-8d38-a415e2013e6e')
-      }
-    },
     currentTile (currentTile) {
       if (this.action === 'browse') {
         this.getCards(currentTile)
@@ -275,7 +270,10 @@ export default {
             this.getFileFromId(childId)
               .then(childTile => {
                 var card = this.buildCard(childTile)
-                this.cards.push(card)
+                // if between the request and the promise resolution the current tile has changed, this child tile shouldn't be displayed
+                if (this.currentTile === childTile.parent) {
+                  this.cards.push(card)
+                }
               },
               error => {
                 console.log(error)
