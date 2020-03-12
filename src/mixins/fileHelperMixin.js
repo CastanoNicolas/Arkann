@@ -41,8 +41,10 @@ export const fileHelperMixin = {
       })
 
       // is it a new tile ?
-      if (typeof this.filesRead[id] === 'undefined') {
+      if (typeof tileObject.new !== 'undefined' && tileObject.new === true) {
+        delete tileObject.new
         // the parent needs to get a referencve to this child
+        console.log('save du parent')
         this.getFileFromId(tileObject.parent)
           .then(parentTile => {
             if (typeof parentTile.childs === 'undefined') {

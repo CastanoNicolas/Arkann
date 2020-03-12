@@ -37,6 +37,7 @@ export const tileOperationsMixin = {
           }
 
           // update the file cache to be able te load this tile until it is saved
+          leafObject.new = true
           this.$store.commit('updateFileCache', {
             'id': payload.id,
             'object': leafObject
@@ -79,6 +80,7 @@ export const tileOperationsMixin = {
           }
 
           // update the file cache to be able te load this tile until it is saved
+          branchObject.new = true
           this.$store.commit('updateFileCache', {
             'id': payload.id,
             'object': branchObject
@@ -93,14 +95,19 @@ export const tileOperationsMixin = {
             .then(parent => {
               var childs = this.filesRead[parent.id].childs
               // remove the child tile from the parent tile
-              childs.splice(childs.indexOf(childId), 1)
-              this.saveFileById(parent.id, parent, parent.type)
+              try {
+                childs.splice(childs.indexOf(childId), 1)
+                this.saveFileById(parent.id, parent, parent.type)
 
-              // remove the child tiles of the deleted tile
+                // remove the child tiles of the deleted tile
 
-              // delete the child tile
-              this.deleteFileById(childId)
-              this.$store.commit('removeFromFileCache', childId)
+                // delete the child tile
+                this.deleteFileById(childId)
+              } catch (e) {
+                console.log('The tile file doesn\'nt exist, normal behaviour if this tile is a new one')
+              } finally {
+                this.$store.commit('removeFromFileCache', childId)
+              }
             })
         })
     }

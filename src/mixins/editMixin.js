@@ -90,6 +90,7 @@ export const editMixin = {
     */
     saveFields (payload) {
       // context.commit('setFields', newFields)
+      console.log('saveFields')
       var obj = JSON.parse(JSON.stringify(payload.obj))
       this.getFileFromId(payload.id)
         .then(tile => {

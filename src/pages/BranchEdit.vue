@@ -22,7 +22,10 @@
         <q-space />
         <!-- Buton -->
         <!-- %TODO% Ajuster le temps d'affichage + delais des tooltips (dans un fichier css global pour affecter tous les TT) -->
-        <q-btn flat dense icon="save" @click="save">
+        <q-btn v-if="fields.displayName != ''" flat dense icon="save" @click="save">
+          <q-tooltip> {{$t('save')}} </q-tooltip>
+        </q-btn>
+        <q-btn v-else disabled flat dense icon="save" @click="save">
           <q-tooltip> {{$t('save')}} </q-tooltip>
         </q-btn>
         <!-- %TODO% Message de confirmation -->

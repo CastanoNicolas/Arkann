@@ -17,6 +17,9 @@ export default {
       this.getFile('worldInfo')
         .then(file => {
           var tab = []
+          if (typeof file.categories === 'undefined') {
+            file.categories = []
+          }
           for (const cat of file.categories) {
             tab.push(cat)
           }
