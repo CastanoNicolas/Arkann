@@ -191,8 +191,10 @@ export default {
   methods: {
     PrettyPrintCat (categories) {
       var s = ''
-      for (const cat of categories) {
-        s += ' ' + cat
+      if (typeof categories !== 'undefined') {
+        for (const cat of categories) {
+          s += ' ' + cat
+        }
       }
       return s
     },
@@ -305,6 +307,10 @@ export default {
         card.nbSubCategories = childTile.nbSubCategories
       }
       // build an array of the categories encountered to sort tiles afterwards
+      if (typeof childTile.categories === 'undefined') {
+        childTile.categories = []
+        this.cardsCategories = []
+      }
       for (const cat of childTile.categories) {
         var toBeInserted = {
           label: cat,
