@@ -117,6 +117,7 @@
                   unelevated
                   color="grey-4"
                   icon="visibility"
+                  @click="viewLeaf(card.id)"
                   text-color="dark">
                 </q-btn>
                 <q-btn
