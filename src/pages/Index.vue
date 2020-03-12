@@ -39,17 +39,19 @@
             <q-card
               class="my-card-length"
               v-if="card.type === 'branch'">
-              <q-card-section class="my-card-body bg-teal text-white justify-between flex"
+              <q-card-section class="my-card-body bg-teal text-white"
               @click="changeActiveTile(card.id)">
-                <div class="my-card-length" align="right">
-                  <!-- nombre d'instance -->
+                <!--
+                  <q-card-section class="my-card-body bg-teal text-white justify-between flex"
+                  @click="changeActiveTile(card.id)">
+                  <div class="my-card-length" align="right">
                   <div class="no-overflow" v-if="card.nbInstance > 1">{{card.nbInstance + " " + card.displayName.toLowerCase() + "s"}}</div>
                   <div class="no-overflow" v-if="card.nbInstance <= 1">{{card.nbInstance + " " + card.displayName.toLowerCase()}}</div>
-                   <!-- nombre de sous categorie -->
                   <div class="no-overflow" v-if="card.nbSubCategories > 1">{{card.nbSubCategories + " " + $t('DaughterCardPl').toLowerCase()}}</div>
                   <div class="no-overflow" v-if="card.nbSubCategories <= 1">{{card.nbSubCategories + " " + $t('DaughterCard').toLowerCase()}}</div>
-                </div>
-                <div class="my-card-length">
+                </div> -->
+                <!-- <div class="my-card-length"> -->
+                <div class="absolute-bottom q-pa-md">
                   <div class="text-h6 no-overflow">{{card.displayName}}</div>
                   <div class="text-subtitle2 no-overflow">{{PrettyPrintCat(card.categories)}}</div>
                 </div>
