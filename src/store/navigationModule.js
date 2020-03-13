@@ -59,7 +59,8 @@ export default {
       */
     changeUserState (context, payload) {
       var tile = payload.tile
-      if (tile !== context.state.currentTile) {
+      var action = payload.action
+      if (tile !== context.state.currentTile || action !== context.state.action) {
         context.commit('userStatePush', {
           'tile': context.state.currentTile,
           'action': context.state.action,

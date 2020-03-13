@@ -13,7 +13,7 @@
         </div>
         <q-space />
         <!-- %TODO% Ajuster le temps d'affichage + delais des tooltips (dans un fichier css global pour affecter tous les TT) -->
-        <q-btn flat dense icon="edit" @click="edit()">
+        <q-btn flat dense icon="edit" @click="edit">
           <q-tooltip> {{$t('editForm')}} </q-tooltip>
         </q-btn>
         <!-- %TODO% Message de confirmation -->
@@ -77,11 +77,12 @@ export default {
   mixins: [editMixin],
   methods: {
     edit () {
+      console.log(this.currentAction)
       this.$store.dispatch('edit', {
         'id': this.currentTile,
         'type': 'leaf'
       })
-      var currentAction = 'browse'
+      var currentAction = 'view'
       this.pageUpdate(currentAction)
     }
   }
