@@ -103,9 +103,6 @@ export default {
         this.fields.fields = []
         this.fields.fields.push(newField)
       }
-    },
-    deleteField (index) {
-      this.fields.fields.splice(index, 1)
     }
   }
 }

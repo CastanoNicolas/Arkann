@@ -101,6 +101,9 @@ export const editMixin = {
         error => {
           console.log(error)
         })
+    },
+    deleteField (index) {
+      this.fields.fields.splice(index, 1)
     }
   },
   created () {

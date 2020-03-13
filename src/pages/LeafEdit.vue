@@ -55,14 +55,20 @@
 
       <div
         class="q-gutter-md"
-        v-for="field in fields.fields"
-        :key="field.fieldName">
+        v-for="(field, index) in fields.fields"
+        :key="field.fieldId">
 
         <!-- short text -->
         <div
           class="q-pa-sm"
           v-if="field.fieldType === false">
-          <div class="text">{{field.fieldName}}</div>
+          <q-input dense filled autogrow v-model="field.fieldName">
+            <template v-slot:after>
+              <q-btn flat dense color="grey-7" icon="close" @click="deleteField(index)">
+                <q-tooltip> {{$t('delete')}} </q-tooltip>
+              </q-btn>
+            </template>
+          </q-input>
           <!-- %TODO% Ajouter une autre vue si il y a deja une reference :
           afficher la reference en dessous du q-input + le boutton d'ajout à la suite -->
           <q-input  dense outlined autogrow v-model="field.fieldValue">
@@ -89,12 +95,32 @@
         </div>
 
       </div>
+      <q-page-sticky position="bottom-right" :offset="[20, 20]">
+        <q-btn fab-mini icon="add" color="primary"
+        @click="addField"/>
+      </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { editMixin } from '../mixins/editMixin'
 export default {
-  mixins: [editMixin]
+  mixins: [editMixin],
+  methods: {
+    addField () {
+      const fieldId = require('uuid/v1')()
+      var newField = {
+        'fieldId': fieldId,
+        'fieldName': '',
+        'fieldType': false
+      }
+      if (typeof this.fields.fields === 'object') {
+        this.fields.fields.push(newField)
+      } else if (typeof this.fields.fields === 'undefined') {
+        this.fields.fields = []
+        this.fields.fields.push(newField)
+      }
+    }
+  }
 }
 </script>
