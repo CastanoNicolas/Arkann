@@ -28,7 +28,6 @@ export const editMixin = {
   watch: {
     tileExists (tileExists) {
       if (this.tileExists) {
-        console.log('HIIII')
         this.$store.dispatch('getFields', this.currentTile)
       }
     },
