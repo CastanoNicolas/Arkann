@@ -17,7 +17,7 @@
           <q-tooltip> {{$t('editForm')}} </q-tooltip>
         </q-btn>
         <!-- %TODO% Message de confirmation -->
-        <q-btn flat dense icon="delete">
+        <q-btn flat dense icon="delete" @click="deleteInstance">
           <q-tooltip> {{$t('delete')}} </q-tooltip>
         </q-btn>
       </q-toolbar>

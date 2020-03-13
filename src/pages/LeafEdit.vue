@@ -20,14 +20,11 @@
         </div>
         <q-space />
         <!-- %TODO% Ajuster le temps d'affichage + delais des tooltips (dans un fichier css global pour affecter tous les TT) -->
-        <q-btn flat dense icon="edit">
-          <q-tooltip> {{$t('editForm')}} </q-tooltip>
-        </q-btn>
         <q-btn flat dense icon="save" @click="save">
           <q-tooltip> {{$t('save')}} </q-tooltip>
         </q-btn>
         <!-- %TODO% Message de confirmation -->
-        <q-btn flat dense icon="delete">
+        <q-btn flat dense icon="delete" @click="deleteInstance">
           <q-tooltip> {{$t('delete')}} </q-tooltip>
         </q-btn>
       </q-toolbar>
@@ -60,37 +57,27 @@
 
         <!-- short text -->
         <div
-          class="q-pa-sm"
-          v-if="field.fieldType === false">
-          <q-input dense filled autogrow v-model="field.fieldName">
-            <template v-slot:after>
-              <q-btn flat dense color="grey-7" icon="close" @click="deleteField(index)">
-                <q-tooltip> {{$t('delete')}} </q-tooltip>
-              </q-btn>
-            </template>
-          </q-input>
+          class="q-pa-sm">
+          <div align="right">
+            <q-toggle
+              dense
+              v-model="field.fieldType"
+              :label="$t('complexFormatting')"
+              left-label/>
+            <q-btn dense flat icon="add">
+              <q-tooltip>
+                {{$t('addReference')}}
+              </q-tooltip>
+            </q-btn>
+            <q-btn flat dense color="grey-7" icon="delete" @click="deleteField(index)">
+              <q-tooltip> {{$t('delete')}} </q-tooltip>
+            </q-btn>
+          </div>
+          <q-input dense filled autogrow v-model="field.fieldName"/>
           <!-- %TODO% Ajouter une autre vue si il y a deja une reference :
           afficher la reference en dessous du q-input + le boutton d'ajout à la suite -->
-          <q-input  dense outlined autogrow v-model="field.fieldValue">
-            <template v-slot:after v-if="field.fieldReference === ''">
-              <q-btn dense flat icon="add">
-                <q-tooltip>
-                  {{$t('addReference')}}
-                </q-tooltip>
-              </q-btn>
-            </template>
-          </q-input>
-        </div>
-
-        <!-- long text : editor -->
-        <div
-          class="q-pa-sm"
-          v-if="field.fieldType === true">
-          <div class="text">{{field.fieldName}}</div>
-          <!-- %TODO% :-->
-          <!-- Add more options, like list ? -->
-          <!-- Add a way to add references + display them -->
-          <q-editor dense v-model="field.fieldValue" min-height="5rem">
+          <q-input  v-if="field.fieldType === false" dense outlined autogrow v-model="field.fieldValue"/>
+          <q-editor v-if="field.fieldType === true" dense v-model="field.fieldValue" min-height="5rem">
           </q-editor>
         </div>
 
@@ -112,6 +99,7 @@ export default {
       var newField = {
         'fieldId': fieldId,
         'fieldName': '',
+        'fieldValue': '',
         'fieldType': false
       }
       if (typeof this.fields.fields === 'object') {
