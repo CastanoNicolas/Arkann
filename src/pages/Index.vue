@@ -170,6 +170,9 @@ export default {
     },
     action () {
       return this.$store.state.navigationModule.action
+    },
+    loggedIn () {
+      return this.$store.state.firebaseModule.loggedIn
     }
   },
   watch: {
@@ -187,6 +190,13 @@ export default {
     currentTile (currentTile) {
       if (this.action === 'browse') {
         this.getCards(currentTile)
+      }
+    },
+    loggedIn (loggedIn) {
+      if (loggedIn) {
+        this.getCards(this.currentTile)
+      } else {
+        this.$router.push('/auth')
       }
     }
   },
@@ -326,7 +336,9 @@ export default {
     }
   },
   created () {
-    if (this.canRequestCards) {
+    if (!this.loggedIn) {
+      this.$router.push('/auth')
+    } else if (this.canRequestCards) {
       this.getCards(this.currentTile)
     }
   }

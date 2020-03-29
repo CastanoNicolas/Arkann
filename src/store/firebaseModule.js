@@ -2,7 +2,8 @@ import { firebaseAuth, firebaseDb } from 'boot/firebase'
 
 export default {
   state: {
-    loggedIn: false
+    loggedIn: false,
+    errorMessage: ''
   },
   mutations: {
     setLoggiedIn (state, loggedIn) {
@@ -52,14 +53,18 @@ export default {
         })
     },
     signinUser (context, payload) {
-      firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
-          console.log(payload.email + ' connected')
-          context.commit('setLoggiedIn', true)
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
+      return new Promise((resolve, reject) => {
+        firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
+          .then(response => {
+            console.log(payload.email + ' connected')
+            context.commit('setLoggiedIn', true)
+            resolve()
+          })
+          .catch(err => {
+            console.log(err.message)
+            reject(err)
+          })
+      })
     },
     signoutUser (context) {
       firebaseAuth.signOut()

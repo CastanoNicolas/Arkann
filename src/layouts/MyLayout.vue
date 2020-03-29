@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Arkann
         </q-toolbar-title>
 
         <q-btn

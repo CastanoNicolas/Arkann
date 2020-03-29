@@ -48,6 +48,9 @@ export default {
         this.$store.dispatch('registerUser', this.formData)
       } else if (this.tab === 'signin') {
         this.$store.dispatch('signinUser', this.formData)
+          .then(() => {
+            this.$router.push('/')
+          })
       }
     }
   }

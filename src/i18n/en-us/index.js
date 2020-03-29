@@ -24,5 +24,7 @@ export default {
   signin: 'Sign in',
   register: 'Register',
   password: 'Password',
-  confirmPassword: 'Confirm password'
+  confirmPassword: 'Confirm password',
+  signInError: 'Incorrect email or password.',
+  passwordMatching: 'Passwords do not match'
 }
