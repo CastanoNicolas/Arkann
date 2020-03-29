@@ -2,7 +2,8 @@ import { firebaseAuth, firebaseDb } from 'boot/firebase'
 
 export default {
   state: {
-    loggedIn: false
+    loggedIn: false,
+    errorMessage: ''
   },
   mutations: {
     setLoggiedIn (state, loggedIn) {
@@ -37,29 +38,35 @@ export default {
           }
         }
       }
-      firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
-          context.commit('setLoggiedIn', true)
-          console.log('response:', response)
-          let userID = firebaseAuth.currentUser.uid
-          firebaseDb.ref('users/' + userID).set({
-            email: payload.email,
-            worlds: defaultWorld
+      return new Promise((resolve, reject) => {
+        firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
+          .then(response => {
+            context.commit('setLoggiedIn', true)
+            console.log('response:', response)
+            let userID = firebaseAuth.currentUser.uid
+            firebaseDb.ref('users/' + userID).set({
+              email: payload.email,
+              worlds: defaultWorld
+            })
+            resolve()
           })
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
+          .catch(err => {
+            reject(err)
+          })
+      })
     },
     signinUser (context, payload) {
-      firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
-          console.log(payload.email + ' connected')
-          context.commit('setLoggiedIn', true)
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
+      return new Promise((resolve, reject) => {
+        firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
+          .then(response => {
+            console.log(payload.email + ' connected')
+            context.commit('setLoggiedIn', true)
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     },
     signoutUser (context) {
       firebaseAuth.signOut()

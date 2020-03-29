@@ -21,5 +21,10 @@ export default {
   signin: 'Se connecter',
   register: 'S\'inscrire',
   password: 'Mot de passe',
-  confirmPassword: 'Confirmez le Mot de passe'
+  confirmPassword: 'Confirmez le Mot de passe',
+  signInError: 'Email ou mot de passe incorrect',
+  passwordMatching: 'Les deux mots de passes ne correspondent pas',
+  emailInUse: 'L\'adresse mail n\'est pas disponible',
+  badEmail: 'L\'adresse mail n\'est pas correctement formatté',
+  unknownError: 'Une erreur s\'est produite'
 }
