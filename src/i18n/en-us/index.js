@@ -26,5 +26,9 @@ export default {
   password: 'Password',
   confirmPassword: 'Confirm password',
   signInError: 'Incorrect email or password.',
-  passwordMatching: 'Passwords do not match'
+  passwordMatching: 'Passwords do not match',
+  emailInUse: 'The email address is already in use',
+  badEmail: 'The email address is badly formatted',
+  unknownError: 'An unknown error has occured'
+
 }

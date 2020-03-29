@@ -38,19 +38,22 @@ export default {
           }
         }
       }
-      firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
-          context.commit('setLoggiedIn', true)
-          console.log('response:', response)
-          let userID = firebaseAuth.currentUser.uid
-          firebaseDb.ref('users/' + userID).set({
-            email: payload.email,
-            worlds: defaultWorld
+      return new Promise((resolve, reject) => {
+        firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
+          .then(response => {
+            context.commit('setLoggiedIn', true)
+            console.log('response:', response)
+            let userID = firebaseAuth.currentUser.uid
+            firebaseDb.ref('users/' + userID).set({
+              email: payload.email,
+              worlds: defaultWorld
+            })
+            resolve()
           })
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
+          .catch(err => {
+            reject(err)
+          })
+      })
     },
     signinUser (context, payload) {
       return new Promise((resolve, reject) => {
@@ -61,7 +64,6 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.log(err.message)
             reject(err)
           })
       })
