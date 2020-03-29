@@ -8,7 +8,7 @@ export const fileHelperMixin = {
       return this.getFileFromId(filename)
     },
     getServerFilePathFromId (file) {
-      let currentUser = 'Qoe9secUBRbjJLCjN4J6ho9hfnL2'// firebaseAuth.currentUser.uid
+      let currentUser = firebaseAuth.currentUser.uid
       return 'users/' + currentUser + '/worlds/' + this.currentWorld + '/' + file
     },
     getFileFromId (id) {
