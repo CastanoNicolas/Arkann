@@ -58,7 +58,7 @@
         <!-- short text -->
         <div
           class="q-pa-sm">
-          <div align="right">
+          <div class="flex justify-end">
             <q-toggle
               dense
               v-model="field.fieldType"
