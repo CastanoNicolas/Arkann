@@ -12,6 +12,11 @@ npm install
 quasar dev
 ```
 
+### or with electron
+```bash
+quasar dev -m eleton
+```
+
 ### Lint the files
 ```bash
 npm run lint
