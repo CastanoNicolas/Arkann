@@ -1,0 +1,315 @@
+{
+  "world1" : {
+    "16a23a20-87f1-11ea-a407-21a976e16432" : {
+      "childs" : [ "767e53c0-87f1-11ea-a407-21a976e16432" ],
+      "displayName" : "Human",
+      "fields" : [ {
+        "fieldId" : "16a26130-87f1-11ea-a407-21a976e16432",
+        "fieldName" : "Hair color",
+        "fieldType" : true
+      }, {
+        "fieldId" : "6c0a8bc0-87f1-11ea-a407-21a976e16432",
+        "fieldName" : "Job",
+        "fieldType" : false
+      } ],
+      "id" : "16a23a20-87f1-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "82f529a0-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "1c14afc0-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "France",
+      "fields" : [ {
+        "fieldName" : "Population",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "65 m"
+      } ],
+      "id" : "1c14afc0-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "885fba90-87ef-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "1c14ba50-87f1-11ea-a407-21a976e16432" : {
+      "childs" : [ "943c7680-87f1-11ea-a407-21a976e16432" ],
+      "displayName" : "Tree",
+      "fields" : [ {
+        "fieldId" : "1c14e160-87f1-11ea-a407-21a976e16432",
+        "fieldName" : "Appearance",
+        "fieldType" : true
+      } ],
+      "id" : "1c14ba50-87f1-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "82f529a0-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "26625220-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "Paris",
+      "fields" : [ {
+        "fieldName" : "Country",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "France"
+      }, {
+        "fieldName" : "Population",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "12 m"
+      } ],
+      "id" : "26625220-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "8d218860-87ef-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "497ec640-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "885fba90-87ef-11ea-a407-21a976e16432", "8d218860-87ef-11ea-a407-21a976e16432", "9988bbf0-87ef-11ea-a407-21a976e16432", "a0144d40-87ef-11ea-a407-21a976e16432" ],
+      "displayName" : "Places",
+      "id" : "497ec640-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "root",
+      "type" : "branch"
+    },
+    "4d51aac0-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "Le jura",
+      "fields" : [ {
+        "fieldName" : "Height",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "1720 m"
+      } ],
+      "id" : "4d51aac0-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "9988bbf0-87ef-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "66feb210-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "Pacific",
+      "fields" : [ {
+        "fieldName" : "Depth",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "10911"
+      } ],
+      "id" : "66feb210-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "a0144d40-87ef-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "767e53c0-87f1-11ea-a407-21a976e16432" : {
+      "displayName" : "Donald Trump",
+      "fields" : [ {
+        "fieldName" : "Hair color",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "Blonde"
+      }, {
+        "fieldName" : "Job",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "President of the united states"
+      } ],
+      "id" : "767e53c0-87f1-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "16a23a20-87f1-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "7d2e6ef0-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "8609ee40-87f0-11ea-a407-21a976e16432", "96a30bb0-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Objects",
+      "id" : "7d2e6ef0-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "root",
+      "type" : "branch"
+    },
+    "82f529a0-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "16a23a20-87f1-11ea-a407-21a976e16432", "1c14ba50-87f1-11ea-a407-21a976e16432" ],
+      "displayName" : "Being",
+      "fields" : [ {
+        "fieldId" : "fe52c700-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Appearance",
+        "fieldType" : true
+      } ],
+      "id" : "82f529a0-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "root",
+      "type" : "branch"
+    },
+    "8609ee40-87f0-11ea-a407-21a976e16432" : {
+      "childs" : [ "bf362940-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Tool",
+      "fields" : [ {
+        "fieldId" : "af5f9880-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Description",
+        "fieldType" : false
+      } ],
+      "id" : "8609ee40-87f0-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "7d2e6ef0-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "885fba90-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "1c14afc0-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Country",
+      "fields" : [ {
+        "fieldId" : "e56338c0-87ef-11ea-a407-21a976e16432",
+        "fieldName" : "Population",
+        "fieldType" : false
+      } ],
+      "id" : "885fba90-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "497ec640-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "8d218860-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "26625220-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "City",
+      "fields" : [ {
+        "fieldId" : "c8d30eb0-87ef-11ea-a407-21a976e16432",
+        "fieldName" : "Country",
+        "fieldType" : false
+      }, {
+        "fieldId" : "cb4f8060-87ef-11ea-a407-21a976e16432",
+        "fieldName" : "Population",
+        "fieldType" : false
+      } ],
+      "id" : "8d218860-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "497ec640-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "943c7680-87f1-11ea-a407-21a976e16432" : {
+      "displayName" : "Pine Tree",
+      "fields" : [ {
+        "fieldName" : "Appearance",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : true,
+        "fieldValue" : "A tree which give no edible fruits."
+      } ],
+      "id" : "943c7680-87f1-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "1c14ba50-87f1-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "96a30bb0-87f0-11ea-a407-21a976e16432" : {
+      "childs" : [ "de2a33f0-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Furniture",
+      "fields" : [ {
+        "fieldId" : "9ae0b560-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Height",
+        "fieldType" : false
+      }, {
+        "fieldId" : "a2585460-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Width",
+        "fieldType" : false
+      }, {
+        "fieldId" : "a866c670-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Depth",
+        "fieldType" : false
+      } ],
+      "id" : "96a30bb0-87f0-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "7d2e6ef0-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "9988bbf0-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "4d51aac0-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Mountain",
+      "fields" : [ {
+        "fieldId" : "dea525c0-87ef-11ea-a407-21a976e16432",
+        "fieldName" : "Height",
+        "fieldType" : false
+      } ],
+      "id" : "9988bbf0-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "497ec640-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "a0144d40-87ef-11ea-a407-21a976e16432" : {
+      "childs" : [ "66feb210-87f0-11ea-a407-21a976e16432" ],
+      "displayName" : "Ocean",
+      "fields" : [ {
+        "fieldId" : "057d9b00-87f0-11ea-a407-21a976e16432",
+        "fieldName" : "Depth",
+        "fieldType" : false
+      } ],
+      "id" : "a0144d40-87ef-11ea-a407-21a976e16432",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "497ec640-87ef-11ea-a407-21a976e16432",
+      "type" : "branch"
+    },
+    "bf362940-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "Shovel",
+      "fields" : [ {
+        "fieldName" : "Description",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : true,
+        "fieldValue" : "A tool that is used to dig holes."
+      } ],
+      "id" : "bf362940-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "8609ee40-87f0-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "de2a33f0-87f0-11ea-a407-21a976e16432" : {
+      "displayName" : "Desk",
+      "fields" : [ {
+        "fieldName" : "Height",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "1 m"
+      }, {
+        "fieldName" : "Width",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "2 m"
+      }, {
+        "fieldName" : "Depth",
+        "fieldReference" : "",
+        "fieldReferenceName" : "",
+        "fieldType" : false,
+        "fieldValue" : "1.5 m"
+      } ],
+      "id" : "de2a33f0-87f0-11ea-a407-21a976e16432",
+      "image" : "",
+      "parent" : "96a30bb0-87f0-11ea-a407-21a976e16432",
+      "type" : "leaf"
+    },
+    "root" : {
+      "childs" : [ "497ec640-87ef-11ea-a407-21a976e16432", "7d2e6ef0-87ef-11ea-a407-21a976e16432", "82f529a0-87ef-11ea-a407-21a976e16432" ],
+      "description" : "",
+      "displayName" : "",
+      "id" : "root",
+      "image" : "",
+      "nbInstance" : "0",
+      "nbSubCategories" : "0",
+      "parent" : "",
+      "type" : "branch"
+    },
+    "worldInfo" : {
+      "author" : "",
+      "universeName" : ""
+    }
+  }
+}
