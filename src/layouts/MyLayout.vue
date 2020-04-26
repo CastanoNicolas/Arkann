@@ -24,6 +24,7 @@
           to="/auth"
           exact
           icon="person"
+          @click="logout"
         />
         <q-btn
           v-else
@@ -88,6 +89,9 @@ export default {
   methods: {
     homeMenu () {
       this.$store.commit('resetNavigation')
+    },
+    logout () {
+      this.$store.dispatch('signoutUser')
     }
   }
 }
