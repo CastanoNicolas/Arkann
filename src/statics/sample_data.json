@@ -68,7 +68,7 @@
     },
     "497ec640-87ef-11ea-a407-21a976e16432" : {
       "childs" : [ "885fba90-87ef-11ea-a407-21a976e16432", "8d218860-87ef-11ea-a407-21a976e16432", "9988bbf0-87ef-11ea-a407-21a976e16432", "a0144d40-87ef-11ea-a407-21a976e16432" ],
-      "displayName" : "Places",
+      "displayName" : "Place",
       "id" : "497ec640-87ef-11ea-a407-21a976e16432",
       "nbInstance" : "0",
       "nbSubCategories" : "0",
