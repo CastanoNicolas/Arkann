@@ -19,6 +19,13 @@
     type="password"
     v-model="formData.password2"
     :label="$t('confirmPassword')" />
+    <q-input
+      v-if="errorMessage != ''"
+      :label="errorMessage"
+      borderless
+      readonly
+      color="red"
+    />
     <div class="row">
       <q-space />
       <q-btn
