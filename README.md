@@ -3,6 +3,13 @@ Arkann is a world builder app that helps writers, artists and Role PLaying Game 
  
 This is a beta and currently if you register there is no example data to guide you. A presentation and tutorial will be available soon.
 
+## Install node.js 
+
+## Install quasar
+```bash
+npm install -g @quasar/cli
+```
+
 ## Install the dependencies
 ```bash
 npm install
